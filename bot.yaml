@@ -1,0 +1,8 @@
+name: BOT_NAME
+logo: https://xxxxx
+scriptId: SCRIPT_ID
+deploymentId: DEPLOYMENT_ID
+clientId: CLIENT_ID
+scopes: email https://www.googleapis.com/auth/script.external_request
+apiVersion: v2
+triggers: onTransactionPosted 
