@@ -28,7 +28,7 @@ function onTransactionPosted(bookId, transaction) {
 
 function getRecordText_(book, transaction, account, credit) {
     var taxTag = account.getProperty('tax_rate');
-    if (taxTag == '') return '';
+    if (!taxTag || taxTag == '') return '';
     
     // Only calculate tax for incoming transactions  / Avoid loop
     if (account.isCredit() != credit) return '';
