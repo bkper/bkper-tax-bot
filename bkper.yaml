@@ -6,3 +6,4 @@ clientId: 441766948117-9ls7hs1gq9vdh7rc5h30vqhdjob5jlfc.apps.googleusercontent.c
 scopes: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/script.external_request
 apiVersion: v2
 triggers: onTransactionPosted 
+deploymentId: AKfycbxF0YB7SD6f5tfz2Fc5v05QfW7Y65hZr8itiWB2RmpFz-3PvOUn
