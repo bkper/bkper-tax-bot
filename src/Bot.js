@@ -7,6 +7,13 @@ function onTransactionPosted(bookId, transaction) {
 
   var book = BkperApp.openById(bookId);
 
+  let skippedAgents = book.getProperty('tax_skipped_bots');
+  if (skippedAgents != null && skippedAgents.includes(transaction.agentId)) {
+    //Skip bots from calculating taxes. 
+    //Specially important when working alongside other bots to avoid infinite loop.
+    return false;
+  }
+
   var creditAccount = book.getAccount(transaction.creditAccId);
 
   var debitAccount = book.getAccount(transaction.debitAccId);
@@ -18,6 +25,7 @@ function onTransactionPosted(bookId, transaction) {
   recordText += getRecordText_(book, transaction, debitAccount, false);
   
   if (recordText.trim() != '') {
+    //Record with id to make it idempotent
     book.record( `${recordText} id:tax_${transaction.id}`);
     return recordText;
   } else {
