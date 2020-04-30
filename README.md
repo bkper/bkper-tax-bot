@@ -32,7 +32,7 @@ Learn more about sales taxes and bots on Bkper:
 - ```tax_description```: The description of the generated transaction
 
 Example:
-```yml
+```yaml
 tax_rate: 12.85
 tax_description: #vatin
 ```
@@ -47,7 +47,7 @@ The following expressions can be used in the **tax_description**:
 - ```${transaction.description}```
 
 Example:
-``` 
+``` yaml
 tax_description: ${account.name} Input Tax #vatin ${transaction.description}
 ```
 
@@ -60,7 +60,7 @@ To do so, you should set a property in the book, specifying the id of the bot yo
 - ```tax_skipped_bots```: The id of bots you should skip calculating taxes.
 
 Example:
-```
+```yaml
 tax_skipped_bots: currency-converter-bot
 ```
   
