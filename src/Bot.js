@@ -7,7 +7,7 @@ function onTransactionPosted(bookId, transaction) {
 
   var book = BkperApp.openById(bookId);
 
-  let skippedAgents = book.getProperty('tax_skipped_bots');
+  let skippedAgents = book.getProperty('tax_skip', 'tax_skipped_bots');
   if (skippedAgents != null && skippedAgents.includes(transaction.agentId)) {
     //Skip bots from calculating taxes. 
     //Specially important when working alongside other bots to avoid infinite loop.
