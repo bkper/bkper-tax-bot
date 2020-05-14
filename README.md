@@ -61,5 +61,5 @@ To do so, you should set a property in the book, specifying the id of the bots y
 
 Example:
 ```yaml
-tax_skip: exchange-bot oxf-importer
+tax_skip: exchange-bot ofx-importer
 ```
