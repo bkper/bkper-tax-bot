@@ -57,9 +57,9 @@ In some cases, you need to avoid calculating taxes from transactions generated b
 
 To do so, you should set a property in the book, specifying the id of the bots you want to skip.
 
-- ```tax_skip```: The id of bots you should skip calculating taxes, separated by spacess.
+- ```tax_skip```: The ids of bots you should skip calculating taxes.
 
 Example:
 ```yaml
-tax_skip: exchange-bot
+tax_skip: exchange-bot oxf-importer
 ```
