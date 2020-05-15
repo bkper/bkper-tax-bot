@@ -7,7 +7,7 @@ The Bkper Sales Tax Bot is triggered upon transaction posting and calculate **ta
 
 
 ### Tax on sale example
-![Tax on sale example](https://docs.google.com/drawings/d/19EgK9s011d4qf2h1ka_cGK3OYX1PhQLpHgeTvxrtqgg/edit?usp=sharing)
+![Tax on sale example](https://docs.google.com/drawings/d/e/2PACX-1vSwYOxDA3k5U5I_jVsa2qzJOCXDiUWTLet_TY2VMFetrkGOwjKKNCZb6ygfSLz1V-bWrsDixVvSRRvX/pub?w=936&h=488)
 
 
 ### Tax on purchase example
