@@ -11,7 +11,7 @@ The Bkper Sales Tax Bot is triggered upon transaction posting and calculate **ta
 
 
 ### Tax on purchase example
-![Tax on sale example](https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot-purchase-example.png)
+![Tax on sale example](https://docs.google.com/drawings/d/e/2PACX-1vSQ5qwre1ivZZulAcKPRARYgpDiOyRdJ52LdaImkVPsCiYZOZGqqkUg-k4YgLhR4GHsOjwv7D5eLDQo/pub?w=936&h=488)
     
 
 The examples use simplified cash basis for easy understanding. You can also set more complex tax flows involving accounts [payable](https://help.bkper.com/en/articles/2569171-accounts-payable) and [receivable](https://help.bkper.com/en/articles/2569170-accounts-receivable) instead of the direct Bank Account.
