@@ -27,7 +27,7 @@ Learn more about sales taxes and bots on Bkper:
 ## Configuration
 
 The Tax Bot works by reading the [book and accounts properties](https://help.bkper.com/en/articles/3666485-custom-properties-on-books-and-accounts) in your book, applying taxes rates and recording another transaction. 
-Learn more about how Bots work.
+Learn more about how [Bots work](https://help.bkper.com/en/articles/3982403-bkper-bots-execution).
 
 ### Insert accounts properties
 
