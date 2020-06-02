@@ -23,6 +23,11 @@ Learn more about sales taxes and bots on Bkper:
 
 [Bkper Bots Installation](https://help.bkper.com/en/articles/3873607-bkper-bots-installation)    
 
+## Sponsors ❤
+
+[<img src='https://storage.googleapis.com/bkper-public/logos/ppv-logo.png' height='50'>](http://ppv.com.uy/)
+&nbsp;
+[<img src='https://storage.googleapis.com/bkper-public/logos/brain-logo.webp' height='50'>](https://www.brain.uy/)
 
 ## Configuration
 
