@@ -19,7 +19,9 @@ The examples use simplified cash basis for easy understanding. You can also set 
 
 Learn more about sales taxes and bots on Bkper:
 
-[Sales taxes on Bkper](https://help.bkper.com/en/articles/2569187-sales-taxes-vat)    
+[Sales taxes on Bkper](https://help.bkper.com/en/articles/2569187-sales-taxes-vat)  
+
+[Sales Tax Bot help](https://help.bkper.com/en/articles/4127778-sales-tax-bot)    
 
 [Bkper Bots Installation](https://help.bkper.com/en/articles/3873607-bkper-bots-installation)    
 
@@ -71,3 +73,5 @@ Example:
 ```yaml
 tax_skip: exchange-bot ofx-importer
 ```
+
+See the [Sales Tax Bot help article](https://help.bkper.com/en/articles/4127778-sales-tax-bot) for a working example.
