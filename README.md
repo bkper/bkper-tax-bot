@@ -19,11 +19,11 @@ The examples use simplified cash basis for easy understanding. You can also set 
 
 Learn more about sales taxes and bots on Bkper:
 
+[Bkper Bots Installation](https://help.bkper.com/en/articles/3873607-bkper-bots-installation)    
+
 [Sales taxes on Bkper](https://help.bkper.com/en/articles/2569187-sales-taxes-vat)  
 
 [Sales Tax Bot help](https://help.bkper.com/en/articles/4127778-sales-tax-bot)    
-
-[Bkper Bots Installation](https://help.bkper.com/en/articles/3873607-bkper-bots-installation)    
 
 ## Sponsors ❤
 
