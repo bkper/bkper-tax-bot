@@ -14,6 +14,7 @@
     "postversion": "clasp deploy --description $npm_package_version --deploymentId AKfycbxF0YB7SD6f5tfz2Fc5v05QfW7Y65hZr8itiWB2RmpFz-3PvOUn  && git push && git push --tags && echo \"Successfully released version $npm_package_version!\""
   },
   "devDependencies": {
+    "@bkper/bkper-app-types": "^1.8.1",
     "@google/clasp": "^2.3.0"
   }
 }

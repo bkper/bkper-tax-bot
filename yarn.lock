@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@bkper/bkper-app-types@^1.8.1":
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/@bkper/bkper-app-types/-/bkper-app-types-1.8.1.tgz#bfaab3662b7235f332562ba73e94ae2809ed379f"
+  integrity sha512-EIqHhBQ9kLrWrnTpNfx7/uRm61du/GaC1E34+FdvLNOLvBCYMR+t3dBIMyQyk4KOdHmtByRUWJwPS76iduvH5g==
+  dependencies:
+    "@types/google-apps-script" "*"
+
 "@google/clasp@^2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@google/clasp/-/clasp-2.3.0.tgz#3bc7c3c82ae218e7a75b5e127242f736ac3bf35b"
@@ -49,6 +56,11 @@
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/color-name/-/color-name-1.1.1.tgz#1c1261bbeaa10a8055bbc5d8ab84b7b2afc846a0"
   integrity sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==
+
+"@types/google-apps-script@*":
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/@types/google-apps-script/-/google-apps-script-1.0.14.tgz#194d0d1c5236651ddae03c512891605c88501839"
+  integrity sha512-dxYrClArM39GGlANFbCJiBg+wBmmK5VuBW2/JBaqg6Bo/OpAcXJoQ69zml6HmuHoKJDw1WR+BRxeJ/U9L9dk8A==
 
 "@types/minimatch@^3.0.3":
   version "3.0.3"
