@@ -25,11 +25,11 @@ Learn more about sales taxes and bots on Bkper:
 
 [Sales Tax Bot help](https://help.bkper.com/en/articles/4127778-sales-tax-bot)    
 
-## Sponsors ❤
+<!-- ## Sponsors ❤
 
 [<img src='https://storage.googleapis.com/bkper-public/logos/ppv-logo.png' height='50'>](http://ppv.com.uy/)
 &nbsp;
-[<img src='https://storage.googleapis.com/bkper-public/logos/brain-logo.webp' height='50'>](https://www.brain.uy/)
+[<img src='https://storage.googleapis.com/bkper-public/logos/brain-logo.webp' height='50'>](https://www.brain.uy/) -->
 
 ## Configuration
 
