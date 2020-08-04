@@ -1,8 +1,8 @@
 
-The Bkper Sales Tax Bot is triggered upon transaction posting and calculate **taxes** based on its amount, such as **VAT**, **GST** and the like, recording a new transaction with that information. 
+The Bkper Tax Bot is triggered upon transaction posting and calculate **taxes** based on its amount, such as **VAT**, **GST** and the like, recording a new transaction with that information. 
 
 <p align="center">
-  <img src='https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot.gif' alt='Bkper Sales Tax Bot in action'/>
+  <img src='https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot.gif' alt='Bkper Tax Bot in action'/>
 </p>
 
 
@@ -23,7 +23,7 @@ Learn more about sales taxes and bots on Bkper:
 
 [Sales taxes on Bkper](https://help.bkper.com/en/articles/2569187-sales-taxes-vat)  
 
-[Sales Tax Bot help](https://help.bkper.com/en/articles/4127778-sales-tax-bot)    
+[Tax Bot help](https://help.bkper.com/en/articles/4127778-tax-bot)    
 
 <!-- ## Sponsors ❤
 
@@ -82,4 +82,4 @@ Example:
 tax_skip: exchange-bot ofx-importer
 ```
 
-See the [Sales Tax Bot help article](https://help.bkper.com/en/articles/4127778-sales-tax-bot) for a working example.
+See the [Tax Bot help article](https://help.bkper.com/en/articles/4127778-tax-bot) for a working example.
