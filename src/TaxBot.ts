@@ -17,17 +17,18 @@ function onTransactionPosted(bookId: string, transaction: bkper.TransactionV2Pay
   var creditAccount = book.getAccount(transaction.creditAccId);
   var debitAccount = book.getAccount(transaction.debitAccId);
 
-  let fullTax = getFullTaxRate_(creditAccount, debitAccount);
+  let fullIncludedTax = getFullTaxRate_(creditAccount, debitAccount, true);
+  let fullNonIncludedTax = getFullTaxRate_(creditAccount, debitAccount, false);
 
-  if (fullTax == 0) {
+  if (fullIncludedTax == 0 && fullNonIncludedTax == 0) {
     return false;
   }
 
-  if (fullTax >= 100) {
-    return `Cannot process more than 100% in total taxes. Sum of all taxes: ${fullTax}`;
+  if (fullIncludedTax >= 100) {
+    return `Cannot process more than 100% in total taxes. Sum of all taxes: ${fullIncludedTax}`;
   }
   
-  let netAmount = transaction.amount - ((transaction.amount * fullTax) / (100 + fullTax));
+  let netAmount = transaction.amount - ((transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
   
   let records = new Array<string>();
   
@@ -44,30 +45,39 @@ function onTransactionPosted(bookId: string, transaction: bkper.TransactionV2Pay
 
 }
 
-function getFullTaxRate_(creditAccount: Bkper.Account, debitAccount: Bkper.Account): number {
+function getFullTaxRate_(creditAccount: Bkper.Account, debitAccount: Bkper.Account, included: boolean): number {
   let totalTax = 0;
-  totalTax += getFullTaxRateFromAccount_(creditAccount);
-  totalTax += getFullTaxRateFromAccount_(debitAccount);
+  totalTax += getFullTaxRateFromAccount_(creditAccount, included);
+  totalTax += getFullTaxRateFromAccount_(debitAccount, included);
   return totalTax;
 }
 
-function getFullTaxRateFromAccount_(account: Bkper.Account): number {
-  let totalTax = getFullTaxRateFromAccountOrGroup_(account);
+function getFullTaxRateFromAccount_(account: Bkper.Account, included: boolean): number {
+  let totalTax = getTaxRateFromAccountOrGroup_(account, included);
   let groups = account.getGroups();
   if (groups != null) {
     for (var group of groups) {
-      totalTax += getFullTaxRateFromAccountOrGroup_(group);      
+      totalTax += getTaxRateFromAccountOrGroup_(group, included);      
     }
   }
   return totalTax;
 }
 
-function getFullTaxRateFromAccountOrGroup_(accountOrGroup: Bkper.Account|Bkper.Group): number {
+function getTaxRateFromAccountOrGroup_(accountOrGroup: Bkper.Account|Bkper.Group, included: boolean): number {
   let taxTag = accountOrGroup.getProperty('tax_rate');
   if (taxTag == null || taxTag.trim() == '') { 
     return 0;
   }
-  return new Number(taxTag).valueOf();
+  const tax = new Number(taxTag).valueOf();
+  if (included && tax < 0) {
+    return 0;
+  }
+
+  if (!included && tax > 0) {
+    return 0;
+  }
+
+  return tax;
 }
 
 function getRecords_(netAmount: number, book: Bkper.Book, transaction: bkper.TransactionV2Payload, account: Bkper.Account): string[] {
@@ -101,6 +111,11 @@ function getRecordText(netAmount: number, accountOrGroup: Bkper.Account|Bkper.Gr
   }
 
   let tax = new Number(taxTag).valueOf();
+
+  if (tax < 0) {
+    tax *= -1;
+  }
+
   let amount = netAmount * (tax/100);
 
   let tax_description = accountOrGroup.getProperty('tax_description');
