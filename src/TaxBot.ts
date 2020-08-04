@@ -28,7 +28,11 @@ function onTransactionPosted(bookId: string, transaction: bkper.TransactionV2Pay
     return `Cannot process more than 100% in total taxes. Sum of all taxes: ${fullIncludedTax}`;
   }
   
-  let netAmount = transaction.amount - ((transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
+  let netAmount = transaction.amount;
+
+  if (fullIncludedTax > 0) {
+    netAmount = transaction.amount - ((transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
+  }
   
   let records = new Array<string>();
   
