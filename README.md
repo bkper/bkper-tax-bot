@@ -38,13 +38,21 @@ The Tax Bot works by reading the [book and accounts properties](https://help.bkp
 
 ### Accounts and/or Group properties
 
-- ```tax_rate```: The tax rate to apply to the new transaction
+- ```tax_rate```: The tax rate to apply to the new transaction. Negative for non included taxes.
 - ```tax_description```: The description of the generated transaction
 
 Example:
 ```yaml
 tax_rate: 12.85
 tax_description: #vatin
+```
+
+By default, the taxes are considered included in price. If you want to calculate a simple tax non included in price, you can set the rate to negative.
+
+Example:
+```yaml
+tax_rate: -7
+tax_description: #irpj
 ```
 
 #### Expressions
