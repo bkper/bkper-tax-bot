@@ -3,7 +3,13 @@ BkperApp.setApiKey(PropertiesService.getScriptProperties().getProperty('BOT_KEY'
 /**
  * Trigger called upon transaction posted
  */
-function onTransactionPosted(bookId: string, transaction: bkper.TransactionV2Payload) {
+function onTransactionPosted(event: bkper.Event) {
+
+  let bookId = event.bookId;
+
+  let operation = event.data.object as bkper.TransactionOperation;
+
+  let transaction = operation.transaction;
 
   var book = BkperApp.getBook(bookId);
 
@@ -14,8 +20,8 @@ function onTransactionPosted(bookId: string, transaction: bkper.TransactionV2Pay
     return false;
   }
 
-  var creditAccount = book.getAccount(transaction.creditAccId);
-  var debitAccount = book.getAccount(transaction.debitAccId);
+  var creditAccount = book.getAccount(transaction.creditAccount.id);
+  var debitAccount = book.getAccount(transaction.debitAccount.id);
 
   let fullIncludedTax = getFullTaxRate_(creditAccount, debitAccount, true);
   let fullNonIncludedTax = getFullTaxRate_(creditAccount, debitAccount, false);
@@ -28,10 +34,10 @@ function onTransactionPosted(bookId: string, transaction: bkper.TransactionV2Pay
     return `Cannot process more than 100% in total taxes. Sum of all taxes: ${fullIncludedTax}`;
   }
   
-  let netAmount = transaction.amount;
+  let netAmount = +transaction.amount;
 
   if (fullIncludedTax > 0) {
-    netAmount = transaction.amount - ((transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
+    netAmount = +transaction.amount - ((+transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
   }
   
   let records = new Array<string>();
@@ -84,7 +90,7 @@ function getTaxRateFromAccountOrGroup_(accountOrGroup: Bkper.Account|Bkper.Group
   return tax;
 }
 
-function getRecords_(netAmount: number, book: Bkper.Book, transaction: bkper.TransactionV2Payload, account: Bkper.Account): string[] {
+function getRecords_(netAmount: number, book: Bkper.Book, transaction: bkper.Transaction, account: Bkper.Account): string[] {
 
   let records = new Array<string>();
 
@@ -107,7 +113,7 @@ function getRecords_(netAmount: number, book: Bkper.Book, transaction: bkper.Tra
 }
 
 
-function getRecordText(netAmount: number, accountOrGroup: Bkper.Account|Bkper.Group, accountName: string, transaction: bkper.TransactionV2Payload, book: Bkper.Book) {
+function getRecordText(netAmount: number, accountOrGroup: Bkper.Account|Bkper.Group, accountName: string, transaction: bkper.Transaction, book: Bkper.Book) {
   let taxTag = accountOrGroup.getProperty('tax_rate');
 
   if (taxTag == null || taxTag.trim() == '') { 
@@ -133,6 +139,6 @@ function getRecordText(netAmount: number, accountOrGroup: Bkper.Account|Bkper.Gr
   
   let id = `id:tax_${transaction.id}_${accountOrGroup.getId()}`
 
-  return `${transaction.informedDateText} ${book.formatValue(amount)} ${tax_description} ${id}`;
+  return `${transaction.dateFormatted} ${book.formatValue(amount)} ${tax_description} ${id}`;
 }
 
