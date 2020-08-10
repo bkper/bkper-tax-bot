@@ -46,8 +46,7 @@ function onTransactionPosted(event: bkper.Event) {
   records = records.concat(getRecords_(netAmount, book, transaction, debitAccount));
   
   if (records.length > 0) {
-    //Record with id to make it idempotent
-    book.record(records.join("\n"));
+    book.record(records);
     return records;
   } else {
     return false;

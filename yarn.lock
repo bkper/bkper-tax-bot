@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@bkper/bkper-api-types@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.2.0.tgz#ae332eb4e2e712a6d06361f82e7e7777a5fe67e7"
-  integrity sha512-ABIqS+4VRHuzTMr0ElcMsbn/JxuRq5JQCrVCtiJEG3ZHjH2hb652DjALg3KqCC78rRRnv89R/ELewG0l8IhZSA==
+"@bkper/bkper-api-types@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.3.0.tgz#36f8f95dcf861a15a8ba9a8a4483e88651bfc933"
+  integrity sha512-0Sk6wU+hKcrC33HNmEH8nEjLyVLBcyy7Ck0yzD9WCL8/qhso1Hh8oXwZdemGc5R/jnN7nptrp3d9Vbp1dtksQw==
 
 "@bkper/bkper-app-types@^3.0.0":
   version "3.0.0"
