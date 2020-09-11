@@ -5,4 +5,16 @@ clientId: 441766948117-9ls7hs1gq9vdh7rc5h30vqhdjob5jlfc.apps.googleusercontent.c
 scopes: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/script.external_request
 apiVersion: v3
 triggers: onTransactionPosted 
+
+bookProperties: > 
+    tax_skip
+
+groupProperties: > 
+    tax_rate
+    tax_description
+
+accountProperties: > 
+    tax_rate
+    tax_description
+
 deploymentId: AKfycbxF0YB7SD6f5tfz2Fc5v05QfW7Y65hZr8itiWB2RmpFz-3PvOUn
