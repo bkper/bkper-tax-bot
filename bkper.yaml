@@ -17,4 +17,23 @@ accountProperties: >
     tax_rate
     tax_description
 
+properties: 
+    book:
+      keys: tax_skip
+    group:
+      keys: > 
+        tax_rate
+        tax_description
+      values: >
+        ${transaction.description}
+        ${account.name}
+    account:
+      keys: >
+        tax_rate
+        tax_description
+      values: >
+        ${transaction.description}
+        ${account.name}
+ 
+
 deploymentId: AKfycbxF0YB7SD6f5tfz2Fc5v05QfW7Y65hZr8itiWB2RmpFz-3PvOUn
