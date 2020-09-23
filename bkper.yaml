@@ -6,17 +6,6 @@ scopes: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.co
 apiVersion: v3
 triggers: onTransactionPosted 
 
-bookProperties: > 
-    tax_skip
-
-groupProperties: > 
-    tax_rate
-    tax_description
-
-accountProperties: > 
-    tax_rate
-    tax_description
-
 properties: 
     book:
       keys: tax_skip
