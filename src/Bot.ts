@@ -13,3 +13,11 @@ function onTransactionPosted(event: bkper.Event) {
 function onTransactionDeleted(event: bkper.Event) {
   return new EventHandlerTransactionDeleted().handleEvent(event);
 }
+
+/**
+ * Trigger called upon transaction posted
+ */
+function onTransactionRestored(event: bkper.Event) {
+  //Call same POSTED event handler to repost tax transactions 
+  return new EventHandlerTransactionPosted().handleEvent(event);
+}

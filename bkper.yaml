@@ -7,6 +7,7 @@ apiVersion: v3
 triggers: >
     onTransactionPosted
     onTransactionDeleted
+    onTransactionRestored
 
 properties: 
     book:
