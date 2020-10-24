@@ -27,14 +27,18 @@ class EventHandlerTransactionPosted extends EventHandler {
       netAmount = +transaction.amount - ((+transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
     }
 
-    let records = new Array<string>();
+    let transactions: Bkper.Transaction[] = [];
 
-    records = records.concat(this.getRecords_(netAmount, book, transaction, creditAccount));
-    records = records.concat(this.getRecords_(netAmount, book, transaction, debitAccount));
+    transactions = transactions.concat(this.getTaxTransactions(netAmount, book, transaction, creditAccount));
+    transactions = transactions.concat(this.getTaxTransactions(netAmount, book, transaction, debitAccount));
 
-    if (records.length > 0) {
-      book.record(records);
-      return records;
+    if (transactions.length > 0) {
+      transactions = book.batchCreateTransactions(transactions);
+      if (transactions.length > 0) {
+        return transactions.map(tx => `${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`);
+      } else {
+        return false;
+      }
     } else {
       return false;
     }
@@ -77,30 +81,30 @@ class EventHandlerTransactionPosted extends EventHandler {
     return tax;
   }
 
-  private getRecords_(netAmount: number, book: Bkper.Book, transaction: bkper.Transaction, account: Bkper.Account): string[] {
+  private getTaxTransactions(netAmount: number, book: Bkper.Book, transaction: bkper.Transaction, account: Bkper.Account): Bkper.Transaction[] {
 
-    let records = new Array<string>();
+    let transactions: Bkper.Transaction[] = [];
 
-    let record = this.getRecordText(netAmount, account, account.getName(), transaction, book);
-    if (record != null) {
-      records.push(record)
+    let accountTransaction = this.createTaxTransaction(book, account, account.getName(), transaction, netAmount);
+    if (accountTransaction != null) {
+      transactions.push(accountTransaction)
     }
 
     let groups = account.getGroups();
     if (groups != null) {
       for (var group of groups) {
-        let groupRecord = this.getRecordText(netAmount, group, account.getName(), transaction, book);
-        if (groupRecord != null) {
-          records.push(groupRecord);
+        let groupTransaction = this.createTaxTransaction(book, group, account.getName(), transaction, netAmount);
+        if (groupTransaction != null) {
+          transactions.push(groupTransaction);
         }
       }
     }
 
-    return records;
+    return transactions;
   }
 
 
-  private getRecordText(netAmount: number, accountOrGroup: Bkper.Account | Bkper.Group, accountName: string, transaction: bkper.Transaction, book: Bkper.Book) {
+  private createTaxTransaction(book: Bkper.Book, accountOrGroup: Bkper.Account | Bkper.Group, accountName: string, transaction: bkper.Transaction, netAmount: number): Bkper.Transaction {
     let taxTag = accountOrGroup.getProperty('tax_rate');
 
     if (taxTag == null || taxTag.trim() == '') {
@@ -124,9 +128,15 @@ class EventHandlerTransactionPosted extends EventHandler {
     tax_description = tax_description.replace('${transaction.description}', transaction.description);
     tax_description = tax_description.replace('${account.name}', accountName);
 
-    let id = `id:${super.getId(transaction, accountOrGroup)}`
+    let id = `${super.getId(transaction, accountOrGroup)}`
 
-    return `${transaction.dateFormatted} ${book.formatValue(amount)} ${tax_description} ${id}`;
+    let taxTransaction = book.newTransaction()
+                          .addRemoteId(id)
+                          .setDate(transaction.date)
+                          .setAmount(amount)
+                          .setDescription(tax_description);
+
+    return taxTransaction;
   }
 
 }
