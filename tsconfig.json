@@ -4,7 +4,7 @@
     "noImplicitUseStrict": true,
     "experimentalDecorators": true,
     "lib": [ "esnext" ],
-    "target": "ES3",
+    "target": "ES6",
     "noImplicitAny": true,
     "typeRoots" : ["node_modules/@bkper", "node_modules/@types" ]    
   },
