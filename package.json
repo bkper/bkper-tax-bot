@@ -8,7 +8,7 @@
     "push": "clasp push",
     "upgrade:app": "yarn upgrade @bkper/bkper-app-types --latest",
     "upgrade:api": "yarn upgrade @bkper/bkper-api-types --latest",
-    "watch": "yarn push --watch",
+    "watch": "yarn push --watch --force",
     "patch": "yarn version --patch",
     "minor": "yarn version --minor",
     "major": "yarn version --major",
