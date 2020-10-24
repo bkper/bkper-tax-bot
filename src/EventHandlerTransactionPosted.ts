@@ -29,13 +29,13 @@ class EventHandlerTransactionPosted extends EventHandler {
 
     let transactions: Bkper.Transaction[] = [];
 
-    transactions = transactions.concat(this.getTaxTransactions(netAmount, book, transaction, creditAccount));
-    transactions = transactions.concat(this.getTaxTransactions(netAmount, book, transaction, debitAccount));
+    transactions = transactions.concat(this.getTaxTransactions(book, creditAccount, transaction, netAmount));
+    transactions = transactions.concat(this.getTaxTransactions(book, debitAccount, transaction, netAmount));
 
     if (transactions.length > 0) {
       transactions = book.batchCreateTransactions(transactions);
       if (transactions.length > 0) {
-        return transactions.map(tx => `${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`);
+        return transactions.map(tx => `POSTED: ${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`);
       } else {
         return false;
       }
@@ -81,7 +81,7 @@ class EventHandlerTransactionPosted extends EventHandler {
     return tax;
   }
 
-  private getTaxTransactions(netAmount: number, book: Bkper.Book, transaction: bkper.Transaction, account: Bkper.Account): Bkper.Transaction[] {
+  private getTaxTransactions(book: Bkper.Book, account: Bkper.Account, transaction: bkper.Transaction, netAmount: number): Bkper.Transaction[] {
 
     let transactions: Bkper.Transaction[] = [];
 
@@ -111,7 +111,11 @@ class EventHandlerTransactionPosted extends EventHandler {
       return null;
     }
 
-    let tax = new Number(taxTag).valueOf();
+    let tax = book.parseValue(taxTag);
+
+    if (tax == 0) {
+      return null;
+    }
 
     if (tax < 0) {
       tax *= -1;
