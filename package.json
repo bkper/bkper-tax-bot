@@ -1,6 +1,6 @@
 {
   "name": "bkper-bot",
-  "version": "1.5.3",
+  "version": "1.6.0",
   "scripts": {
     "login": "clasp login",
     "open": "clasp open",
