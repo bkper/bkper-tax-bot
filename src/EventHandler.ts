@@ -8,6 +8,10 @@ abstract class EventHandler {
     let transaction = operation.transaction;
     var book = BkperApp.getBook(bookId);
 
+    if (!transaction.posted) {
+      return false;
+    }
+
     let skippedAgents = book.getProperty('tax_skip', 'tax_skipped_bots');
     if (skippedAgents != null && skippedAgents.includes(transaction.agentId)) {
       //Skip bots from calculating taxes. 
