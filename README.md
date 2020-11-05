@@ -1,5 +1,5 @@
 
-The Bkper Tax Bot is triggered upon the transaction posting event when either one of the accounts on the transaction has the property "tax_rate" set. It can also be triggered when one of the accounts is in a group with this property.  **Taxes** are calculated based on the transaction amount and the tax_rate property number from the account (or group). With the data off the transaction and the tax_rate, the Tax Bot will record a new transaction with the entry for the taxes.  
+The Bkper Tax Bot is triggered upon the transaction posting event when either one of the accounts on the transaction has the property "tax_rate" set. It can also be triggered when one of the accounts is in a group with this property.  **Taxes** are calculated based on the transaction amount and the tax_rate property from the account (or group). With the data off the transaction and the tax_rate, the Tax Bot will record a new transaction with the entry for the taxes.  
 
 <p align="center">
   <img src='https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot.gif' alt='Bkper Tax Bot in action'/>
@@ -39,10 +39,12 @@ The Tax Bot uses the [book and account properties](https://help.bkper.com/en/art
 
 ### Accounts and/or Group properties
 
+Set the following account properties on accounts (or group) that should trigger the Tax Bot.    
+
 - ```tax_rate```: The tax rate to apply to the new transaction. Use a negative rate for non included taxes.
 - ```tax_description```: The description of the generated transaction
 
-Example:
+Example for an outgoing account:
 ```yaml
 tax_rate: 12.85
 tax_description: #vatin
@@ -70,22 +72,10 @@ Example of the account property using these expressions:
 tax_description: ${account.name} Input Tax #vatin ${transaction.description}
 ```
 Where:
-``` yaml
-${account.name}
-``` 
-is the account name of the account that triggered the Tax Bot.
-``` yaml
-Input Tax
-```
-is the "constant" account name to complete the newly recorded tax transactions.  
-``` yaml
-#vatin
-```
-, is a sample of hashtag use.
-``` yaml
-${transaction.description}
-```
-, is the same description that comes from the posted transaction that triggered the tax bot.  
+- ```${account.name}```  Is the account name of the account that triggered the Tax Bot.
+- ```Input Tax``` Is the "constant" account name to complete the newly recorded tax transactions.  
+- ```#vatin``` Is a sample of hashtag use.
+- ```${transaction.description}``` Is the same description that comes from the posted transaction that triggered the tax bot.  
 
 
 ### Book properties
