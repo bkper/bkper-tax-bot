@@ -92,3 +92,4 @@ tax_skip: exchange-bot ofx-importer
 ```
 
 See the [Tax Bot help article](https://help.bkper.com/en/articles/4127778-tax-bot) for a working example.
+See the [Sales Taxes article](https://help.bkper.com/en/articles/2569187-sales-taxes-vat)to learn more about included and not included taxes. 
