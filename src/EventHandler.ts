@@ -12,12 +12,6 @@ abstract class EventHandler {
       return false;
     }
 
-    let skippedAgents = book.getProperty('tax_skip', 'tax_skipped_bots');
-    if (skippedAgents != null && skippedAgents.includes(transaction.agentId)) {
-      //Skip bots from calculating taxes. 
-      //Specially important when working alongside other bots to avoid infinite loop.
-      return false;
-    }
     return this.processTransaction(book, transaction);
   }
 

@@ -14,8 +14,6 @@ triggers: >
     onTransactionUpdated
 
 properties: 
-    book:
-      keys: tax_skip
     group:
       keys: > 
         tax_rate
