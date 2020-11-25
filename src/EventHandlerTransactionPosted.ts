@@ -121,12 +121,17 @@ class EventHandlerTransactionPosted extends EventHandler {
       tax *= -1;
     }
 
-    let amount = netAmount * (tax / 100);
+    let amount: number | string = netAmount * (tax / 100);
 
     let tax_description = accountOrGroup.getProperty('tax_description');
 
     if (tax_description == null) {
       tax_description = '';
+    }
+
+    let tax_round = +transaction.properties['tax_round'];
+    if (tax_round != null && !isNaN(tax_round) && tax_round <= 8) {
+      amount = amount.toFixed(tax_round);
     }
 
     tax_description = tax_description.replace('${transaction.description}', transaction.description);

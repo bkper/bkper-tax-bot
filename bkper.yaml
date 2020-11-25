@@ -28,6 +28,9 @@ properties:
       values: >
         ${transaction.description}
         ${account.name}
+    transaction:
+      keys: >
+        tax_round
  
 
 deploymentId: AKfycbxF0YB7SD6f5tfz2Fc5v05QfW7Y65hZr8itiWB2RmpFz-3PvOUn

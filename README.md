@@ -78,6 +78,14 @@ Where:
 - ```${transaction.description}``` Is the same description that comes from the posted transaction that triggered the tax bot.  
 
 
+### Transaction properties
+
+- ```tax_round```: The number of decimal digits to round the generated taxes. This should be lower than the books decimal digit.
+
+Example:
+```yaml
+tax_round: 1
+```
 
 See the [Tax Bot help article](https://help.bkper.com/en/articles/4127778-tax-bot) for a working example.
 See the [Sales Taxes article](https://help.bkper.com/en/articles/2569187-sales-taxes-vat)to learn more about included and not included taxes. 
