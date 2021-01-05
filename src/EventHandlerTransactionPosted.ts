@@ -9,11 +9,20 @@ class EventHandlerTransactionPosted extends EventHandler {
 
     var creditAccount = book.getAccount(transaction.creditAccount.id);
     var debitAccount = book.getAccount(transaction.debitAccount.id);
+    
+    let fullNonIncludedTax = this.getFullTaxRate_(book, creditAccount, debitAccount, false);
+    let netAmount = +transaction.amount;
+
+    let taxAmount = transaction.properties['tax_amount'] ? book.parseValue(transaction.properties['tax_amount']) : null;
+
+    //Ensure tax amount positive
+    if (taxAmount && taxAmount < 0) {
+      taxAmount *= -1;
+    }
 
     let fullIncludedTax = this.getFullTaxRate_(book, creditAccount, debitAccount, true);
-    let fullNonIncludedTax = this.getFullTaxRate_(book, creditAccount, debitAccount, false);
 
-    if (fullIncludedTax == 0 && fullNonIncludedTax == 0) {
+    if (fullIncludedTax == 0 && fullNonIncludedTax == 0 && (taxAmount == null || taxAmount == 0)) {
       return false;
     }
 
@@ -21,16 +30,16 @@ class EventHandlerTransactionPosted extends EventHandler {
       return `Cannot process more than 100% in total taxes. Sum of all taxes: ${fullIncludedTax}`;
     }
 
-    let netAmount = +transaction.amount;
-
-    if (fullIncludedTax > 0) {
+    if (fullIncludedTax > 0 && taxAmount == null) {
       netAmount = +transaction.amount - ((+transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
+    } else if (taxAmount != null) {
+      netAmount = +transaction.amount - taxAmount;
     }
 
     let transactions: Bkper.Transaction[] = [];
 
-    transactions = transactions.concat(this.getTaxTransactions(book, creditAccount, transaction, netAmount));
-    transactions = transactions.concat(this.getTaxTransactions(book, debitAccount, transaction, netAmount));
+    transactions = transactions.concat(this.getTaxTransactions(book, creditAccount, transaction, netAmount, taxAmount));
+    transactions = transactions.concat(this.getTaxTransactions(book, debitAccount, transaction, netAmount, taxAmount));
 
     if (transactions.length > 0) {
       transactions = book.batchCreateTransactions(transactions);
@@ -81,11 +90,11 @@ class EventHandlerTransactionPosted extends EventHandler {
     return tax;
   }
 
-  private getTaxTransactions(book: Bkper.Book, account: Bkper.Account, transaction: bkper.Transaction, netAmount: number): Bkper.Transaction[] {
+  private getTaxTransactions(book: Bkper.Book, account: Bkper.Account, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Bkper.Transaction[] {
 
     let transactions: Bkper.Transaction[] = [];
 
-    let accountTransaction = this.createTaxTransaction(book, account, account.getName(), transaction, netAmount);
+    let accountTransaction = this.createTaxTransaction(book, account, account.getName(), transaction, netAmount, taxAmount);
     if (accountTransaction != null) {
       transactions.push(accountTransaction)
     }
@@ -93,7 +102,7 @@ class EventHandlerTransactionPosted extends EventHandler {
     let groups = account.getGroups();
     if (groups != null) {
       for (var group of groups) {
-        let groupTransaction = this.createTaxTransaction(book, group, account.getName(), transaction, netAmount);
+        let groupTransaction = this.createTaxTransaction(book, group, account.getName(), transaction, netAmount, taxAmount);
         if (groupTransaction != null) {
           transactions.push(groupTransaction);
         }
@@ -104,7 +113,8 @@ class EventHandlerTransactionPosted extends EventHandler {
   }
 
 
-  private createTaxTransaction(book: Bkper.Book, accountOrGroup: Bkper.Account | Bkper.Group, accountName: string, transaction: bkper.Transaction, netAmount: number): Bkper.Transaction {
+  private createTaxTransaction(book: Bkper.Book, accountOrGroup: Bkper.Account | Bkper.Group, accountName: string, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Bkper.Transaction {
+
     let taxTag = accountOrGroup.getProperty('tax_rate');
 
     if (taxTag == null || taxTag.trim() == '') {
@@ -113,15 +123,16 @@ class EventHandlerTransactionPosted extends EventHandler {
 
     let tax = book.parseValue(taxTag);
 
-    if (tax == 0) {
+    if (tax == 0 && (taxAmount == null || taxAmount == 0)) {
       return null;
     }
 
-    if (tax < 0) {
-      tax *= -1;
+    // Fixed tax_amount overrides included tax
+    let amount: number | string = taxAmount && taxAmount > 0 && tax > 0 ? taxAmount : netAmount * (tax / 100);
+    
+    if (amount < 0) {
+      amount *= -1;
     }
-
-    let amount: number | string = netAmount * (tax / 100);
 
     let tax_description = accountOrGroup.getProperty('tax_description');
 
