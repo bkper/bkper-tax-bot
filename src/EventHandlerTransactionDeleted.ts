@@ -1,74 +1,80 @@
-// class EventHandlerTransactionDeleted extends EventHandler {
+import Account from "bkper-node/lib/Account";
+import Book from "bkper-node/lib/Book";
+import Group from "bkper-node/lib/Group";
+import EventHandler from "./EventHandler";
 
-//   protected processTransaction(book: Bkper.Book, transaction: bkper.Transaction): string[] | string | boolean {
-//     var creditAccount = book.getAccount(transaction.creditAccount.id);
-//     var debitAccount = book.getAccount(transaction.debitAccount.id);
+export default class EventHandlerTransactionDeleted extends EventHandler {
 
-//     let transactionsIds: string[] = [];
+  protected async processTransaction(book: Book, transaction: bkper.Transaction): Promise<string[] | string | boolean> {
+    var creditAccount = book.getAccount(transaction.creditAccount.id);
+    
+    var debitAccount = book.getAccount(transaction.debitAccount.id);
 
-//     transactionsIds = transactionsIds.concat(this.getTaxTransactionsIds(book, creditAccount, transaction));
-//     transactionsIds = transactionsIds.concat(this.getTaxTransactionsIds(book, debitAccount, transaction));
+    let transactionsIds: string[] = [];
 
-//     if (transactionsIds.length == 0) {
-//       return false;
-//     }
+    transactionsIds = transactionsIds.concat(this.getTaxTransactionsIds(book, creditAccount, transaction));
+    transactionsIds = transactionsIds.concat(this.getTaxTransactionsIds(book, debitAccount, transaction));
 
-//     let deletedRecords: string[] = [];
-//     transactionsIds.forEach(id => {
-//       let iterator = book.getTransactions(`remoteId:${id}`);
-//       if (iterator.hasNext()) {
-//         let tx = iterator.next();
-//         if (tx.isChecked()) {
-//           tx = tx.uncheck();
-//         }
-//         tx = tx.remove();
-//         deletedRecords.push(`DELETED: ${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`)
-//       }
-//     })
+    if (transactionsIds.length == 0) {
+      return false;
+    }
 
-//     return deletedRecords;
-//   }
+    let deletedRecords: string[] = [];
+    transactionsIds.forEach(async id => {
+      let iterator = book.getTransactions(`remoteId:${id}`);
+      if (iterator.hasNext()) {
+        let tx = await iterator.next();
+        if (tx.isChecked()) {
+          tx = await tx.uncheck();
+        }
+        tx = await tx.remove();
+        deletedRecords.push(`DELETED: ${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`)
+      }
+    })
 
-//   private getTaxTransactionsIds(book: Bkper.Book, account: Bkper.Account, transaction: bkper.Transaction): string[] {
+    return deletedRecords;
+  }
 
-//     let transactionsIds: string[] = [];
+  private getTaxTransactionsIds(book: Book, account: Account, transaction: bkper.Transaction): string[] {
 
-//     let accountTransactionId = this.getTaxTransactionId(book, account, transaction);
-//     if (accountTransactionId != null) {
-//       transactionsIds.push(accountTransactionId)
-//     }
+    let transactionsIds: string[] = [];
 
-//     let groups = account.getGroups();
-//     if (groups != null) {
-//       for (var group of groups) {
-//         let groupTransactionId = this.getTaxTransactionId(book, group, transaction);
-//         if (groupTransactionId != null) {
-//           transactionsIds.push(groupTransactionId);
-//         }
-//       }
-//     }
+    let accountTransactionId = this.getTaxTransactionId(book, account, transaction);
+    if (accountTransactionId != null) {
+      transactionsIds.push(accountTransactionId)
+    }
 
-//     return transactionsIds;
-//   }
+    let groups = account.getGroups();
+    if (groups != null) {
+      for (var group of groups) {
+        let groupTransactionId = this.getTaxTransactionId(book, group, transaction);
+        if (groupTransactionId != null) {
+          transactionsIds.push(groupTransactionId);
+        }
+      }
+    }
 
-//   private getTaxTransactionId(book: Bkper.Book, accountOrGroup: Bkper.Account | Bkper.Group, transaction: bkper.Transaction): string {
-//     let taxTag = accountOrGroup.getProperty('tax_rate');
+    return transactionsIds;
+  }
 
-//     if (taxTag == null || taxTag.trim() == '') {
-//       return null;
-//     }
+  private getTaxTransactionId(book: Book, accountOrGroup: Account | Group, transaction: bkper.Transaction): string {
+    let taxTag = accountOrGroup.getProperty('tax_rate');
 
-//     let tax = new Number(taxTag).valueOf();
+    if (taxTag == null || taxTag.trim() == '') {
+      return null;
+    }
 
-//     if (tax == 0) {
-//       return null;
-//     }
+    let tax = new Number(taxTag).valueOf();
 
-//     if (tax < 0) {
-//       tax *= -1;
-//     }
+    if (tax == 0) {
+      return null;
+    }
 
-//     return `${super.getId(transaction, accountOrGroup)}`
-//   }
+    if (tax < 0) {
+      tax *= -1;
+    }
 
-// }
+    return `${super.getId(transaction, accountOrGroup)}`
+  }
+
+}

@@ -5,6 +5,7 @@
   "scripts": {
     "clean": "gts clean",
     "upgrade:api": "yarn upgrade @bkper/bkper-node --latest",
+    "build": "yarn clean & tsc",
     "watch": "run-p watch:*",
     "watch:compile": "tsc -w --incremental",
     "watch:localtunnel": "npx localtunnel --port 8080 --subdomain bkper-tax-bot",
@@ -19,6 +20,7 @@
     "postversion": "yarn deploy && git push && git push --tags && echo \"Successfully released version $npm_package_version!\""
   },
   "devDependencies": {
+    "@bkper/bkper-api-types": "^3.7.1",
     "@types/express": "^4.17.9",
     "@types/node": "^14.11.2",
     "gts": "^3.0.3",
