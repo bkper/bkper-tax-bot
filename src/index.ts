@@ -10,7 +10,7 @@ export const doPost: HttpFunction = async (req, res) => {
 
   try {
     Bkper.setApiKey(req.headers['bkper-api-key'] as string)
-    Bkper.setOAuthTokenProvider(() => req.headers['bkper-access-token'] as string)
+    // Bkper.setOAuthTokenProvider({getOAuthToken: async () => req.headers['bkper-access-token'] as string})
 
     let event: bkper.Event = req.body
     let result: { result: string[] | string | boolean } = { result: false };
