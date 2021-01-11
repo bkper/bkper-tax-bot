@@ -1,7 +1,7 @@
+import 'source-map-support/register'
 import { HttpFunction } from '@google-cloud/functions-framework/build/src/functions';
 import Bkper from 'bkper-node';
 import EventHandlerTransactionDeleted from './EventHandlerTransactionDeleted';
-
 import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted";
 
 export const doPost: HttpFunction = async (req, res) => {
@@ -14,6 +14,8 @@ export const doPost: HttpFunction = async (req, res) => {
 
     let event: bkper.Event = req.body
     let result: { result: string[] | string | boolean } = { result: false };
+
+    console.log(`Received ${event.type} event...`)
 
     switch (event.type) {
       case 'TRANSACTION_POSTED':
@@ -34,11 +36,14 @@ export const doPost: HttpFunction = async (req, res) => {
         break;
     }
 
+    console.log(result)
+
     res.send(JSON.stringify(result, null, 4))
 
   } catch (err) {
-    console.log(err)
-    res.send(JSON.stringify({ result: err.stack.split("\n") }, null, 4))
+    res.send(JSON.stringify({ 
+      error: err.stack.split("\n")
+    }, null, 4))
   }
 
 };
