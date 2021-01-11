@@ -22,7 +22,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
     let deletedRecords: string[] = [];
     transactionsIds.forEach(async id => {
       let iterator = book.getTransactions(`remoteId:${id}`);
-      if (iterator.hasNext()) {
+      if (await iterator.hasNext()) {
         let tx = await iterator.next();
         if (tx.isChecked()) {
           tx = await tx.uncheck();
