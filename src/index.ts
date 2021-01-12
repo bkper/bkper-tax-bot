@@ -3,16 +3,34 @@ import { HttpFunction } from '@google-cloud/functions-framework/build/src/functi
 import Bkper from 'bkper-node';
 import EventHandlerTransactionDeleted from './EventHandlerTransactionDeleted';
 import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted";
+import { Request, Response } from 'express';
+import express = require('express');
+import httpContext = require('express-http-context');
+
 require('dotenv').config()
 
-export const doPost: HttpFunction = async (req, res) => {
+const app = express();
+app.use(httpContext.middleware);
+app.use('/', handleEvent);
+export const doPost: HttpFunction = app;
 
+function init(req: Request, res: Response) {
   res.setHeader('Content-Type', 'application/json');
 
-  try {
+  //Sets API key from env for development or from headers
+  Bkper.setApiKey(process.env.BKPER_API_KEY ? process.env.BKPER_API_KEY : req.headers['bkper-api-key'] as string);
 
-    Bkper.setApiKey(process.env.BKPER_API_KEY ? process.env.BKPER_API_KEY : req.headers['bkper-api-key'] as string)
-    Bkper.setOAuthTokenProvider(async () => req.headers['bkper-oauth-token'] as string)
+  //Put OAuth token from header in the http context for later use when calling the API. https://julio.li/b/2016/10/29/request-persistence-express/
+  const oauthTokenHeader = 'bkper-oauth-token';
+  httpContext.set(oauthTokenHeader, req.headers[oauthTokenHeader]);
+  Bkper.setOAuthTokenProvider(async () => httpContext.get(oauthTokenHeader));
+}
+
+async function handleEvent(req: Request, res: Response) {
+
+  init(req, res);
+
+  try {
 
     let event: bkper.Event = req.body
     let result: { result: string[] | string | boolean } = { result: false };
@@ -48,20 +66,5 @@ export const doPost: HttpFunction = async (req, res) => {
     }, null, 4))
   }
 
-};
-
-
-
-
-
-
-// /**
-//  * Trigger called upon transaction updated. See bkper.yaml for configured triggers.
-//  */
-// function onTransactionUpdated(event: bkper.Event) {
-//   //First call DELETE handler to delete already created tax transactions.
-//   new EventHandlerTransactionDeleted().handleEvent(event);
-//   //Then call same POSTED event handler to repost tax transactions  
-//   return new EventHandlerTransactionPosted().handleEvent(event);
-// }
+}
 
