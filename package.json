@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^1.7.1",
+    "dotenv": "^8.2.0",
     "source-map-support": "^0.5.19"
   }
 }

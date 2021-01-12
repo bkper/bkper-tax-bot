@@ -3,14 +3,16 @@ import { HttpFunction } from '@google-cloud/functions-framework/build/src/functi
 import Bkper from 'bkper-node';
 import EventHandlerTransactionDeleted from './EventHandlerTransactionDeleted';
 import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted";
+require('dotenv').config()
 
 export const doPost: HttpFunction = async (req, res) => {
 
   res.setHeader('Content-Type', 'application/json');
 
   try {
-    Bkper.setApiKey(req.headers['bkper-api-key'] as string)
-    // Bkper.setOAuthTokenProvider({getOAuthToken: async () => req.headers['bkper-access-token'] as string})
+
+    Bkper.setApiKey(process.env.BKPER_API_KEY ? process.env.BKPER_API_KEY : req.headers['bkper-api-key'] as string)
+    Bkper.setOAuthTokenProvider(async () => req.headers['bkper-oauth-token'] as string)
 
     let event: bkper.Event = req.body
     let result: { result: string[] | string | boolean } = { result: false };
