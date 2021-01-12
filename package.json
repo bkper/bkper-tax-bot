@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "gts clean",
     "upgrade:api": "yarn upgrade @bkper/bkper-node --latest",
-    "build": "yarn clean & tsc",
+    "build": "yarn clean && tsc && cp package.json dist/",
     "watch": "run-p watch:*",
     "watch:compile": "tsc -w --incremental",
     "watch:localtunnel": "npx localtunnel --port 8080 --subdomain bkper-tax-bot",
@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^1.7.1",
+    "bkper": "^1.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",

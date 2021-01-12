@@ -1,6 +1,6 @@
 import 'source-map-support/register'
 import { HttpFunction } from '@google-cloud/functions-framework/build/src/functions';
-import Bkper from 'bkper-node';
+import { Bkper } from 'bkper';
 import EventHandlerTransactionDeleted from './EventHandlerTransactionDeleted';
 import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted";
 import { Request, Response } from 'express';
@@ -24,6 +24,7 @@ function init(req: Request, res: Response) {
   const oauthTokenHeader = 'bkper-oauth-token';
   httpContext.set(oauthTokenHeader, req.headers[oauthTokenHeader]);
   Bkper.setOAuthTokenProvider(async () => httpContext.get(oauthTokenHeader));
+
 }
 
 async function handleEvent(req: Request, res: Response) {

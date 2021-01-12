@@ -1,7 +1,4 @@
-import Bkper from "bkper-node/lib";
-import Account from "bkper-node/lib/model/Account";
-import Book from "bkper-node/lib/model/Book";
-import Group from "bkper-node/lib/model/Group";
+import { Account, Book, Bkper, Group } from "bkper";
 
 export default abstract class EventHandler {
 

@@ -1,6 +1,4 @@
-import Account from "bkper-node/lib/model/Account";
-import Book from "bkper-node/lib/model/Book";
-import Group from "bkper-node/lib/model/Group";
+import { Account, Book, Group } from "bkper";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionDeleted extends EventHandler {
