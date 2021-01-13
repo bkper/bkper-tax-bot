@@ -18,7 +18,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
     }
 
     let deletedRecords: string[] = [];
-    transactionsIds.forEach(async id => {
+    for (const id of transactionsIds) {
       let iterator = book.getTransactions(`remoteId:${id}`);
       if (await iterator.hasNext()) {
         let tx = await iterator.next();
@@ -28,7 +28,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
         tx = await tx.remove();
         deletedRecords.push(`DELETED: ${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`)
       }
-    })
+    }
 
     return deletedRecords;
   }
