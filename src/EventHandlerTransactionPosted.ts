@@ -1,6 +1,9 @@
-class EventHandlerTransactionPosted extends EventHandler {
+import { Account, Book, Group, Transaction } from "bkper";
+import EventHandler from "./EventHandler";
 
-  protected processTransaction(book: Bkper.Book, transaction: bkper.Transaction): string[] | string | boolean {
+export default class EventHandlerTransactionPosted extends EventHandler {
+
+  protected async processTransaction(book: Book, transaction: bkper.Transaction): Promise<string[] | string | boolean> {
 
     if (transaction.agentId == 'sales-tax-bot') {
       console.log("Same payload agent. Preventing bot loop.");
@@ -36,13 +39,13 @@ class EventHandlerTransactionPosted extends EventHandler {
       netAmount = +transaction.amount - taxAmount;
     }
 
-    let transactions: Bkper.Transaction[] = [];
+    let transactions: Transaction[] = [];
 
     transactions = transactions.concat(this.getTaxTransactions(book, creditAccount, transaction, netAmount, taxAmount));
     transactions = transactions.concat(this.getTaxTransactions(book, debitAccount, transaction, netAmount, taxAmount));
 
     if (transactions.length > 0) {
-      transactions = book.batchCreateTransactions(transactions);
+      transactions = await book.batchCreateTransactions(transactions);
       if (transactions.length > 0) {
         return transactions.map(tx => `POSTED: ${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`);
       } else {
@@ -55,14 +58,14 @@ class EventHandlerTransactionPosted extends EventHandler {
   }
 
 
-  private getFullTaxRate_(book: Bkper.Book, creditAccount: Bkper.Account, debitAccount: Bkper.Account, included: boolean): number {
+  private getFullTaxRate_(book: Book, creditAccount: Account, debitAccount: Account, included: boolean): number {
     let totalTax = 0;
     totalTax += this.getFullTaxRateFromAccount_(book, creditAccount, included);
     totalTax += this.getFullTaxRateFromAccount_(book, debitAccount, included);
     return totalTax;
   }
 
-  private getFullTaxRateFromAccount_(book: Bkper.Book, account: Bkper.Account, included: boolean): number {
+  private getFullTaxRateFromAccount_(book: Book, account: Account, included: boolean): number {
     let totalTax = this.getTaxRateFromAccountOrGroup_(book, account, included);
     let groups = account.getGroups();
     if (groups != null) {
@@ -73,7 +76,7 @@ class EventHandlerTransactionPosted extends EventHandler {
     return totalTax;
   }
 
-  private getTaxRateFromAccountOrGroup_(book: Bkper.Book, accountOrGroup: Bkper.Account | Bkper.Group, included: boolean): number {
+  private getTaxRateFromAccountOrGroup_(book: Book, accountOrGroup: Account | Group, included: boolean): number {
     let taxTag = accountOrGroup.getProperty('tax_rate');
     if (taxTag == null || taxTag.trim() == '') {
       return 0;
@@ -90,9 +93,9 @@ class EventHandlerTransactionPosted extends EventHandler {
     return tax;
   }
 
-  private getTaxTransactions(book: Bkper.Book, account: Bkper.Account, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Bkper.Transaction[] {
+  private getTaxTransactions(book: Book, account: Account, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Transaction[] {
 
-    let transactions: Bkper.Transaction[] = [];
+    let transactions: Transaction[] = [];
 
     let accountTransaction = this.createTaxTransaction(book, account, account.getName(), transaction, netAmount, taxAmount);
     if (accountTransaction != null) {
@@ -113,7 +116,7 @@ class EventHandlerTransactionPosted extends EventHandler {
   }
 
 
-  private createTaxTransaction(book: Bkper.Book, accountOrGroup: Bkper.Account | Bkper.Group, accountName: string, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Bkper.Transaction {
+  private createTaxTransaction(book: Book, accountOrGroup: Account | Group, accountName: string, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Transaction {
 
     let taxTag = accountOrGroup.getProperty('tax_rate');
 

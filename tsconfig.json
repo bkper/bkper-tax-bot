@@ -1,21 +1,15 @@
 {
+  "extends": "./node_modules/gts/tsconfig-google.json",
   "compilerOptions": {
-    "module": "none",
-    "noImplicitUseStrict": true,
-    "experimentalDecorators": true,
-    "lib": [ "esnext" ],
-    "target": "ES6",
-    "noImplicitAny": true,
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": false,
+    "sourceMap": true,
+    "strictNullChecks": false,
     "typeRoots" : ["node_modules/@bkper", "node_modules/@types" ]    
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts",
-    "@types/**/*.d.ts"
-  ],
-  "exclude": [
-    "node_modules/",
-    "dist/"
-  ],
-
+    "test/**/*.ts"
+  ]
 }

@@ -1,21 +1,23 @@
-abstract class EventHandler {
+import { Account, Book, Bkper, Group } from "bkper";
 
-  protected abstract processTransaction(book: Bkper.Book, transaction: bkper.Transaction): string[] | string | boolean;
+export default abstract class EventHandler {
 
-  handleEvent(event: bkper.Event): string[] | string | boolean {
+  protected abstract processTransaction(book: Book, transaction: bkper.Transaction): Promise<string[] | string | boolean>;
+  
+  async handleEvent(event: bkper.Event): Promise<string[] | string | boolean> {
     let bookId = event.bookId;
     let operation = event.data.object as bkper.TransactionOperation;
     let transaction = operation.transaction;
-    var book = BkperApp.getBook(bookId);
+    var book = await Bkper.getBook(bookId);
 
     if (!transaction.posted) {
-      return false;
+      return null;
     }
 
     return this.processTransaction(book, transaction);
   }
 
-  protected getId(transaction: bkper.Transaction, accountOrGroup: Bkper.Account | Bkper.Group) {
+  protected getId(transaction: bkper.Transaction, accountOrGroup: Account | Group) {
     return `tax_${transaction.id}_${accountOrGroup.getId()}`;
   }
 

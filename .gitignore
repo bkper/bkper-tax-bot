@@ -2,3 +2,6 @@
 node_modules
 yarn-error.log
 .history
+dist/
+tsconfig.tsbuildinfo
+.env

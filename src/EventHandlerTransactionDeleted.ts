@@ -1,7 +1,11 @@
-class EventHandlerTransactionDeleted extends EventHandler {
+import { Account, Book, Group } from "bkper";
+import EventHandler from "./EventHandler";
 
-  protected processTransaction(book: Bkper.Book, transaction: bkper.Transaction): string[] | string | boolean {
+export default class EventHandlerTransactionDeleted extends EventHandler {
+
+  protected async processTransaction(book: Book, transaction: bkper.Transaction): Promise<string[] | string | boolean> {
     var creditAccount = book.getAccount(transaction.creditAccount.id);
+    
     var debitAccount = book.getAccount(transaction.debitAccount.id);
 
     let transactionsIds: string[] = [];
@@ -14,22 +18,22 @@ class EventHandlerTransactionDeleted extends EventHandler {
     }
 
     let deletedRecords: string[] = [];
-    transactionsIds.forEach(id => {
+    for (const id of transactionsIds) {
       let iterator = book.getTransactions(`remoteId:${id}`);
-      if (iterator.hasNext()) {
-        let tx = iterator.next();
+      if (await iterator.hasNext()) {
+        let tx = await iterator.next();
         if (tx.isChecked()) {
-          tx = tx.uncheck();
+          tx = await tx.uncheck();
         }
-        tx = tx.remove();
+        tx = await tx.remove();
         deletedRecords.push(`DELETED: ${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`)
       }
-    })
+    }
 
     return deletedRecords;
   }
 
-  private getTaxTransactionsIds(book: Bkper.Book, account: Bkper.Account, transaction: bkper.Transaction): string[] {
+  private getTaxTransactionsIds(book: Book, account: Account, transaction: bkper.Transaction): string[] {
 
     let transactionsIds: string[] = [];
 
@@ -51,7 +55,7 @@ class EventHandlerTransactionDeleted extends EventHandler {
     return transactionsIds;
   }
 
-  private getTaxTransactionId(book: Bkper.Book, accountOrGroup: Bkper.Account | Bkper.Group, transaction: bkper.Transaction): string {
+  private getTaxTransactionId(book: Book, accountOrGroup: Account | Group, transaction: bkper.Transaction): string {
     let taxTag = accountOrGroup.getProperty('tax_rate');
 
     if (taxTag == null || taxTag.trim() == '') {
