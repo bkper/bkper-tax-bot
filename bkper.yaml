@@ -6,8 +6,7 @@ scopes: https://www.googleapis.com/auth/userinfo.email https://www.googleapis.co
 apiVersion: v3
 
 # webhookUrlDev:  https://bkper-tax-bot.loca.lt
-webhookUrlDev: https://us-central1-bkper-tax-trigger.cloudfunctions.net/prod
-# webhookUrlProd: https://us-central1-bkper-tax-trigger.cloudfunctions.net/prod
+webhookUrlProd: https://us-central1-bkper-tax-trigger.cloudfunctions.net/prod
 
 triggers: >
     onTransactionPosted
