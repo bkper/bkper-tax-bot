@@ -57,8 +57,6 @@ async function handleEvent(req: Request, res: Response) {
         break;
     }
 
-    console.log(result)
-
     res.send(JSON.stringify(result, null, 4))
 
   } catch (err) {
