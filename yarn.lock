@@ -431,10 +431,10 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-bkper@^1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.1.2.tgz#4597efb9aa087f6d26ab24228c12786c839bcebf"
-  integrity sha512-HN5iBgfeWEuOW9U8NVH2JYTonama+Zz358ETyf2UH3ylTtfB1sgtLk26DoW+9Mj7Dw4fG1FE4f1C6lohnt2vrg==
+bkper@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.1.3.tgz#981d1d94e869a90ef9ca113681bf16c0002a10a8"
+  integrity sha512-zwjSR80AgmhQElVUKA7tIP1Vw4yoENHEwJl5Nbuwxw78XF5bL8JbysqgNPeWlO7TTeDIPddB0OchIPfhQ/baZA==
   dependencies:
     "@bkper/bkper-api-types" "^3.7.2"
     "@google-cloud/local-auth" "^1.0.0"

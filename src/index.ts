@@ -57,9 +57,11 @@ async function handleEvent(req: Request, res: Response) {
         break;
     }
 
+    console.log(`Result: ${JSON.stringify(result)}`)
     res.send(response(result))
 
   } catch (err) {
+    console.error(err);
     res.send(response({error: err.stack.split("\n")}))
   }
 
@@ -67,7 +69,6 @@ async function handleEvent(req: Request, res: Response) {
 
 function response(result: any): string {
   const body = JSON.stringify(result, null, 4);
-  console.log(`Response: ${body}`)
   return body;
 }
 
