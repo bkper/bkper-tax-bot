@@ -16,7 +16,7 @@ const app = Bkper.setApiKey(process.env.BKPER_API_KEY);
 
 async function exit() {
   await app.setWebhookUrlDev(null).update();
-  console.log(' Removed webhook.')
+  console.log(' \nRemoved webhook.')
   process.exit();
 }
 
