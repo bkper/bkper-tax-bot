@@ -1,6 +1,6 @@
 {
   "name": "tax-bot",
-  "version": "1.6.4",
+  "version": "2.0.0",
   "main": "index.js",
   "scripts": {
     "clean": "gts clean",
@@ -18,8 +18,8 @@
     "major": "yarn version --major",
     "deploy": "yarn build && yarn --cwd dist/ deploy:dist",
     "deploy:dist": "gcloud functions deploy prod --runtime nodejs12 --trigger-http --entry-point doPost --project bkper-tax-trigger",
-    "preversion": "yarn push",
-    "postversion": "yarn deploy && git push && git push --tags && echo \"Successfully released version $npm_package_version!\""
+    "preversion": "yarn deploy",
+    "postversion": "git push && git push --tags && echo \"Successfully released version $npm_package_version!\""
   },
   "devDependencies": {
     "@bkper/bkper-api-types": "^3.7.1",
