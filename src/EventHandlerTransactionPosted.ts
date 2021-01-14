@@ -10,10 +10,10 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       return false;
     }
 
-    var creditAccount = book.getAccount(transaction.creditAccount.id);
-    var debitAccount = book.getAccount(transaction.debitAccount.id);
+    var creditAccount = await book.getAccount(transaction.creditAccount.id);
+    var debitAccount = await book.getAccount(transaction.debitAccount.id);
     
-    let fullNonIncludedTax = this.getFullTaxRate_(book, creditAccount, debitAccount, false);
+    let fullNonIncludedTax = await this.getFullTaxRate_(book, creditAccount, debitAccount, false);
     let netAmount = +transaction.amount;
 
     let taxAmount = transaction.properties['tax_amount'] ? book.parseValue(transaction.properties['tax_amount']) : null;
@@ -23,7 +23,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       taxAmount *= -1;
     }
 
-    let fullIncludedTax = this.getFullTaxRate_(book, creditAccount, debitAccount, true);
+    let fullIncludedTax = await this.getFullTaxRate_(book, creditAccount, debitAccount, true);
 
     if (fullIncludedTax == 0 && fullNonIncludedTax == 0 && (taxAmount == null || taxAmount == 0)) {
       return false;
@@ -41,8 +41,8 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     let transactions: Transaction[] = [];
 
-    transactions = transactions.concat(this.getTaxTransactions(book, creditAccount, transaction, netAmount, taxAmount));
-    transactions = transactions.concat(this.getTaxTransactions(book, debitAccount, transaction, netAmount, taxAmount));
+    transactions = transactions.concat(await this.getTaxTransactions(book, creditAccount, transaction, netAmount, taxAmount));
+    transactions = transactions.concat(await this.getTaxTransactions(book, debitAccount, transaction, netAmount, taxAmount));
 
     if (transactions.length > 0) {
       transactions = await book.batchCreateTransactions(transactions);
@@ -58,16 +58,16 @@ export default class EventHandlerTransactionPosted extends EventHandler {
   }
 
 
-  private getFullTaxRate_(book: Book, creditAccount: Account, debitAccount: Account, included: boolean): number {
+  private async getFullTaxRate_(book: Book, creditAccount: Account, debitAccount: Account, included: boolean): Promise<number> {
     let totalTax = 0;
-    totalTax += this.getFullTaxRateFromAccount_(book, creditAccount, included);
-    totalTax += this.getFullTaxRateFromAccount_(book, debitAccount, included);
+    totalTax += await this.getFullTaxRateFromAccount_(book, creditAccount, included);
+    totalTax += await this.getFullTaxRateFromAccount_(book, debitAccount, included);
     return totalTax;
   }
 
-  private getFullTaxRateFromAccount_(book: Book, account: Account, included: boolean): number {
+  private async getFullTaxRateFromAccount_(book: Book, account: Account, included: boolean): Promise<number> {
     let totalTax = this.getTaxRateFromAccountOrGroup_(book, account, included);
-    let groups = account.getGroups();
+    let groups = await account.getGroups();
     if (groups != null) {
       for (var group of groups) {
         totalTax += this.getTaxRateFromAccountOrGroup_(book, group, included);
@@ -93,7 +93,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     return tax;
   }
 
-  private getTaxTransactions(book: Book, account: Account, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Transaction[] {
+  private async getTaxTransactions(book: Book, account: Account, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Promise<Transaction[]> {
 
     let transactions: Transaction[] = [];
 
@@ -102,7 +102,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       transactions.push(accountTransaction)
     }
 
-    let groups = account.getGroups();
+    let groups = await account.getGroups();
     if (groups != null) {
       for (var group of groups) {
         let groupTransaction = this.createTaxTransaction(book, group, account.getName(), transaction, netAmount, taxAmount);

@@ -4,14 +4,14 @@ import EventHandler from "./EventHandler";
 export default class EventHandlerTransactionDeleted extends EventHandler {
 
   protected async processTransaction(book: Book, transaction: bkper.Transaction): Promise<string[] | string | boolean> {
-    var creditAccount = book.getAccount(transaction.creditAccount.id);
+    var creditAccount = await book.getAccount(transaction.creditAccount.id);
     
-    var debitAccount = book.getAccount(transaction.debitAccount.id);
+    var debitAccount = await book.getAccount(transaction.debitAccount.id);
 
     let transactionsIds: string[] = [];
 
-    transactionsIds = transactionsIds.concat(this.getTaxTransactionsIds(book, creditAccount, transaction));
-    transactionsIds = transactionsIds.concat(this.getTaxTransactionsIds(book, debitAccount, transaction));
+    transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, creditAccount, transaction));
+    transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, debitAccount, transaction));
 
     if (transactionsIds.length == 0) {
       return false;
@@ -37,7 +37,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
     }
   }
 
-  private getTaxTransactionsIds(book: Book, account: Account, transaction: bkper.Transaction): string[] {
+  private async getTaxTransactionsIds(book: Book, account: Account, transaction: bkper.Transaction): Promise<string[]> {
 
     let transactionsIds: string[] = [];
 
@@ -46,7 +46,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
       transactionsIds.push(accountTransactionId)
     }
 
-    let groups = account.getGroups();
+    let groups = await account.getGroups();
     if (groups != null) {
       for (var group of groups) {
         let groupTransactionId = this.getTaxTransactionId(book, group, transaction);
