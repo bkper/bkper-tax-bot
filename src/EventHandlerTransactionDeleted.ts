@@ -30,7 +30,11 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
       }
     }
 
-    return deletedRecords;
+    if (deletedRecords.length != 0) {
+      return deletedRecords;
+    } else {
+      return false;
+    }
   }
 
   private getTaxTransactionsIds(book: Book, account: Account, transaction: bkper.Transaction): string[] {

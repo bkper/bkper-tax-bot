@@ -11,7 +11,7 @@ export default abstract class EventHandler {
     var book = await Bkper.getBook(bookId);
 
     if (!transaction.posted) {
-      return null;
+      return false;
     }
 
     return this.processTransaction(book, transaction);
