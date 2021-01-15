@@ -431,10 +431,10 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-bkper@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.3.0.tgz#777ac56f1db46fde29334544e97e7fdfe97f9b9b"
-  integrity sha512-hixWP8CwsNSQxumT8rLty5PCP2m+UeBbVkBTIxKL8/PmfNDv1pd2NItWI529pifFjZ3G8N5oRLsXwbONey1GOQ==
+bkper@^1.4.1:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.4.1.tgz#e0f2cc3d6f45630ec3949fb03aa0047f8322d2fb"
+  integrity sha512-4FmBl1Zt3fBP+X5NVvyPHl3DsAuq2cw6XvskkIALToQGJc6np9wz2HRfBvj4kl5mMX062yfmzGnom5NovCdC/w==
   dependencies:
     "@bkper/bkper-api-types" "^3.7.2"
     "@google-cloud/local-auth" "^1.0.0"
@@ -1438,9 +1438,9 @@ graceful-fs@^4.1.2:
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
 gtoken@^5.0.4:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-5.1.0.tgz#4ba8d2fc9a8459098f76e7e8fd7beaa39fda9fe4"
-  integrity sha512-4d8N6Lk8TEAHl9vVoRVMh9BNOKWVgl2DdNtr3428O75r3QFrF/a5MMu851VmK0AA8+iSvbwRv69k5XnMLURGhg==
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-5.2.0.tgz#7f1e029f9472bb8899d6911c03c66f7ad985c849"
+  integrity sha512-qbf6JWEYFMj3WMAluvYXl8GAiji6w8d9OmAGCbBg0xF4xD/yu6ZaO6BhoXNddRjKcOUpZD81iea1H5B45gAo1g==
   dependencies:
     gaxios "^4.0.0"
     google-p12-pem "^3.0.3"
