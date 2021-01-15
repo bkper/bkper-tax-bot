@@ -2,8 +2,10 @@
   "name": "tax-bot",
   "version": "2.0.3",
   "main": "index.js",
+  "projectId": "bkper-tax-trigger",
   "scripts": {
     "clean": "gts clean",
+    "open": "open \"https://console.cloud.google.com/functions/details/us-central1/prod?organizationId=305881217394&project=$npm_package_projectId&tab=logs\"",
     "login:bkper": "bkper login",
     "upgrade:app": "yarn upgrade bkper --latest",
     "upgrade:api": "yarn upgrade @bkper/bkper-node --latest",
@@ -17,7 +19,7 @@
     "minor": "yarn version --minor",
     "major": "yarn version --major",
     "deploy": "yarn build && yarn --cwd dist/ deploy:dist",
-    "deploy:dist": "gcloud functions deploy prod --runtime nodejs12 --trigger-http --entry-point doPost --project bkper-tax-trigger",
+    "deploy:dist": "gcloud functions deploy prod --runtime nodejs12 --trigger-http --entry-point doPost --project $npm_package_projectId",
     "preversion": "yarn deploy",
     "postversion": "git push && git push --tags && echo \"Successfully released version $npm_package_version!\""
   },
