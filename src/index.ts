@@ -62,7 +62,7 @@ async function handleEvent(req: Request, res: Response) {
 
   } catch (err) {
     console.error(err);
-    res.send(response({error: err.stack.split("\n")}))
+    res.send(response({error: err.stack ? err.stack.split("\n") : err}))
   }
 
 }
