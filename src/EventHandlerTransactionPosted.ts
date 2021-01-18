@@ -1,4 +1,4 @@
-import { Account, Book, Group, Transaction } from "bkper";
+import { Account, Book, Group, Transaction, Amount } from "bkper";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -14,29 +14,31 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     var debitAccount = await book.getAccount(transaction.debitAccount.id);
     
     let fullNonIncludedTax = await this.getFullTaxRate_(book, creditAccount, debitAccount, false);
-    let netAmount = +transaction.amount;
+    let netAmount = new Amount(transaction.amount);
 
     let taxAmount = transaction.properties['tax_amount'] ? book.parseValue(transaction.properties['tax_amount']) : null;
 
     //Ensure tax amount positive
-    if (taxAmount && taxAmount < 0) {
-      taxAmount *= -1;
+    if (taxAmount) {
+      taxAmount = taxAmount.abs();
     }
 
     let fullIncludedTax = await this.getFullTaxRate_(book, creditAccount, debitAccount, true);
 
-    if (fullIncludedTax == 0 && fullNonIncludedTax == 0 && (taxAmount == null || taxAmount == 0)) {
+    if (fullIncludedTax.eq(0) && fullNonIncludedTax.eq(0) && (taxAmount == null || taxAmount.eq(0))) {
       return false;
     }
 
-    if (fullIncludedTax >= 100) {
+    if (fullIncludedTax.gte(100)) {
       return `Cannot process more than 100% in total taxes. Sum of all taxes: ${fullIncludedTax}`;
     }
 
-    if (fullIncludedTax > 0 && taxAmount == null) {
-      netAmount = +transaction.amount - ((+transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
+    if (fullIncludedTax.gt(0) && taxAmount == null) {
+      // netAmount = +transaction.amount - ((+transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
+      const includedTaxAmount = (fullIncludedTax.times(transaction.amount)).div(fullIncludedTax.plus(100));
+      netAmount = new Amount(transaction.amount).minus(includedTaxAmount);
     } else if (taxAmount != null) {
-      netAmount = +transaction.amount - taxAmount;
+      netAmount = new Amount(transaction.amount).minus(taxAmount);
     }
 
     let transactions: Transaction[] = [];
@@ -58,42 +60,42 @@ export default class EventHandlerTransactionPosted extends EventHandler {
   }
 
 
-  private async getFullTaxRate_(book: Book, creditAccount: Account, debitAccount: Account, included: boolean): Promise<number> {
-    let totalTax = 0;
-    totalTax += await this.getFullTaxRateFromAccount_(book, creditAccount, included);
-    totalTax += await this.getFullTaxRateFromAccount_(book, debitAccount, included);
+  private async getFullTaxRate_(book: Book, creditAccount: Account, debitAccount: Account, included: boolean): Promise<Amount> {
+    let totalTax = new Amount('0')
+    totalTax = totalTax.plus(await this.getFullTaxRateFromAccount_(book, creditAccount, included));
+    totalTax = totalTax.plus(await this.getFullTaxRateFromAccount_(book, debitAccount, included));
     return totalTax;
   }
 
-  private async getFullTaxRateFromAccount_(book: Book, account: Account, included: boolean): Promise<number> {
+  private async getFullTaxRateFromAccount_(book: Book, account: Account, included: boolean): Promise<Amount> {
     let totalTax = this.getTaxRateFromAccountOrGroup_(book, account, included);
     let groups = await account.getGroups();
     if (groups != null) {
       for (var group of groups) {
-        totalTax += this.getTaxRateFromAccountOrGroup_(book, group, included);
+        totalTax = totalTax.plus(this.getTaxRateFromAccountOrGroup_(book, group, included));
       }
     }
     return totalTax;
   }
 
-  private getTaxRateFromAccountOrGroup_(book: Book, accountOrGroup: Account | Group, included: boolean): number {
+  private getTaxRateFromAccountOrGroup_(book: Book, accountOrGroup: Account | Group, included: boolean): Amount {
     let taxTag = accountOrGroup.getProperty('tax_rate');
     if (taxTag == null || taxTag.trim() == '') {
-      return 0;
+      return new Amount('0');
     }
     const tax = book.parseValue(taxTag);
-    if (included && tax < 0) {
-      return 0;
+    if (included && tax.lt(0)) {
+      return new Amount('0');
     }
 
-    if (!included && tax > 0) {
-      return 0;
+    if (!included && tax.gt(0)) {
+      return new Amount('0');
     }
 
     return tax;
   }
 
-  private async getTaxTransactions(book: Book, account: Account, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Promise<Transaction[]> {
+  private async getTaxTransactions(book: Book, account: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount): Promise<Transaction[]> {
 
     let transactions: Transaction[] = [];
 
@@ -116,7 +118,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
   }
 
 
-  private createTaxTransaction(book: Book, accountOrGroup: Account | Group, accountName: string, transaction: bkper.Transaction, netAmount: number, taxAmount: number): Transaction {
+  private createTaxTransaction(book: Book, accountOrGroup: Account | Group, accountName: string, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount): Transaction {
 
     let taxTag = accountOrGroup.getProperty('tax_rate');
 
@@ -126,16 +128,15 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     let tax = book.parseValue(taxTag);
 
-    if (tax == 0 && (taxAmount == null || taxAmount == 0)) {
+    if (tax.eq(0) && (taxAmount == null || taxAmount.eq(0))) {
       return null;
     }
 
     // Fixed tax_amount overrides included tax
-    let amount: number | string = taxAmount && taxAmount > 0 && tax > 0 ? taxAmount : netAmount * (tax / 100);
+    // netAmount = +transaction.amount - ((+transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
+    let amount: Amount = taxAmount && taxAmount.gt(0) && tax.gt(0) ? taxAmount : netAmount.times(tax.div(100));
     
-    if (amount < 0) {
-      amount *= -1;
-    }
+    amount = amount.abs();
 
     let tax_description = accountOrGroup.getProperty('tax_description');
 
@@ -145,7 +146,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     let tax_round = +transaction.properties['tax_round'];
     if (tax_round != null && !isNaN(tax_round) && tax_round <= 8) {
-      amount = amount.toFixed(tax_round);
+      amount = amount.round(tax_round);
     }
 
     tax_description = tax_description.replace('${transaction.description}', transaction.description);
