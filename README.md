@@ -41,21 +41,21 @@ The Tax Bot uses the [book and account properties](https://help.bkper.com/en/art
 
 Set the following account properties on accounts (or group) that should trigger the Tax Bot.    
 
-- ```tax_rate```: The tax rate to apply to the new transaction. Use a negative rate for non included taxes.
+- ```tax_excluded```: The tax rate to apply, calculating the tax based on the transaction amount.
+- ```tax_included```: The tax rate to apply, extracting the tax already included in the transaction amount.
 - ```tax_description```: The description of the generated transaction
 
-Example for an outgoing account:
+
+Generating addional 7% of income tax:
 ```yaml
-tax_rate: 12.85
-tax_description: #vatin
+tax_excluded: 7
+tax_description: #incometax
 ```
 
-By default, the taxes are considered **included** in the price. If you want to calculate a **NON included** tax in the price, you can set the rate to negative.
-
-Example:
+Extracting 12.85% of VAT, already included in the transaction:
 ```yaml
-tax_rate: -7
-tax_description: #irpj
+tax_included: 12.85
+tax_description: #vatin
 ```
 
 #### Expressions

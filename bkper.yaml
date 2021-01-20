@@ -18,7 +18,8 @@ triggers: >
 properties: 
     group:
       keys: > 
-        tax_rate
+        tax_excluded
+        tax_included
         tax_description
       values: >
         ${transaction.description}

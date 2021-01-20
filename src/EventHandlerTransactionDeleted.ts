@@ -1,4 +1,5 @@
 import { Account, Book, Group } from "bkper";
+import { TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP, TAX_RATE_LEGACY } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionDeleted extends EventHandler {
@@ -41,42 +42,39 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
 
     let transactionsIds: string[] = [];
 
-    let accountTransactionId = this.getTaxTransactionId(book, account, transaction);
-    if (accountTransactionId != null) {
-      transactionsIds.push(accountTransactionId)
-    }
+    this.addTaxTransactions(book, account, transaction, transactionsIds);
 
     let groups = await account.getGroups();
     if (groups != null) {
       for (var group of groups) {
-        let groupTransactionId = this.getTaxTransactionId(book, group, transaction);
-        if (groupTransactionId != null) {
-          transactionsIds.push(groupTransactionId);
-        }
+        this.addTaxTransactions(book, group, transaction, transactionsIds);
       }
     }
 
     return transactionsIds;
   }
 
-  private getTaxTransactionId(book: Book, accountOrGroup: Account | Group, transaction: bkper.Transaction): string {
-    let taxTag = accountOrGroup.getProperty('tax_rate');
+  private addTaxTransactions(book: Book, accountOrGroup: Account|Group, transaction: bkper.Transaction, txIds: string[]) {
+    let taxTags = [TAX_RATE_LEGACY, TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP];
+    for (const taxTag of taxTags) {
+      let taxTxId = this.getTaxTransactionId(book, accountOrGroup, transaction, taxTag);
+      if (taxTxId != null) {
+        txIds.push(taxTxId);
+      }
+    }
+  }
 
-    if (taxTag == null || taxTag.trim() == '') {
+  private getTaxTransactionId(book: Book, accountOrGroup: Account | Group, transaction: bkper.Transaction, taxProperty: string,): string {
+
+    let taxPropertyValue = accountOrGroup.getProperty(taxProperty);
+
+    if (taxPropertyValue == null || taxPropertyValue.trim() == '') {
       return null;
     }
 
-    let tax = new Number(taxTag).valueOf();
+    let taxTag = taxProperty == TAX_RATE_LEGACY ? 'tax' : taxProperty;
 
-    if (tax == 0) {
-      return null;
-    }
-
-    if (tax < 0) {
-      tax *= -1;
-    }
-
-    return `${super.getId(transaction, accountOrGroup)}`
+    return `${super.getId(taxTag, transaction, accountOrGroup)}`
   }
 
 }

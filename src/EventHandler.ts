@@ -17,8 +17,8 @@ export default abstract class EventHandler {
     return this.processTransaction(book, transaction);
   }
 
-  protected getId(transaction: bkper.Transaction, accountOrGroup: Account | Group) {
-    return `tax_${transaction.id}_${accountOrGroup.getId()}`;
+  protected getId(taxTag: string, transaction: bkper.Transaction, accountOrGroup: Account | Group) {
+    return `${taxTag}_${transaction.id}_${accountOrGroup.getId()}`;
   }
 
 }
