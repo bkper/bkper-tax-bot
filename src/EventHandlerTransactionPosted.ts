@@ -148,10 +148,17 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       return null;
     }
 
+    let isIncluded = (taxProperty == TAX_INCLUDED_PROP || (taxProperty == TAX_RATE_LEGACY && tax.gt(0)));
+
+
     // Fixed tax_amount overrides included tax
-    let amount: Amount = taxAmount && taxAmount.gt(0) && tax.gt(0) ? taxAmount : netAmount.times(tax.div(100));
-    
+    let amount: Amount = isIncluded && taxAmount ? taxAmount : netAmount.times(tax.div(100));
+
     amount = amount.abs();
+
+    if (amount.eq(0)) {
+      return null;
+    }
 
     let tax_description = accountOrGroup.getProperty(TAX_DESCRIPTION_PROP);
 
