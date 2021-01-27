@@ -28,10 +28,10 @@
   resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.1.tgz#e5093db9895a631e1d3767724d1eba6bdebc248f"
   integrity sha512-cnaUjbejMfG2w7DqEg20Tt1IYHKxh00b5rJ36npGWLf/yEYy1vdtGu/DkidoQFpqkkxF7XPNo5YvDPyiE438oA==
 
-"@bkper/bkper-api-types@^3.7.2":
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.2.tgz#81b3970cea516f0be7838689499d1148576916a1"
-  integrity sha512-b2HFF+xReM72gvvHzyUoLgAnMlkzoKjMn06NX5Fj17AtdyKjKC5l7kcQd4xqC6m4LE++bQ/2blTxSgtaqB935Q==
+"@bkper/bkper-api-types@^3.7.4":
+  version "3.7.4"
+  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.4.tgz#70de18a3b1a8780791c1c7003bb0dffc6288e76a"
+  integrity sha512-uM32YhiJClnUw+x/WorCbArdlLPHdGFsJY4Y3p2f/eNaceXj6EIoV/j9UZOXij0BVKhv6kxox4I6Pp+Bcd1pxA==
 
 "@eslint/eslintrc@^0.2.2":
   version "0.2.2"
@@ -436,16 +436,17 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-bkper@^1.5.4:
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.5.4.tgz#4ade5b9f1730aca78bcb1a5b87b88748da1a4982"
-  integrity sha512-Qpn9PMhI9xd8Mu1HVqmMiJ4eHfb9pBzFlIkCJvXMm4XtyYNbLhzfbm1v9qwT2PpjBCwl3XxwMzBElguxhZORkA==
+bkper@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.6.0.tgz#d4352ec5ac6b01da36f783493a4a6bd770e1096c"
+  integrity sha512-ALHJe+W4XVSvJHSJayI6XR+bfJIc3+rHDAve3/9IeNi47jWJj3M3aZTztWo6QyUF7iRDSJOogYkYiaKkQwfD5g==
   dependencies:
-    "@bkper/bkper-api-types" "^3.7.2"
+    "@bkper/bkper-api-types" "^3.7.4"
     "@google-cloud/local-auth" "^1.0.0"
     big.js "^6.0.3"
     commander "^6.2.1"
     dayjs "^1.10.3"
+    dotenv "^8.2.0"
     google-auth-library "^6.1.4"
     luxon "^1.25.0"
     node-fetch "^2.6.1"

@@ -1,0 +1,54 @@
+{
+  "id": "sales-tax-bot",
+  "name": "Tax Bot",
+  "description": "Calculate VAT, GST and other sales taxes based on the transaction amount",
+  "logoUrl": "https://static.thenounproject.com/png/2318500-200.png",
+  "website": "https://bkper.com/bots/sales-tax-bot",
+  "ownerName": "Bkper",
+  "ownerLogoUrl": "https://avatars.githubusercontent.com/u/11943086?v=4",
+  "ownerWebsite": "https://bkper.com",
+  "repoUrl": "https://github.com/bkper/tax-bot",
+  "repoPrivate": false,
+  "deprecated": false,
+  "clientId": "441766948117-9ls7hs1gq9vdh7rc5h30vqhdjob5jlfc.apps.googleusercontent.com",
+  "scopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/script.external_request"
+  ],
+  "webhookUrl": "https://us-central1-bkper-tax-trigger.cloudfunctions.net/prod",
+  "events": [
+    "TRANSACTION_POSTED",
+    "TRANSACTION_DELETED",
+    "TRANSACTION_RESTORED",
+    "TRANSACTION_UPDATED"
+  ],
+  "propertiesSchema": {
+    "group": {
+      "keys": [
+        "tax_excluded",
+        "tax_included",
+        "tax_description"
+      ],
+      "values": [
+        "${transaction.description}",
+        "${account.name}"
+      ]
+    },
+    "account": {
+      "keys": [
+        "tax_rate",
+        "tax_description"
+      ],
+      "values": [
+        "${transaction.description}",
+        "${account.name}"
+      ]
+    },
+    "transaction": {
+      "keys": [
+        "tax_round",
+        "tax_amount"
+      ]
+    }
+  }
+}
