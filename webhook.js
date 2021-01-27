@@ -11,7 +11,7 @@ const app = Bkper.setApiKey(process.env.BKPER_API_KEY);
 
 (async () => {
   try {
-    const tunnel = await localtunnel({ port: 3003 });
+    const tunnel = await localtunnel({ port: 3001 });
     await app.setWebhookUrlDev(tunnel.url).patch()
     console.log(`Listening at ${tunnel.url}`);
     tunnel.on('close', async () => {

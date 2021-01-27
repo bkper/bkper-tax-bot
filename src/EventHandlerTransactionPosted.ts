@@ -110,12 +110,12 @@ export default class EventHandlerTransactionPosted extends EventHandler {
   private async getTaxTransactions(book: Book, account: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount): Promise<Transaction[]> {
 
     let transactions: Transaction[] = [];
-    this.addTaxTransactions(book, account, transaction, netAmount, taxAmount, transactions);
+    this.addTaxTransactions(book, account, account, transaction, netAmount, taxAmount, transactions);
 
     let groups = await account.getGroups();
     if (groups != null) {
       for (var group of groups) {
-        this.addTaxTransactions(book, group, transaction, netAmount, taxAmount, transactions);
+        this.addTaxTransactions(book, group, account, transaction, netAmount, taxAmount, transactions);
       }
     }
 
@@ -124,10 +124,10 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
 
 
-  private addTaxTransactions(book: Book, accountOrGroup: Account|Group, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount, transactions: Transaction[]) {
+  private addTaxTransactions(book: Book, accountOrGroup: Account|Group, account: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount, transactions: Transaction[]) {
     let taxTags = [TAX_RATE_LEGACY, TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP];
     for (const taxTag of taxTags) {
-      let taxTx = this.createTaxTransaction(book, accountOrGroup, accountOrGroup.getName(), transaction, taxTag, netAmount, taxAmount);
+      let taxTx = this.createTaxTransaction(book, accountOrGroup, account.getName(), transaction, taxTag, netAmount, taxAmount);
       if (taxTx != null) {
         transactions.push(taxTx);
       }
