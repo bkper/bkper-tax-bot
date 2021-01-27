@@ -9,6 +9,7 @@
     "clean": "gts clean",
     "upgrade:bkper": "yarn upgrade bkper --latest",
     "upgrade:api": "yarn upgrade @bkper/bkper-api-types --latest",
+    "bkper:sync": "bkper app -u",
     "build": "yarn clean && tsc && cp package.json dist/",
     "watch": "run-p watch:*",
     "watch:compile": "tsc -w --incremental",
@@ -39,7 +40,7 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^1.7.1",
-    "bkper": "^1.7.0",
+    "bkper": "^1.7.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",
