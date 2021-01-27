@@ -23,15 +23,10 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@bkper/bkper-api-types@^3.7.1":
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.1.tgz#e5093db9895a631e1d3767724d1eba6bdebc248f"
-  integrity sha512-cnaUjbejMfG2w7DqEg20Tt1IYHKxh00b5rJ36npGWLf/yEYy1vdtGu/DkidoQFpqkkxF7XPNo5YvDPyiE438oA==
-
-"@bkper/bkper-api-types@^3.7.4":
-  version "3.7.4"
-  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.4.tgz#70de18a3b1a8780791c1c7003bb0dffc6288e76a"
-  integrity sha512-uM32YhiJClnUw+x/WorCbArdlLPHdGFsJY4Y3p2f/eNaceXj6EIoV/j9UZOXij0BVKhv6kxox4I6Pp+Bcd1pxA==
+"@bkper/bkper-api-types@^3.7.5":
+  version "3.7.5"
+  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.5.tgz#f16514d569f64b7d62c8bc9caf0859f4cbca0432"
+  integrity sha512-KrVMm1/zTYvuqZGvkr6a3FEKF1pH59TZmn1m7pY5pKOG2UTN5Z7ztg7/JELI9PE5D8HPUkNw7I4fxrvmJvsOEw==
 
 "@eslint/eslintrc@^0.2.2":
   version "0.2.2"
@@ -436,12 +431,12 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-bkper@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.6.0.tgz#d4352ec5ac6b01da36f783493a4a6bd770e1096c"
-  integrity sha512-ALHJe+W4XVSvJHSJayI6XR+bfJIc3+rHDAve3/9IeNi47jWJj3M3aZTztWo6QyUF7iRDSJOogYkYiaKkQwfD5g==
+bkper@^1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.7.0.tgz#a889692427152562970aeb65be707fe5a92c4c82"
+  integrity sha512-JDMgqh2/6D1KHCZXAkUDCY82zyXeAdIc/SP0t90Wib/HyPdNvUK6WZOLcMtkelNMNbt5tNSXd8nbY26QCTxrZA==
   dependencies:
-    "@bkper/bkper-api-types" "^3.7.4"
+    "@bkper/bkper-api-types" "^3.7.5"
     "@google-cloud/local-auth" "^1.0.0"
     big.js "^6.0.3"
     commander "^6.2.1"
@@ -738,9 +733,9 @@ crypto-random-string@^2.0.0:
   integrity sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==
 
 dayjs@^1.10.3:
-  version "1.10.3"
-  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.3.tgz#cf3357c8e7f508432826371672ebf376cb7d619b"
-  integrity sha512-/2fdLN987N8Ki7Id8BUN2nhuiRyxTLumQnSQf9CNncFCyqFsSKb9TNhzRYcC8K8eJSJOKvbvkImo/MKKhNi4iw==
+  version "1.10.4"
+  resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.10.4.tgz#8e544a9b8683f61783f570980a8a80eaf54ab1e2"
+  integrity sha512-RI/Hh4kqRc1UKLOAf/T5zdMMX5DQIlDxwUe3wSyMMnEbGunnpENCdbUgM+dW7kXidZqCttBrmw7BhN4TMddkCw==
 
 debug@2.6.9, debug@^2.2.0:
   version "2.6.9"
@@ -1407,9 +1402,9 @@ globby@^11.0.1:
     slash "^3.0.0"
 
 google-auth-library@^6.0.0, google-auth-library@^6.1.4:
-  version "6.1.4"
-  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-6.1.4.tgz#bc70c4f3b6681ae5273343466bcef37577b7ee44"
-  integrity sha512-q0kYtGWnDd9XquwiQGAZeI2Jnglk7NDi0cChE4tWp6Kpo/kbqnt9scJb0HP+/xqt03Beqw/xQah1OPrci+pOxw==
+  version "6.1.6"
+  resolved "https://registry.yarnpkg.com/google-auth-library/-/google-auth-library-6.1.6.tgz#deacdcdb883d9ed6bac78bb5d79a078877fdf572"
+  integrity sha512-Q+ZjUEvLQj/lrVHF/IQwRo6p3s8Nc44Zk/DALsN+ac3T4HY/g/3rrufkgtl+nZ1TW7DNAw5cTChdVp4apUXVgQ==
   dependencies:
     arrify "^2.0.0"
     base64-js "^1.3.0"
@@ -1451,14 +1446,13 @@ graceful-fs@^4.1.2:
   integrity sha512-WjKPNJF79dtJAVniUlGGWHYGz2jWxT6VhN/4m1NdkbZ2nOsEF+cI1Edgql5zCRhs/VsQYRvrXctxktVXZUkixw==
 
 gtoken@^5.0.4:
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-5.2.0.tgz#7f1e029f9472bb8899d6911c03c66f7ad985c849"
-  integrity sha512-qbf6JWEYFMj3WMAluvYXl8GAiji6w8d9OmAGCbBg0xF4xD/yu6ZaO6BhoXNddRjKcOUpZD81iea1H5B45gAo1g==
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/gtoken/-/gtoken-5.2.1.tgz#4dae1fea17270f457954b4a45234bba5fc796d16"
+  integrity sha512-OY0BfPKe3QnMsY9MzTHTSKn+Vl2l1CcLe6BwDEQj00mbbkl5nyQ/7EUREstg4fQNZ8iYE7br4JJ7TdKeDOPWmw==
   dependencies:
     gaxios "^4.0.0"
     google-p12-pem "^3.0.3"
     jws "^4.0.0"
-    mime "^2.2.0"
 
 gts@^3.0.3:
   version "3.1.0"
@@ -2059,11 +2053,6 @@ mime@1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/mime/-/mime-1.6.0.tgz#32cd9e5c64553bd58d19a568af452acff04981b1"
   integrity sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
-
-mime@^2.2.0:
-  version "2.4.7"
-  resolved "https://registry.yarnpkg.com/mime/-/mime-2.4.7.tgz#962aed9be0ed19c91fd7dc2ece5d7f4e89a90d74"
-  integrity sha512-dhNd1uA2u397uQk3Nv5LM4lm93WYDUXFn3Fu291FJerns4jyTudqhIWe4W04YLy7Uk1tm1Ore04NpjRvQp/NPA==
 
 mimic-fn@^2.1.0:
   version "2.1.0"

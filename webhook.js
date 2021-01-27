@@ -7,7 +7,7 @@ const app = Bkper.setApiKey(process.env.BKPER_API_KEY);
 (async () => {
   const tunnel = await localtunnel({ port: 3001 });
 
-  await app.setWebhookUrlDev(tunnel.url).update()
+  await app.setWebhookUrlDev(tunnel.url).patch()
   console.log(`Listening at ${tunnel.url}`);
   tunnel.on('close', async () => {
     await exit()
@@ -15,7 +15,7 @@ const app = Bkper.setApiKey(process.env.BKPER_API_KEY);
 })();
 
 async function exit() {
-  await app.setWebhookUrlDev(null).update();
+  await app.setWebhookUrlDev(null).patch();
   console.log(' \nRemoved webhook.')
   process.exit();
 }

@@ -28,7 +28,7 @@
     "postversion": "git push && git push --tags && echo \"Successfully released version $npm_package_version!\""
   },
   "devDependencies": {
-    "@bkper/bkper-api-types": "^3.7.1",
+    "@bkper/bkper-api-types": "^3.7.5",
     "@types/express": "^4.17.10",
     "@types/node": "^14.11.2",
     "gts": "^3.0.3",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^1.7.1",
-    "bkper": "^1.6.0",
+    "bkper": "^1.7.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",
