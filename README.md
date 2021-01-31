@@ -35,8 +35,8 @@ Learn more about sales taxes and bots on Bkper:
 
 ## Configuration
 
-The Tax Bot is triggered on the **posting transaction event**. Once triggered it will check accounts or groups' properties whether it has the ```tax_included``` or ```tax_excluded``` properties, and eventually the ```tax_description``` property. When it finds these properties it will read the corresponding values from your book and apply the Tax Bot's logic. In this case it will calculate the tax and record another transaction with the available data.      
-The Tax Bot uses the [book and account properties](https://help.bkper.com/en/articles/3666485-custom-properties-on-books-and-accounts) 
+The Tax Bot is triggered on the ```TRANSACTION_POSTED``` event. Once triggered it will check [group and account properties](https://help.bkper.com/en/articles/3666485-custom-properties-on-books-and-accounts) if it has the ```tax_included``` or ```tax_excluded``` properties. When it finds these properties it will read the corresponding values from your book and apply the Tax Bot's logic. In this case it will calculate the tax and record another transaction with the available data.      
+
 [Learn more...](https://help.bkper.com/en/articles/4127778-bkper-tax-bot).
 
 ### Accounts and/or Group properties
