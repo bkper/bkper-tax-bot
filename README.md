@@ -1,5 +1,7 @@
 
-The Bkper Tax Bot is triggered upon the transaction posting event when either one of the accounts on the transaction has the property "tax_rate" set. It can also be triggered when one of the accounts is in a group with this property.  **Taxes** are calculated based on the transaction amount and the tax_rate property from the account (or group). With the data off the transaction and the tax_rate, the Tax Bot will record a new transaction with the entry for the taxes.  
+**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply.  
+
+Once the taxes calculated, the Tax Bot will record one or more transactions with the entry for the taxes.
 
 <p align="center">
   <img src='https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot.gif' alt='Bkper Tax Bot in action'/>
@@ -33,7 +35,7 @@ Learn more about sales taxes and bots on Bkper:
 
 ## Configuration
 
-The Tax Bot is triggered on the **posting transaction event**. Once triggered it will check both accounts' their properties whether it has the **tax_rate** property and eventually the **tax_Description** property. When it finds these properties it will read the corresponding values from your book and apply the Tax Bot's logic. In this case it will calculate the tax and record another transaction with the available data.      
+The Tax Bot is triggered on the **posting transaction event**. Once triggered it will check accounts or groups' properties whether it has the ```tax_included``` or ```tax_excluded``` properties, and eventually the ```tax_description``` property. When it finds these properties it will read the corresponding values from your book and apply the Tax Bot's logic. In this case it will calculate the tax and record another transaction with the available data.      
 The Tax Bot uses the [book and account properties](https://help.bkper.com/en/articles/3666485-custom-properties-on-books-and-accounts) 
 [Learn more...](https://help.bkper.com/en/articles/4127778-bkper-tax-bot).
 
@@ -81,7 +83,7 @@ Where:
 ### Transaction properties
 
 - ```tax_round```: The number of decimal digits to round the generated taxes. This should be lower than the books decimal digit.
-- ```tax_amount```: The fixed tax amount to override the included taxes calculated based on Group or Account ```tax_rate``` definition
+- ```tax_amount```: The fixed tax amount to override the included taxes calculated based on Group or Account ```tax_included``` definition
 
 Example:
 ```yaml
