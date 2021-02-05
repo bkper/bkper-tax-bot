@@ -14,17 +14,20 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
     transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, creditAccount, transaction));
     transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, debitAccount, transaction));
 
-    let oldCreditAccountId = event.data.previousAttributes['creditAccId'];
-    if (oldCreditAccountId && oldCreditAccountId != transaction.creditAccount.id) {
-      let oldCreditAccount = await book.getAccount(oldCreditAccountId);
-      transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldCreditAccount, transaction));
+    if (event.data.previousAttributes) {
+      let oldCreditAccountId = event.data.previousAttributes['creditAccId'];
+      if (oldCreditAccountId && oldCreditAccountId != transaction.creditAccount.id) {
+        let oldCreditAccount = await book.getAccount(oldCreditAccountId);
+        transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldCreditAccount, transaction));
+      }
+
+      let oldDebitAccountId = event.data.previousAttributes['debitAccId'];
+      if (oldDebitAccountId && oldDebitAccountId != transaction.debitAccount.id) {
+        let oldDebitAccount = await book.getAccount(oldDebitAccountId);
+        transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldDebitAccount, transaction));
+      }
     }
 
-    let oldDebitAccountId = event.data.previousAttributes['debitAccId'];
-    if (oldDebitAccountId && oldDebitAccountId != transaction.debitAccount.id) {
-      let oldDebitAccount = await book.getAccount(oldDebitAccountId);
-      transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldDebitAccount, transaction));
-    }
 
     if (transactionsIds.length == 0) {
       return false;
