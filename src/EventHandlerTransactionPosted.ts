@@ -1,5 +1,5 @@
 import { Account, Book, Group, Transaction, Amount } from "bkper";
-import { ACCOUNT_NAME_EXP, TAX_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP, TAX_RATE_LEGACY, TAX_ROUND_PROP, TRANSACTION_DESCRIPTION_EXP } from "./constants";
+import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RRATE_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_INCLUDED_ROUND_PROP } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -17,7 +17,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     let fullNonIncludedTax = await this.getFullTaxRate_(book, creditAccount, debitAccount, false);
     let netAmount = new Amount(transaction.amount);
 
-    let taxAmount = transaction.properties[TAX_AMOUNT_PROP] ? book.parseValue(transaction.properties[TAX_AMOUNT_PROP]) : null;
+    let taxAmount = transaction.properties[TAX_INCLUDED_AMOUNT_PROP] ? book.parseValue(transaction.properties[TAX_INCLUDED_AMOUNT_PROP]) : null;
 
     //Ensure tax amount positive
     if (taxAmount) {
@@ -81,13 +81,13 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
   private getTaxRateFromAccountOrGroup_(book: Book, accountOrGroup: Account | Group, included: boolean): Amount {
 
-    let taxTag = accountOrGroup.getProperty(TAX_RATE_LEGACY);
+    let taxTag = accountOrGroup.getProperty(TAX_RATE_LEGACY_PROP);
     if (taxTag == null) {
-      let taxIncluded = accountOrGroup.getProperty(TAX_INCLUDED_PROP);
+      let taxIncluded = accountOrGroup.getProperty(TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP);
       if (included && taxIncluded) {
         return book.parseValue(taxIncluded);
       }
-      let taxExcluded = accountOrGroup.getProperty(TAX_EXCLUDED_PROP);
+      let taxExcluded = accountOrGroup.getProperty(TAX_EXCLUDED_RRATE_PROP, TAX_EXCLUDED_LEGACY_PROP);
       if (!included && taxExcluded) {
         return book.parseValue(taxExcluded);
       }
@@ -125,7 +125,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
 
   private addTaxTransactions(book: Book, accountOrGroup: Account|Group, account: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount, transactions: Transaction[]) {
-    let taxTags = [TAX_RATE_LEGACY, TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP];
+    let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RRATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
     for (const taxTag of taxTags) {
       let taxTx = this.createTaxTransaction(book, accountOrGroup, account.getName(), transaction, taxTag, netAmount, taxAmount);
       if (taxTx != null) {
@@ -148,8 +148,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       return null;
     }
 
-    let isIncluded = (taxProperty == TAX_INCLUDED_PROP || (taxProperty == TAX_RATE_LEGACY && tax.gt(0)));
-
+    let isIncluded = (taxProperty == TAX_INCLUDED_RATE_PROP || taxProperty == TAX_INCLUDED_LEGACY_PROP || (taxProperty == TAX_RATE_LEGACY_PROP && tax.gt(0)));
 
     // Fixed tax_amount overrides included tax
     let amount: Amount = isIncluded && taxAmount ? taxAmount : netAmount.times(tax.div(100));
@@ -166,15 +165,17 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       tax_description = '';
     }
 
-    let tax_round = +transaction.properties[TAX_ROUND_PROP];
-    if (tax_round != null && !isNaN(tax_round) && tax_round <= 8) {
-      amount = amount.round(tax_round);
+    if (isIncluded) {
+      let tax_round = +(transaction.properties[TAX_INCLUDED_ROUND_PROP] || transaction.properties[TAX_INCLUDED_LEGACY_PROP]);
+      if (tax_round != null && !isNaN(tax_round) && tax_round <= 8) {
+        amount = amount.round(tax_round);
+      }
     }
 
     tax_description = tax_description.replace(TRANSACTION_DESCRIPTION_EXP, transaction.description);
     tax_description = tax_description.replace(ACCOUNT_NAME_EXP, accountName);
 
-    let taxTag = taxProperty == TAX_RATE_LEGACY ? 'tax' : taxProperty;
+    let taxTag = taxProperty == TAX_RATE_LEGACY_PROP ? 'tax' : taxProperty;
 
     let id = `${super.getId(taxTag, transaction, accountOrGroup)}`
 

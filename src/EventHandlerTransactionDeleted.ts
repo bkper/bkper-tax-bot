@@ -1,5 +1,5 @@
 import { Account, Book, Group } from "bkper";
-import { TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP, TAX_RATE_LEGACY } from "./constants";
+import { TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP, TAX_RATE_LEGACY_PROP } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionDeleted extends EventHandler {
@@ -55,7 +55,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
   }
 
   private addTaxTransactions(book: Book, accountOrGroup: Account|Group, transaction: bkper.Transaction, txIds: string[]) {
-    let taxTags = [TAX_RATE_LEGACY, TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP];
+    let taxTags = [TAX_RATE_LEGACY_PROP, TAX_EXCLUDED_PROP, TAX_INCLUDED_PROP];
     for (const taxTag of taxTags) {
       let taxTxId = this.getTaxTransactionId(book, accountOrGroup, transaction, taxTag);
       if (taxTxId != null) {
@@ -72,7 +72,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
       return null;
     }
 
-    let taxTag = taxProperty == TAX_RATE_LEGACY ? 'tax' : taxProperty;
+    let taxTag = taxProperty == TAX_RATE_LEGACY_PROP ? 'tax' : taxProperty;
 
     return `${super.getId(taxTag, transaction, accountOrGroup)}`
   }

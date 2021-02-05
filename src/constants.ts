@@ -1,8 +1,15 @@
-export const TAX_INCLUDED_PROP = 'tax_included';
-export const TAX_EXCLUDED_PROP = 'tax_excluded';
+
+
+export const TAX_INCLUDED_RATE_PROP = 'tax_included_rate';
+export const TAX_EXCLUDED_RRATE_PROP = 'tax_excluded_rate';
 export const TAX_DESCRIPTION_PROP = 'tax_description';
-export const TAX_ROUND_PROP = 'tax_round';
 export const TRANSACTION_DESCRIPTION_EXP = '${transaction.description}';
 export const ACCOUNT_NAME_EXP = '${account.name}';
-export const TAX_AMOUNT_PROP = 'tax_amount';
-export const TAX_RATE_LEGACY = 'tax_rate';
+export const TAX_INCLUDED_AMOUNT_PROP = 'tax_included_amount';
+export const TAX_INCLUDED_ROUND_PROP = 'tax_included_round';
+
+//Deprecated
+export const TAX_ROUND_LEGACY_PROP = 'tax_round';
+export const TAX_INCLUDED_LEGACY_PROP = 'tax_included';
+export const TAX_EXCLUDED_LEGACY_PROP = 'tax_excluded';
+export const TAX_RATE_LEGACY_PROP = 'tax_rate';

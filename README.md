@@ -1,5 +1,7 @@
 
-**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply.  
+**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply.
+
+They can be **included** in overall transaction amount, such as VAT, or **excluded** such as income taxes.
 
 Once the taxes calculated, the Tax Bot will record one or more transactions with the entry for the taxes.
 
@@ -8,11 +10,11 @@ Once the taxes calculated, the Tax Bot will record one or more transactions with
 </p>
 
 
-### Tax on sale example
+### Included tax on sale example
 ![Tax on sale example](https://docs.google.com/drawings/d/e/2PACX-1vSwYOxDA3k5U5I_jVsa2qzJOCXDiUWTLet_TY2VMFetrkGOwjKKNCZb6ygfSLz1V-bWrsDixVvSRRvX/pub?w=936&h=488)
 
 
-### Tax on purchase example
+### Included tax on purchase example
 ![Tax on sale example](https://docs.google.com/drawings/d/e/2PACX-1vSQ5qwre1ivZZulAcKPRARYgpDiOyRdJ52LdaImkVPsCiYZOZGqqkUg-k4YgLhR4GHsOjwv7D5eLDQo/pub?w=936&h=488)
     
 
@@ -35,7 +37,7 @@ Learn more about sales taxes and bots on Bkper:
 
 ## Configuration
 
-The Tax Bot is triggered on the ```TRANSACTION_POSTED``` event. Once triggered it will check [group and account properties](https://help.bkper.com/en/articles/3666485-custom-properties-on-books-and-accounts) if it has the ```tax_included``` or ```tax_excluded``` properties. When it finds these properties it will read the corresponding values from your book and apply the Tax Bot's logic. In this case it will calculate the tax and record another transaction with the available data.      
+The Tax Bot is triggered on the ```TRANSACTION_POSTED``` event. Once triggered it will check [group and account properties](https://help.bkper.com/en/articles/3666485-custom-properties-on-books-and-accounts) if it has the ```tax_included_rate``` or ```tax_excluded_rate``` properties. When it finds these properties it will read the corresponding values from your book and apply the Tax Bot's logic. In this case it will calculate the tax and record another transaction with the available data.      
 
 [Learn more...](https://help.bkper.com/en/articles/4127778-bkper-tax-bot).
 
@@ -43,20 +45,20 @@ The Tax Bot is triggered on the ```TRANSACTION_POSTED``` event. Once triggered i
 
 Set the following account properties on accounts (or group) that should trigger the Tax Bot.    
 
-- ```tax_excluded```: The tax rate to apply, calculating the tax based on the transaction amount.
-- ```tax_included```: The tax rate to apply, extracting the tax already included in the transaction amount.
+- ```tax_excluded_rate```: The tax rate to apply, calculating the tax based on the transaction amount.
+- ```tax_included_rate```: The tax rate to apply, extracting the tax already included in the transaction amount.
 - ```tax_description```: The description of the generated transaction
 
 
 Generating addional 7% of income tax:
 ```yaml
-tax_excluded: 7
+tax_excluded_rate: 7
 tax_description: #incometax
 ```
 
 Extracting 12.85% of VAT, already included in the transaction:
 ```yaml
-tax_included: 12.85
+tax_included_rate: 12.85
 tax_description: #vatin
 ```
 
@@ -82,8 +84,8 @@ Where:
 
 ### Transaction properties
 
-- ```tax_round```: The number of decimal digits to round the generated taxes. This should be lower than the books decimal digit.
-- ```tax_amount```: The fixed tax amount to override the included taxes calculated based on Group or Account ```tax_included``` definition
+- ```tax_included_round```: The number of decimal digits to round the generated included taxes. This should be lower than the books decimal digit.
+- ```tax_included_amount```: The fixed tax amount to override the included taxes calculated based on Group or Account ```tax_included`_rate`` definition
 
 Example:
 ```yaml

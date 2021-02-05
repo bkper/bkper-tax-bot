@@ -22,8 +22,8 @@
   "propertiesSchema": {
     "group": {
       "keys": [
-        "tax_excluded",
-        "tax_included",
+        "tax_included_rate",
+        "tax_excluded_rate",
         "tax_description"
       ],
       "values": [
@@ -33,7 +33,8 @@
     },
     "account": {
       "keys": [
-        "tax_rate",
+        "tax_included_rate",
+        "tax_excluded_rate",
         "tax_description"
       ],
       "values": [
@@ -43,8 +44,8 @@
     },
     "transaction": {
       "keys": [
-        "tax_round",
-        "tax_amount"
+        "tax_included_round",
+        "tax_included_amount"
       ]
     }
   }
