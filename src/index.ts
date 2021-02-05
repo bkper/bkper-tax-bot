@@ -6,6 +6,7 @@ import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted";
 import { Request, Response } from 'express';
 import express = require('express');
 import httpContext = require('express-http-context');
+import EventHandlerTransactionUpdated from './EventHandlerTransactionUpdated';
 
 require('dotenv').config()
 
@@ -52,8 +53,7 @@ async function handleEvent(req: Request, res: Response) {
         result.result = await new EventHandlerTransactionPosted().handleEvent(event);
         break;
       case 'TRANSACTION_UPDATED':
-        await new EventHandlerTransactionDeleted().handleEvent(event)
-        result.result = await new EventHandlerTransactionPosted().handleEvent(event);
+        result.result = await new EventHandlerTransactionUpdated().handleEvent(event);
         break;
     }
 

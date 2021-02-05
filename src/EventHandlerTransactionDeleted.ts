@@ -1,10 +1,10 @@
 import { Account, Book, Group } from "bkper";
-import {TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RRATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP } from "./constants";
+import {TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionDeleted extends EventHandler {
 
-  protected async processTransaction(book: Book, transaction: bkper.Transaction): Promise<string[] | string | boolean> {
+  protected async processTransaction(book: Book, transaction: bkper.Transaction, event: bkper.Event): Promise<string[] | string | boolean> {
     var creditAccount = await book.getAccount(transaction.creditAccount.id);
     
     var debitAccount = await book.getAccount(transaction.debitAccount.id);
@@ -13,6 +13,18 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
 
     transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, creditAccount, transaction));
     transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, debitAccount, transaction));
+
+    let oldCreditAccountId = event.data.previousAttributes['creditAccId'];
+    if (oldCreditAccountId && oldCreditAccountId != transaction.creditAccount.id) {
+      let oldCreditAccount = await book.getAccount(oldCreditAccountId);
+      transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldCreditAccount, transaction));
+    }
+
+    let oldDebitAccountId = event.data.previousAttributes['debitAccId'];
+    if (oldDebitAccountId && oldDebitAccountId != transaction.debitAccount.id) {
+      let oldDebitAccount = await book.getAccount(oldDebitAccountId);
+      transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldDebitAccount, transaction));
+    }
 
     if (transactionsIds.length == 0) {
       return false;
@@ -27,7 +39,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
           tx = await tx.uncheck();
         }
         tx = await tx.remove();
-        deletedRecords.push(`DELETED: ${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`)
+        deletedRecords.push(`DELETED: ${tx.getDateFormatted()} ${book.formatValue(tx.getAmount())} ${tx.getDescription()}`)
       }
     }
 
@@ -55,7 +67,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
   }
 
   private addTaxTransactions(book: Book, accountOrGroup: Account|Group, transaction: bkper.Transaction, txIds: string[]) {
-    let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RRATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
+    let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
     for (const taxTag of taxTags) {
       let taxTxId = this.getTaxTransactionId(book, accountOrGroup, transaction, taxTag);
       if (taxTxId != null) {

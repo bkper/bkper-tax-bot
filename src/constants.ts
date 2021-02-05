@@ -1,7 +1,7 @@
 
 
 export const TAX_INCLUDED_RATE_PROP = 'tax_included_rate';
-export const TAX_EXCLUDED_RRATE_PROP = 'tax_excluded_rate';
+export const TAX_EXCLUDED_RATE_PROP = 'tax_excluded_rate';
 export const TAX_DESCRIPTION_PROP = 'tax_description';
 export const TRANSACTION_DESCRIPTION_EXP = '${transaction.description}';
 export const ACCOUNT_NAME_EXP = '${account.name}';

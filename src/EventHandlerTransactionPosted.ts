@@ -1,10 +1,10 @@
 import { Account, Book, Group, Transaction, Amount } from "bkper";
-import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RRATE_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_INCLUDED_ROUND_PROP } from "./constants";
+import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_INCLUDED_ROUND_PROP } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
 
-  protected async processTransaction(book: Book, transaction: bkper.Transaction): Promise<string[] | string | boolean> {
+  protected async processTransaction(book: Book, transaction: bkper.Transaction, event: bkper.Event): Promise<string[] | string | boolean> {
 
     if (transaction.agentId == 'sales-tax-bot') {
       console.log("Same payload agent. Preventing bot loop.");
@@ -50,7 +50,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     if (transactions.length > 0) {
       transactions = await book.batchCreateTransactions(transactions);
       if (transactions.length > 0) {
-        return transactions.map(tx => `POSTED: ${tx.getDateFormatted()} ${tx.getAmount()} ${tx.getDescription()}`);
+        return transactions.map(tx => `POSTED: ${tx.getDateFormatted()} ${book.formatValue(tx.getAmount())} ${tx.getDescription()}`);
       } else {
         return false;
       }
@@ -87,7 +87,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       if (included && taxIncluded) {
         return book.parseValue(taxIncluded);
       }
-      let taxExcluded = accountOrGroup.getProperty(TAX_EXCLUDED_RRATE_PROP, TAX_EXCLUDED_LEGACY_PROP);
+      let taxExcluded = accountOrGroup.getProperty(TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP);
       if (!included && taxExcluded) {
         return book.parseValue(taxExcluded);
       }
@@ -125,7 +125,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
 
   private addTaxTransactions(book: Book, accountOrGroup: Account|Group, account: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount, transactions: Transaction[]) {
-    let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RRATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
+    let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
     for (const taxTag of taxTags) {
       let taxTx = this.createTaxTransaction(book, accountOrGroup, account.getName(), transaction, taxTag, netAmount, taxAmount);
       if (taxTx != null) {
