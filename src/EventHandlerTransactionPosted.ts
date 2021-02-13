@@ -95,6 +95,11 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       
     } else {
       const tax = book.parseValue(taxTag);
+
+      if (!tax) {
+        return new Amount('0');
+      }
+
       if (included && tax.lt(0)) {
         return new Amount('0');
       }
