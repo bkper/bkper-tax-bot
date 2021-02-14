@@ -28,6 +28,11 @@
   resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.5.tgz#f16514d569f64b7d62c8bc9caf0859f4cbca0432"
   integrity sha512-KrVMm1/zTYvuqZGvkr6a3FEKF1pH59TZmn1m7pY5pKOG2UTN5Z7ztg7/JELI9PE5D8HPUkNw7I4fxrvmJvsOEw==
 
+"@bkper/bkper-api-types@^3.7.6":
+  version "3.7.6"
+  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.6.tgz#31242a1462da7b1a652ed77aa40478d7df6fc676"
+  integrity sha512-yLs+q8oGMWG4KyAAC5vi3k/JgktpkzqTnKTm5kaDp2Dm9oijuYRGb3dZJhpvaQWIB+KGDDnUwwlZ2T6q+o5iJA==
+
 "@eslint/eslintrc@^0.2.2":
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.2.2.tgz#d01fc791e2fc33e88a29d6f3dc7e93d0cd784b76"
@@ -431,12 +436,12 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.2.0.tgz#75f502eeaf9ffde42fc98829645be4ea76bd9e2d"
   integrity sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
 
-bkper@^1.7.1:
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.7.1.tgz#d8645dbf2ce233d7ad96750f7ceb6733cdaf9256"
-  integrity sha512-vZax6iCA1AOIEnfc2LaQ9GL41Q6vJQS5u6lQsYB+vPA+PfYhna3Th3yLaiquWpYRBhygrr4T8khWWGlhkEw1yg==
+bkper@^1.7.7:
+  version "1.7.7"
+  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.7.7.tgz#51ed12c60b616c28cd7a8d385e9398b13002caec"
+  integrity sha512-JoBtTyd+lGLqzc1XpWRU55IgDVISnS43AWyZwLhYi0gxq+E6LV0iZkGdxEtjRPXm2LsUfWMf8Zause0d6JOb5A==
   dependencies:
-    "@bkper/bkper-api-types" "^3.7.5"
+    "@bkper/bkper-api-types" "^3.7.6"
     "@google-cloud/local-auth" "^1.0.0"
     big.js "^6.0.3"
     commander "^6.2.1"
