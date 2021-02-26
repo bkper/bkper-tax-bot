@@ -66,20 +66,16 @@ tax_description: #vatin
 
 Expressions are like variables that allow you to dynamically use values from the posting event that triggered the Tax Bot, consisting of the **account name** and the **transaction description**. This allows you to complete accounts on the newly recorded transaction by the bot and to have a significant description that links to the original transaction. 
 
-You can add these two expressions to the **tax_description** property of the account that has to trigger the tax bot to dynamically generate the new transaction.
+You can add these expressions to the **tax_description** property of the account that has to trigger the tax bot to dynamically generate the new transaction.
 
-- ```${account.name}```  
-- ```${transaction.description}```
+- ```${account.name}```: The account name of the account that triggered the Tax Bot.
+- ```${account.contra.name}```: The contra account name of the account that triggered the Tax Bot.
+- ```${transaction.description}```: The same description that comes from the posted transaction that triggered the Tax Bot. 
 
 Example of the account property using these expressions:
 ``` yaml
 tax_description: ${account.name} Input Tax #vatin ${transaction.description}
 ```
-Where:
-- ```${account.name}```  Is the account name of the account that triggered the Tax Bot.
-- ```Input Tax``` Is the "constant" account name to complete the newly recorded tax transactions.  
-- ```#vatin``` Is a sample of hashtag use.
-- ```${transaction.description}``` Is the same description that comes from the posted transaction that triggered the tax bot.  
 
 
 ### Transaction properties

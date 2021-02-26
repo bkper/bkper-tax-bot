@@ -1,5 +1,5 @@
 import { Account, Book, Group, Transaction, Amount } from "bkper";
-import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_INCLUDED_ROUND_PROP } from "./constants";
+import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_INCLUDED_ROUND_PROP, ACCOUNT_CONTRA_NAME_EXP } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -44,8 +44,8 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     let transactions: Transaction[] = [];
 
-    transactions = transactions.concat(await this.getTaxTransactions(book, creditAccount, transaction, netAmount, taxAmount));
-    transactions = transactions.concat(await this.getTaxTransactions(book, debitAccount, transaction, netAmount, taxAmount));
+    transactions = transactions.concat(await this.getTaxTransactions(book, creditAccount, debitAccount, transaction, netAmount, taxAmount));
+    transactions = transactions.concat(await this.getTaxTransactions(book, debitAccount, creditAccount, transaction, netAmount, taxAmount));
 
     if (transactions.length > 0) {
       transactions = await book.batchCreateTransactions(transactions);
@@ -112,15 +112,15 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     }
   }
 
-  private async getTaxTransactions(book: Book, account: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount): Promise<Transaction[]> {
+  private async getTaxTransactions(book: Book, account: Account, contraAccount: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount): Promise<Transaction[]> {
 
     let transactions: Transaction[] = [];
-    this.addTaxTransactions(book, account, account, transaction, netAmount, taxAmount, transactions);
+    this.addTaxTransactions(book, account, account, contraAccount, transaction, netAmount, taxAmount, transactions);
 
     let groups = await account.getGroups();
     if (groups != null) {
       for (var group of groups) {
-        this.addTaxTransactions(book, group, account, transaction, netAmount, taxAmount, transactions);
+        this.addTaxTransactions(book, group, account, contraAccount, transaction, netAmount, taxAmount, transactions);
       }
     }
 
@@ -129,17 +129,17 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
 
 
-  private addTaxTransactions(book: Book, accountOrGroup: Account|Group, account: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount, transactions: Transaction[]) {
+  private addTaxTransactions(book: Book, accountOrGroup: Account|Group, account: Account, contraAccount: Account, transaction: bkper.Transaction, netAmount: Amount, taxAmount: Amount, transactions: Transaction[]) {
     let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
     for (const taxTag of taxTags) {
-      let taxTx = this.createTaxTransaction(book, accountOrGroup, account.getName(), transaction, taxTag, netAmount, taxAmount);
+      let taxTx = this.createTaxTransaction(book, accountOrGroup, account.getName(), contraAccount.getName(), transaction, taxTag, netAmount, taxAmount);
       if (taxTx != null) {
         transactions.push(taxTx);
       }
     }
   }
 
-  private createTaxTransaction(book: Book, accountOrGroup: Account | Group, accountName: string, transaction: bkper.Transaction, taxProperty: string, netAmount: Amount, taxAmount: Amount): Transaction {
+  private createTaxTransaction(book: Book, accountOrGroup: Account | Group, accountName: string, contraAccountName: string, transaction: bkper.Transaction, taxProperty: string, netAmount: Amount, taxAmount: Amount): Transaction {
 
     let taxPropertyValue = accountOrGroup.getProperty(taxProperty);
 
@@ -179,6 +179,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     tax_description = tax_description.replace(TRANSACTION_DESCRIPTION_EXP, transaction.description);
     tax_description = tax_description.replace(ACCOUNT_NAME_EXP, accountName);
+    tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_EXP, contraAccountName);
 
     let taxTag = taxProperty == TAX_RATE_LEGACY_PROP ? 'tax' : taxProperty;
 

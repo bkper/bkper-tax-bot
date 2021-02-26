@@ -28,7 +28,8 @@
       ],
       "values": [
         "${transaction.description}",
-        "${account.name}"
+        "${account.name}",
+        "${account.contra.name}"
       ]
     },
     "account": {
@@ -39,7 +40,8 @@
       ],
       "values": [
         "${transaction.description}",
-        "${account.name}"
+        "${account.name}",
+        "${account.contra.name}"
       ]
     },
     "transaction": {
