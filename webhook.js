@@ -1,4 +1,4 @@
-const localtunnel = require('localtunnel');
+const ngrok = require('ngrok');
 const Bkper = require('bkper').Bkper;
 
 //Ensure env at right location
@@ -8,19 +8,12 @@ process.env.NODE_ENV='development';
 
 const app = Bkper.setApiKey(process.env.BKPER_API_KEY);
 
-
-(async () => {
-  try {
-    const tunnel = await localtunnel({ port: 3001 });
-    await app.setWebhookUrlDev(tunnel.url).patch()
-    console.log(`Listening at ${tunnel.url}`);
-    tunnel.on('close', async () => {
-      await exit()
-    });    
-  } catch (err) {
-    console.log(err)
-  }  
+(async function() {
+  const url = await ngrok.connect({ port: 3001 });
+  console.log(`Started ngrok at ${url}`);
+  await app.setWebhookUrlDev(url).patch()
 })();
+
 
 async function exit() {
   try {
