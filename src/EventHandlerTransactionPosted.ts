@@ -84,14 +84,17 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     let taxTag = accountOrGroup.getProperty(TAX_RATE_LEGACY_PROP);
     if (taxTag == null) {
       let taxIncluded = accountOrGroup.getProperty(TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP);
-      if (included && taxIncluded) {
-        return book.parseValue(taxIncluded);
-      }
       let taxExcluded = accountOrGroup.getProperty(TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP);
-      if (!included && taxExcluded) {
-        return book.parseValue(taxExcluded);
+      let tax: Amount = null;
+      if (included && taxIncluded) {
+        tax = book.parseValue(taxIncluded);
+      } else if (!included && taxExcluded) {
+        tax = book.parseValue(taxExcluded);
       }
-      return new Amount(0);
+      if (!tax) {
+        tax = new Amount('0');
+      }
+      return tax;
       
     } else {
       const tax = book.parseValue(taxTag);
