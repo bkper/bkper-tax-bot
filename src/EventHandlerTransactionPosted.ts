@@ -1,5 +1,5 @@
 import { Account, Book, Group, Transaction, Amount } from "bkper";
-import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_INCLUDED_ROUND_PROP, ACCOUNT_CONTRA_NAME_EXP, TAX_ROUND_LEGACY_PROP } from "./constants";
+import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, ACCOUNT_CONTRA_NAME_EXP, TAX_ROUND_PROP } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -173,11 +173,9 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       tax_description = '';
     }
 
-    if (isIncluded) {
-      let tax_round = +(transaction.properties[TAX_INCLUDED_ROUND_PROP] || transaction.properties[TAX_ROUND_LEGACY_PROP]);
-      if (tax_round != null && !isNaN(tax_round) && tax_round <= 8) {
-        amount = amount.round(tax_round);
-      }
+    let tax_round = +transaction.properties[TAX_ROUND_PROP];
+    if (tax_round != null && !isNaN(tax_round) && tax_round <= 8) {
+      amount = amount.round(tax_round);
     }
 
     tax_description = tax_description.replace(TRANSACTION_DESCRIPTION_EXP, transaction.description);
