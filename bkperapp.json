@@ -46,7 +46,7 @@
     },
     "transaction": {
       "keys": [
-        "tax_included_round",
+        "tax_round",
         "tax_included_amount"
       ]
     }
