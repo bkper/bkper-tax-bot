@@ -28,10 +28,10 @@
   resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.7.5.tgz#f16514d569f64b7d62c8bc9caf0859f4cbca0432"
   integrity sha512-KrVMm1/zTYvuqZGvkr6a3FEKF1pH59TZmn1m7pY5pKOG2UTN5Z7ztg7/JELI9PE5D8HPUkNw7I4fxrvmJvsOEw==
 
-"@bkper/bkper-api-types@^3.8.2":
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.8.2.tgz#57b9997a67a504272b8337aa264454e900f842ab"
-  integrity sha512-qN5zO3KEXuCcV5rkGl0RKdpuFZuedYycp27o1HSGmcZ1R2rnysTz8dqjIa9lkkEVwQUJHTjvhM63n9QH8507xQ==
+"@bkper/bkper-api-types@^3.8.7":
+  version "3.8.7"
+  resolved "https://registry.yarnpkg.com/@bkper/bkper-api-types/-/bkper-api-types-3.8.7.tgz#403eab3ae63fc6f2ccbf748a84c8dfab334129b1"
+  integrity sha512-RlBoXfxKozuu6xevNxmUj7UC8GqiAEObSvlU/lqKPcIFn7bb7L9trqv+u/z0uLeY0746heU7pSKJ8KardITbmw==
 
 "@eslint/eslintrc@^0.2.2":
   version "0.2.2"
@@ -496,12 +496,12 @@ binary@^0.3.0:
     buffers "~0.1.1"
     chainsaw "~0.1.0"
 
-bkper@^1.8.2:
-  version "1.8.2"
-  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.8.2.tgz#144fce5cce012a5391387a54f69387e4d499fd44"
-  integrity sha512-YTsHFRp+ZRE113sSF3Ujss731UcJMN0KNrrxl3IjX/4wBObGIogRCVwvFXa5o/z+M0dbSJZgKkMLEp8lYS/WjQ==
+bkper@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/bkper/-/bkper-1.10.0.tgz#e921c33201bfefca9ca04e1febfdcd40897dc5c8"
+  integrity sha512-3XFKsYwDjKH/dXdyzb3TGZpNtYqG4lpd0+lxC5h1mWzDqJQrA+fFHjhQ+LiGVhUZ+NXA+dI9qSo20p4vlNHQgQ==
   dependencies:
-    "@bkper/bkper-api-types" "^3.8.2"
+    "@bkper/bkper-api-types" "^3.8.7"
     "@google-cloud/local-auth" "^1.0.0"
     big.js "^6.0.3"
     commander "^6.2.1"
