@@ -24,7 +24,7 @@
     "minor": "yarn version --minor",
     "major": "yarn version --major",
     "deploy": "yarn build && yarn --cwd dist/ deploy:dist",
-    "deploy:dist": "gcloud functions deploy $npm_package_functionName --runtime nodejs12 --trigger-http --entry-point doPost --max-instances 1 --memory 128MB --timeout 360 --project $npm_package_projectId",
+    "deploy:dist": "gcloud functions deploy $npm_package_functionName --runtime nodejs12 --trigger-http --entry-point doPost --max-instances 5 --memory 128MB --timeout 360 --project $npm_package_projectId",
     "preversion": "yarn deploy",
     "postversion": "git push && git push --tags && yarn bkper:sync && echo \"Successfully released version $npm_package_version!\""
   },
