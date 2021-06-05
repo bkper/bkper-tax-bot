@@ -11,6 +11,11 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       return false;
     }
 
+    if (transaction.description && transaction.description.startsWith('#exchange_')) {
+      console.log("Avoid calculating taxes of #exchange");
+      return false;
+    }
+
     var creditAccount = await book.getAccount(transaction.creditAccount.id);
     var debitAccount = await book.getAccount(transaction.debitAccount.id);
     
