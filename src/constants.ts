@@ -8,7 +8,6 @@ export const ACCOUNT_NAME_EXP = '${account.name}';
 export const ACCOUNT_CONTRA_NAME_EXP = '${account.contra.name}';
 export const TAX_INCLUDED_AMOUNT_PROP = 'tax_included_amount';
 export const TAX_ROUND_PROP = 'tax_round';
-export const EXC_CODE_PROP = 'exc_code';
 export const EXC_AMOUNT_PROP = 'exc_amount';
 export const EXC_BASE_RATE_PROP = 'exc_base_rate';
 
