@@ -1,5 +1,5 @@
 import { Account, Book, Group, Transaction, Amount } from "bkper";
-import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, ACCOUNT_CONTRA_NAME_EXP, TAX_ROUND_PROP } from "./constants";
+import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, ACCOUNT_CONTRA_NAME_EXP, TAX_ROUND_PROP, EXC_CODE_PROP, EXC_AMOUNT_PROP, EXC_BASE_RATE_PROP} from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -191,11 +191,31 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     let id = `${super.getId(taxTag, transaction, accountOrGroup)}`
 
+
+
     let taxTransaction = book.newTransaction()
                           .addRemoteId(id)
                           .setDate(transaction.date)
                           .setAmount(amount)
                           .setDescription(tax_description);
+
+    let txExcCode = transaction.properties[EXC_CODE_PROP];
+    if (txExcCode) {
+      taxTransaction.setProperty(EXC_CODE_PROP, txExcCode)
+    }
+    let txExcRate = transaction.properties[EXC_BASE_RATE_PROP];     
+    if (txExcRate) {
+      taxTransaction.setProperty(EXC_BASE_RATE_PROP, txExcRate)
+    } else {
+      let txExcAmount = transaction.properties[EXC_AMOUNT_PROP];
+      if (txExcAmount) {
+        const amount = book.parseValue(txExcAmount);
+        const rate = amount.div(transaction.amount)
+        taxTransaction.setProperty(EXC_BASE_RATE_PROP, rate.toString())
+      }
+    }
+
+    
 
     return taxTransaction;
   }
