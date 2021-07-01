@@ -16,7 +16,7 @@ export default abstract class EventHandler {
 
     if (transaction.agentId == 'exchange-bot') {
       console.log("Skipping Exchange Bot Agent.");
-      return null;
+      return false;
     } 
 
     return this.processTransaction(book, transaction, event);
