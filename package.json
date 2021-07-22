@@ -7,7 +7,7 @@
   "functionName": "prod",
   "scripts": {
     "clean": "gts clean",
-    "upgrade:bkper": "yarn upgrade bkper --latest",
+    "upgrade:app": "yarn upgrade bkper --latest",
     "upgrade:api": "yarn upgrade @bkper/bkper-api-types --latest",
     "bkper:sync": "bkper app -u",
     "build": "yarn clean && tsc && cp package.json dist/",
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^1.7.1",
-    "bkper": "^1.10.9",
+    "bkper": "^2.0.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",

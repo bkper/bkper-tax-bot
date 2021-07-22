@@ -13,7 +13,8 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     var creditAccount = await book.getAccount(transaction.creditAccount.id);
     var debitAccount = await book.getAccount(transaction.debitAccount.id);
-    
+
+
     let fullNonIncludedTax = await this.getFullTaxRate_(book, creditAccount, debitAccount, false);
     let netAmount = new Amount(transaction.amount);
 
