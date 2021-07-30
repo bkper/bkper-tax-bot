@@ -177,6 +177,8 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     let tax_round = +transaction.properties[TAX_ROUND_PROP];
     if (tax_round != null && !isNaN(tax_round) && tax_round <= 8) {
       amount = amount.round(tax_round);
+    } else {
+      amount = amount.round(book.getFractionDigits())
     }
 
     tax_description = tax_description.replace(TRANSACTION_DESCRIPTION_EXP, transaction.description);
