@@ -1,6 +1,6 @@
 {
   "name": "tax-bot",
-  "version": "2.2.20",
+  "version": "2.2.21",
   "license": "MIT",
   "main": "index.js",
   "projectId": "bkper-tax-trigger",
