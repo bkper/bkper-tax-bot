@@ -1,6 +1,6 @@
 {
   "name": "tax-bot",
-  "version": "2.2.21",
+  "version": "2.2.22",
   "license": "MIT",
   "main": "index.js",
   "projectId": "bkper-tax-trigger",
@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^1.7.1",
-    "bkper": "^2.0.2",
+    "bkper": "^2.0.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",
