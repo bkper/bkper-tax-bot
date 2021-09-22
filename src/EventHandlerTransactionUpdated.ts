@@ -7,7 +7,8 @@ export default class EventHandlerTransactionUpdated {
   
   async handleEvent(event: bkper.Event): Promise<string[] | string | boolean> {
     //TODO only update if accounts or amount has change
-    if (!event.data.previousAttributes['creditAccId'] && !event.data.previousAttributes['debitAccId'] && !event.data.previousAttributes['amount']) {
+
+      if (event.data.previousAttributes && !event.data.previousAttributes['creditAccId'] && !event.data.previousAttributes['debitAccId'] && !event.data.previousAttributes['amount']) {
       return 'No changes in accounts or amount. Keeping previous calculated taxes.'
     }
 
