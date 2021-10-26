@@ -5,10 +5,9 @@ export default abstract class EventHandler {
   protected abstract processTransaction(book: Book, transaction: bkper.Transaction, event: bkper.Event): Promise<string[] | string | boolean>;
   
   async handleEvent(event: bkper.Event): Promise<string[] | string | boolean> {
-    let bookId = event.bookId;
     let operation = event.data.object as bkper.TransactionOperation;
     let transaction = operation.transaction;
-    var book = await Bkper.getBook(bookId);
+    let book = Bkper.newBook(event.book);
 
     if (!transaction.posted) {
       return false;
