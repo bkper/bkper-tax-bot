@@ -17,8 +17,14 @@ export default abstract class EventHandler {
       console.log("Skipping Exchange Bot Agent.");
       return false;
     } 
+    const logtag = `Handling ${event.type} event on book ${book.getName()} from user ${event.user.username}`;
+    console.time(logtag)
 
-    return this.processTransaction(book, transaction, event);
+    const response = this.processTransaction(book, transaction, event);
+    
+    console.timeEnd(logtag)
+
+    return response;
   }
 
   protected getId(taxTag: string, transaction: bkper.Transaction, accountOrGroup: Account | Group) {
