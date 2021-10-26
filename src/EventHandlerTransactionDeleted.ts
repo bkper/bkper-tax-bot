@@ -5,9 +5,8 @@ import EventHandler from "./EventHandler";
 export default class EventHandlerTransactionDeleted extends EventHandler {
 
   protected async processTransaction(book: Book, transaction: bkper.Transaction, event: bkper.Event): Promise<string[] | string | boolean> {
-    var creditAccount = await book.getAccount(transaction.creditAccount.id);
-    
-    var debitAccount = await book.getAccount(transaction.debitAccount.id);
+    var creditAccount = transaction.creditAccount;
+    var debitAccount = transaction.debitAccount;
 
     let transactionsIds: string[] = [];
 
@@ -18,13 +17,13 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
       let oldCreditAccountId = event.data.previousAttributes['creditAccId'];
       if (oldCreditAccountId && oldCreditAccountId != transaction.creditAccount.id) {
         let oldCreditAccount = await book.getAccount(oldCreditAccountId);
-        transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldCreditAccount, transaction));
+        transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldCreditAccount.json(), transaction));
       }
 
       let oldDebitAccountId = event.data.previousAttributes['debitAccId'];
       if (oldDebitAccountId && oldDebitAccountId != transaction.debitAccount.id) {
         let oldDebitAccount = await book.getAccount(oldDebitAccountId);
-        transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldDebitAccount, transaction));
+        transactionsIds = transactionsIds.concat(await this.getTaxTransactionsIds(book, oldDebitAccount.json(), transaction));
       }
     }
 
@@ -53,13 +52,13 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
     }
   }
 
-  private async getTaxTransactionsIds(book: Book, account: Account, transaction: bkper.Transaction): Promise<string[]> {
+  private async getTaxTransactionsIds(book: Book, account: bkper.Account, transaction: bkper.Transaction): Promise<string[]> {
 
     let transactionsIds: string[] = [];
 
     this.addTaxTransactions(book, account, transaction, transactionsIds);
 
-    let groups = await account.getGroups();
+    let groups = account.groups;
     if (groups != null) {
       for (var group of groups) {
         this.addTaxTransactions(book, group, transaction, transactionsIds);
@@ -69,7 +68,7 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
     return transactionsIds;
   }
 
-  private addTaxTransactions(book: Book, accountOrGroup: Account|Group, transaction: bkper.Transaction, txIds: string[]) {
+  private addTaxTransactions(book: Book, accountOrGroup: bkper.Account|bkper.Group, transaction: bkper.Transaction, txIds: string[]) {
     let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
     for (const taxTag of taxTags) {
       let taxTxId = this.getTaxTransactionId(book, accountOrGroup, transaction, taxTag);
@@ -79,9 +78,9 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
     }
   }
 
-  private getTaxTransactionId(book: Book, accountOrGroup: Account | Group, transaction: bkper.Transaction, taxProperty: string,): string {
+  private getTaxTransactionId(book: Book, accountOrGroup: bkper.Account | bkper.Group, transaction: bkper.Transaction, taxProperty: string,): string {
 
-    let taxPropertyValue = accountOrGroup.getProperty(taxProperty);
+    let taxPropertyValue = accountOrGroup.properties[taxProperty];
 
     if (taxPropertyValue == null || taxPropertyValue.trim() == '') {
       return null;

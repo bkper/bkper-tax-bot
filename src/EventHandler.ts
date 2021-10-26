@@ -7,7 +7,7 @@ export default abstract class EventHandler {
   async handleEvent(event: bkper.Event): Promise<string[] | string | boolean> {
     let operation = event.data.object as bkper.TransactionOperation;
     let transaction = operation.transaction;
-    let book = Bkper.newBook(event.book);
+    let book = new Book(event.book);
 
     if (!transaction.posted) {
       return false;
@@ -27,8 +27,8 @@ export default abstract class EventHandler {
     return response;
   }
 
-  protected getId(taxTag: string, transaction: bkper.Transaction, accountOrGroup: Account | Group) {
-    return `${taxTag}_${transaction.id}_${accountOrGroup.getId()}`;
+  protected getId(taxTag: string, transaction: bkper.Transaction, accountOrGroup: bkper.Account | bkper.Group) {
+    return `${taxTag}_${transaction.id}_${accountOrGroup.id}`;
   }
 
 }
