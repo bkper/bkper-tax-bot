@@ -80,6 +80,10 @@ export default class EventHandlerTransactionDeleted extends EventHandler {
 
   private getTaxTransactionId(book: Book, accountOrGroup: bkper.Account | bkper.Group, transaction: bkper.Transaction, taxProperty: string,): string {
 
+    if (!accountOrGroup.properties) {
+      return null;
+    }
+
     let taxPropertyValue = accountOrGroup.properties[taxProperty];
 
     if (taxPropertyValue == null || taxPropertyValue.trim() == '') {
