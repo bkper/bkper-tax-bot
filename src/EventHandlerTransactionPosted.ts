@@ -1,5 +1,5 @@
 import { Account, Book, Group, Transaction, Amount } from "bkper";
-import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, ACCOUNT_CONTRA_NAME_EXP, TAX_ROUND_PROP, EXC_AMOUNT_PROP, EXC_RATE_PROP} from "./constants";
+import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, ACCOUNT_CONTRA_NAME_EXP, TAX_ROUND_PROP, EXC_AMOUNT_PROP, EXC_RATE_PROP, EXC_CODE_PROP} from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -195,7 +195,9 @@ export default class EventHandlerTransactionPosted extends EventHandler {
                           .addRemoteId(id)
                           .setDate(transaction.date)
                           .setAmount(amount)
-                          .setDescription(tax_description);
+                          .setDescription(tax_description)
+                          .setProperty(EXC_CODE_PROP, transaction.properties[EXC_CODE_PROP])
+                          
 
     let txExcRate = transaction.properties[EXC_RATE_PROP];     
     if (txExcRate) {

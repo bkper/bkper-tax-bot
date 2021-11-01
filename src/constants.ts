@@ -10,6 +10,7 @@ export const TAX_INCLUDED_AMOUNT_PROP = 'tax_included_amount';
 export const TAX_ROUND_PROP = 'tax_round';
 export const EXC_AMOUNT_PROP = 'exc_amount';
 export const EXC_RATE_PROP = 'exc_rate';
+export const EXC_CODE_PROP = 'exc_code';
 
 //Deprecated
 export const TAX_INCLUDED_LEGACY_PROP = 'tax_included';
