@@ -44,15 +44,17 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@google-cloud/functions-framework@^1.7.1":
-  version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@google-cloud/functions-framework/-/functions-framework-1.7.1.tgz#d29a27744a6eb2f95d840b86135b97b0d804a49e"
-  integrity sha512-jjG7nH94Thij97EPW2oQN28pVPRN3UEGcsCRi6RdaaiSyK32X40LN4WHntKVmQPBhqH+I0magHMk1pSb0McH2g==
+"@google-cloud/functions-framework@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@google-cloud/functions-framework/-/functions-framework-2.0.0.tgz#9dd73ce7ee971c59e71267e7545177749c758fab"
+  integrity sha512-ekimQYvTFjVLZiSGXWOGMj56DU2mXzQdaK57x20EPeDdG6BxwLuCCBxIC/N5EYX+y/2SbvGs0K9hBaFYHP9n2A==
   dependencies:
     body-parser "^1.18.3"
     express "^4.16.4"
-    minimist "^1.2.0"
+    minimist "^1.2.5"
     on-finished "^2.3.0"
+    read-pkg-up "^7.0.1"
+    semver "^7.3.5"
 
 "@google-cloud/local-auth@^1.0.0":
   version "1.0.0"
@@ -2975,6 +2977,13 @@ semver@^7.2.1, semver@^7.3.2:
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.4.tgz#27aaa7d2e4ca76452f98d3add093a72c943edc97"
   integrity sha512-tCfb2WLjqFAtXn4KEdxIhalnRtoKFN7nAwj0B3ZXCbQloV2tq5eDbcTmT68JJD3nRJq24/XgxtQKFIpQdtvmVw==
+  dependencies:
+    lru-cache "^6.0.0"
+
+semver@^7.3.5:
+  version "7.3.5"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.3.5.tgz#0b621c879348d8998e4b0e4be94b3f12e6018ef7"
+  integrity sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==
   dependencies:
     lru-cache "^6.0.0"
 
