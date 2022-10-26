@@ -69,8 +69,8 @@ Expressions are like variables that allow you to dynamically use values from the
 You can add these expressions to the **tax_description** property of the account that has to trigger the tax bot to dynamically generate the new transaction.
 
 - ```${account.name}```: The account name of the account that triggered the Tax Bot.
-- ```${account.name.origin}```: The account name when participates as origin in transaction. Empty otherwise.
-- ```${account.name.destinaton}```: The account name when participates as destination in transaction. Empty otherwise.
+- ```${account.name.origin}```: The account name when participates as origin in the transaction. Empty otherwise.
+- ```${account.name.destinaton}```: The account name when participates as destination in the transaction. Empty otherwise.
 - ```${account.contra.name}```: The contra account name of the account that triggered the Tax Bot.
 - ```${transaction.description}```: The same description that comes from the posted transaction that triggered the Tax Bot. 
 
