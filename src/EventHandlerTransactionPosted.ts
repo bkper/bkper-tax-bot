@@ -1,5 +1,5 @@
-import { Account, Book, Group, Transaction, Amount } from "bkper";
-import { ACCOUNT_NAME_EXP, TAX_INCLUDED_AMOUNT_PROP, TAX_DESCRIPTION_PROP, TAX_RATE_LEGACY_PROP, TRANSACTION_DESCRIPTION_EXP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP, ACCOUNT_CONTRA_NAME_EXP, TAX_ROUND_PROP, EXC_AMOUNT_PROP, EXC_RATE_PROP, EXC_CODE_PROP, EXC_DATE_PROP} from "./constants";
+import { Amount, Book, Transaction } from "bkper";
+import { ACCOUNT_CONTRA_NAME_EXP, ACCOUNT_NAME_DESTINATION_EXP, ACCOUNT_NAME_EXP, ACCOUNT_NAME_ORIGIN_EXP, EXC_AMOUNT_PROP, EXC_CODE_PROP, EXC_DATE_PROP, EXC_RATE_PROP, TAX_DESCRIPTION_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_INCLUDED_AMOUNT_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP, TAX_ROUND_PROP, TRANSACTION_DESCRIPTION_EXP } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -184,6 +184,15 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     tax_description = tax_description.replace(TRANSACTION_DESCRIPTION_EXP, transaction.description);
     tax_description = tax_description.replace(ACCOUNT_NAME_EXP, accountName);
     tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_EXP, contraAccountName);
+    
+    if (accountName == transaction.creditAccount.name) {
+        tax_description = tax_description.replace(ACCOUNT_NAME_ORIGIN_EXP, accountName);
+        tax_description = tax_description.replace(ACCOUNT_NAME_DESTINATION_EXP, "");
+    }
+    if (accountName == transaction.debitAccount.name) {
+        tax_description = tax_description.replace(ACCOUNT_NAME_ORIGIN_EXP, "");
+        tax_description = tax_description.replace(ACCOUNT_NAME_DESTINATION_EXP, accountName);
+    }
 
     let taxTag = taxProperty == TAX_RATE_LEGACY_PROP ? 'tax' : taxProperty;
 
