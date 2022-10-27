@@ -30,6 +30,8 @@
       "values": [
         "${transaction.description}",
         "${account.name}",
+        "${account.name.origin}",
+        "${account.name.destination}",        
         "${account.contra.name}"
       ]
     },
@@ -42,6 +44,8 @@
       "values": [
         "${transaction.description}",
         "${account.name}",
+        "${account.name.origin}",
+        "${account.name.destination}",
         "${account.contra.name}"
       ]
     },
