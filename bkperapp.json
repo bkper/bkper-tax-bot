@@ -32,7 +32,9 @@
         "${account.name}",
         "${account.name.origin}",
         "${account.name.destination}",        
-        "${account.contra.name}"
+        "${account.contra.name}",
+        "${account.contra.name.origin}",
+        "${account.contra.name.destination}"
       ]
     },
     "account": {
@@ -46,7 +48,9 @@
         "${account.name}",
         "${account.name.origin}",
         "${account.name.destination}",
-        "${account.contra.name}"
+        "${account.contra.name}",
+        "${account.contra.name.origin}",
+        "${account.contra.name.destination}"        
       ]
     },
     "transaction": {

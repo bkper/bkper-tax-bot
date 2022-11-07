@@ -72,6 +72,8 @@ You can add these expressions to the **tax_description** property of the account
 - ```${account.name.origin}```: The account name when participates as origin in the transaction. Empty otherwise.
 - ```${account.name.destinaton}```: The account name when participates as destination in the transaction. Empty otherwise.
 - ```${account.contra.name}```: The contra account name of the account that triggered the Tax Bot.
+- ```${account.contra.name.origin}```: The contra account name when participates as origin in the transaction. Empty otherwise.
+- ```${account.contra.name.destinaton}```: The contra account name when participates as destination in the transaction. Empty otherwise.
 - ```${transaction.description}```: The same description that comes from the posted transaction that triggered the Tax Bot. 
 
 Example of the account property using these expressions:
