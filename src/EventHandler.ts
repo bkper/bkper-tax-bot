@@ -13,7 +13,7 @@ export default abstract class EventHandler {
       return false;
     }
 
-    if (transaction.agentId == 'exchange-bot') {
+    if (transaction.agentId == 'exchange-bot' && transaction.description != '#exchange_loss' && transaction.description != '#exchange_gain') {
       console.log("Skipping Exchange Bot Agent.");
       return false;
     } 
