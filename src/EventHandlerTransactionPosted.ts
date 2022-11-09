@@ -218,17 +218,28 @@ export default class EventHandlerTransactionPosted extends EventHandler {
                           .setProperty(EXC_DATE_PROP, transaction.properties[EXC_DATE_PROP])
                           
 
-    let txExcRate = transaction.properties[EXC_RATE_PROP];     
+    let txExcRate = transaction.properties[EXC_RATE_PROP];   
+    let txExcAmount = transaction.properties[EXC_AMOUNT_PROP];
+  
     if (txExcRate) {
       taxTransaction.setProperty(EXC_RATE_PROP, txExcRate)
-    } else {
-      let txExcAmount = transaction.properties[EXC_AMOUNT_PROP];
-      if (txExcAmount) {
+    } if (txExcAmount) {
         const amount = book.parseValue(txExcAmount);
         const rate = amount.div(transaction.amount)
         taxTransaction.setProperty(EXC_RATE_PROP, rate.toString())
-      }
     }
+
+    //Fallback
+    if (txExcAmount) {
+        const amount = book.parseValue(txExcAmount);
+        if (amount.round(8).eq(0)) {
+            // Avoid mirror exchange transaction
+            taxTransaction.setProperty(EXC_AMOUNT_PROP,'0')
+            taxTransaction.deleteProperty(EXC_RATE_PROP)
+        }
+    }
+
+
 
     
 
