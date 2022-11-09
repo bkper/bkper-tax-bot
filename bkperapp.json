@@ -10,8 +10,6 @@
   "repoUrl": "https://github.com/bkper/tax-bot",
   "repoPrivate": false,
   "deprecated": false,
-  "clientId": "441766948117-9ls7hs1gq9vdh7rc5h30vqhdjob5jlfc.apps.googleusercontent.com",
-  "scopes": ["https://www.googleapis.com/auth/userinfo.email"],
   "webhookUrl": "https://us-central1-bkper-tax-trigger.cloudfunctions.net/prod",
   "apiVersion": "v5",
   "events": [
