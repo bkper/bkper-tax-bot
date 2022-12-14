@@ -21,14 +21,10 @@ Once the taxes calculated, the Tax Bot will record one or more transactions with
 
 The examples use simplified cash basis for easy understanding. You can also set more complex tax flows involving accounts [payable](https://help.bkper.com/en/articles/2569171-accounts-payable) and [receivable](https://help.bkper.com/en/articles/2569170-accounts-receivable) instead of the direct Bank Account.
 
-Here is a quick intro vide of the tax bot in action:
-
-<p align="center">
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/HLtw8ODVPwU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</p>
-
 
 Learn more about sales taxes and bots on Bkper:
+
+[Tax Bot quick intro video](https://www.youtube-nocookie.com/embed/HLtw8ODVPwU)
 
 [Bkper Bots Installation](https://help.bkper.com/en/articles/3873607-bkper-bots-installation)    
 
