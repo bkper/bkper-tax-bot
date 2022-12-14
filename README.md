@@ -1,5 +1,6 @@
 
-**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply.
+**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply. Here is a quick intro video:
+
 
 They can be **included** in overall transaction amount, such as VAT, or **excluded** such as income taxes. Here is [an article that better explain it](https://octobat.zendesk.com/hc/en-150/articles/360009913159-What-is-the-difference-between-tax-included-vs-tax-excluded-).
 
@@ -19,6 +20,12 @@ Once the taxes calculated, the Tax Bot will record one or more transactions with
     
 
 The examples use simplified cash basis for easy understanding. You can also set more complex tax flows involving accounts [payable](https://help.bkper.com/en/articles/2569171-accounts-payable) and [receivable](https://help.bkper.com/en/articles/2569170-accounts-receivable) instead of the direct Bank Account.
+
+Here is a quick intro vide of the tax bot in action:
+
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/HLtw8ODVPwU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</p>
 
 
 Learn more about sales taxes and bots on Bkper:
