@@ -60,7 +60,7 @@ async function handleEvent(req: Request, res: Response) {
     console.log(`Result: ${JSON.stringify(result)}`)
     res.send(response(result))
 
-  } catch (err) {
+  } catch (err: any) {
     console.error(err);
     res.send(response({error: err.stack ? err.stack.split("\n") : err}))
   }
