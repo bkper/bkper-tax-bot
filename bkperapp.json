@@ -19,6 +19,11 @@
     "TRANSACTION_UPDATED"
   ],
   "propertiesSchema": {
+    "book": {
+      "keys": [
+        "tax_copy_properties"
+      ]
+    },    
     "group": {
       "keys": [
         "tax_included_rate",

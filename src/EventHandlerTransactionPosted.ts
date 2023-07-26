@@ -1,5 +1,5 @@
 import { Amount, Book, Transaction } from "bkper";
-import { ACCOUNT_CONTRA_NAME_DESTINATION_EXP, ACCOUNT_CONTRA_NAME_EXP, ACCOUNT_CONTRA_NAME_ORIGIN_EXP, ACCOUNT_NAME_DESTINATION_EXP, ACCOUNT_NAME_EXP, ACCOUNT_NAME_ORIGIN_EXP, EXC_AMOUNT_PROP, EXC_CODE_PROP, EXC_DATE_PROP, EXC_RATE_PROP, TAX_DESCRIPTION_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_INCLUDED_AMOUNT_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP, TAX_ROUND_PROP, TRANSACTION_DESCRIPTION_EXP } from "./constants";
+import { ACCOUNT_CONTRA_NAME_DESTINATION_EXP, ACCOUNT_CONTRA_NAME_EXP, ACCOUNT_CONTRA_NAME_ORIGIN_EXP, ACCOUNT_NAME_DESTINATION_EXP, ACCOUNT_NAME_EXP, ACCOUNT_NAME_ORIGIN_EXP, EXC_AMOUNT_PROP, EXC_CODE_PROP, EXC_DATE_PROP, EXC_RATE_PROP, TAX_COPY_PROPERTIES_PROP, TAX_DESCRIPTION_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_INCLUDED_AMOUNT_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP, TAX_ROUND_PROP, TRANSACTION_DESCRIPTION_EXP } from "./constants";
 import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -239,9 +239,13 @@ export default class EventHandlerTransactionPosted extends EventHandler {
         }
     }
 
-
-
-    
+    const propertiesToCopyStr = book.getProperty(TAX_COPY_PROPERTIES_PROP)
+    if (propertiesToCopyStr) {
+      const propertiesToCopy = propertiesToCopyStr.split(' ');
+      for (const propertyKey of propertiesToCopy) {
+        taxTransaction.setProperty(propertyKey, transaction?.properties[propertyKey])
+      }
+    }
 
     return taxTransaction;
   }
