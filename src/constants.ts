@@ -12,6 +12,7 @@ export const ACCOUNT_CONTRA_NAME_EXP = '${account.contra.name}';
 export const ACCOUNT_CONTRA_NAME_ORIGIN_EXP = '${account.contra.name.origin}';
 export const ACCOUNT_CONTRA_NAME_DESTINATION_EXP = '${account.contra.name.destination}';
 export const TAX_INCLUDED_AMOUNT_PROP = 'tax_included_amount';
+export const TAX_EXCLUDED_AMOUNT_PROP = 'tax_excluded_amount';
 export const TAX_ROUND_PROP = 'tax_round';
 export const EXC_AMOUNT_PROP = 'exc_amount';
 export const EXC_RATE_PROP = 'exc_rate';
