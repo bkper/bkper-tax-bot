@@ -31,13 +31,11 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       return `Cannot process more than 100% in total taxes. Sum of all taxes: ${fullIncludedTax}`;
     }
 
-    if (fullIncludedTax.gt(0) && fullIncludedAmount == null) {
-      console.log("fullIncludedAmount = null? ")
+    if (fullIncludedTax.gt(0) && fullIncludedAmount.eq(0)) {
       // netAmount = +transaction.amount - ((+transaction.amount * fullIncludedTax) / (100 + fullIncludedTax));
       const includedTaxAmount = (fullIncludedTax.times(transaction.amount)).div(fullIncludedTax.plus(100));
       netAmount = new Amount(transaction.amount).minus(includedTaxAmount);
-    } else if (fullIncludedAmount != null) {
-      console.log("fullIncludedAmount = null? ")
+    } else if (fullIncludedAmount.gt(0)) {
       netAmount = new Amount(transaction.amount).minus(fullIncludedAmount);
     }
 
@@ -150,7 +148,6 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     }
 
     if (!amount) {
-      console.log("Should allow returning null amount here?")
       amount = new Amount('0');
     }
     //Ensure tax amount positive
