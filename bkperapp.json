@@ -59,7 +59,8 @@
     "transaction": {
       "keys": [
         "tax_round",
-        "tax_included_amount"
+        "tax_included_amount",
+        "tax_excluded_amount"
       ]
     }
   }
