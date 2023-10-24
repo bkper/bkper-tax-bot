@@ -23,7 +23,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     let fullIncludedTax = await this.getFullTaxRate_(book, creditAccount, debitAccount, true);
 
-    if (fullIncludedTax.eq(0) && fullNonIncludedTax.eq(0) && (fullIncludedAmount == null || fullIncludedAmount.eq(0) || fullNonIncludedAmount == null || fullNonIncludedAmount.eq(0))) {
+    if (fullIncludedTax.eq(0) && fullNonIncludedTax.eq(0) && fullIncludedAmount.eq(0) && fullNonIncludedAmount.eq(0)) {
       return false;
     }
 
@@ -41,8 +41,8 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     let transactions: Transaction[] = [];
 
-    transactions = transactions.concat(this.getTaxTransactions(book, creditAccount, debitAccount, transaction, netAmount, fullIncludedAmount, fullNonIncludedAmount));
-    transactions = transactions.concat(this.getTaxTransactions(book, debitAccount, creditAccount, transaction, netAmount, fullIncludedAmount, fullNonIncludedAmount));
+    transactions = transactions.concat(this.getTaxTransactions(book, creditAccount, debitAccount, transaction, netAmount));
+    transactions = transactions.concat(this.getTaxTransactions(book, debitAccount, creditAccount, transaction, netAmount));
 
     if (transactions.length > 0) {
       transactions = await book.batchCreateTransactions(transactions);
@@ -156,32 +156,32 @@ export default class EventHandlerTransactionPosted extends EventHandler {
   }
 
 
-  private getTaxTransactions(book: Book, account: bkper.Account, contraAccount: bkper.Account, transaction: bkper.Transaction, netAmount: Amount, taxIncludedAmount: Amount, taxExcludedAmount: Amount): Transaction[] {
+  private getTaxTransactions(book: Book, account: bkper.Account, contraAccount: bkper.Account, transaction: bkper.Transaction, netAmount: Amount): Transaction[] {
 
     let transactions: Transaction[] = [];
-    this.addTaxTransactions(book, account, account, contraAccount, transaction, netAmount, taxIncludedAmount, taxExcludedAmount, transactions);
+    this.addTaxTransactions(book, account, account, contraAccount, transaction, netAmount, transactions);
 
     let groups = account.groups;
     if (groups != null) {
       for (var group of groups) {
-        this.addTaxTransactions(book, group, account, contraAccount, transaction, netAmount, taxIncludedAmount, taxExcludedAmount, transactions);
+        this.addTaxTransactions(book, group, account, contraAccount, transaction, netAmount, transactions);
       }
     }
 
     return transactions;
   }
 
-  private addTaxTransactions(book: Book, accountOrGroup: bkper.Account|bkper.Group, account: bkper.Account, contraAccount: bkper.Account, transaction: bkper.Transaction, netAmount: Amount, taxIncludedAmount: Amount, taxExcludedAmount: Amount, transactions: Transaction[]) {
+  private addTaxTransactions(book: Book, accountOrGroup: bkper.Account|bkper.Group, account: bkper.Account, contraAccount: bkper.Account, transaction: bkper.Transaction, netAmount: Amount, transactions: Transaction[]) {
     let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
     for (const taxTag of taxTags) {
-      let taxTx = this.createTaxTransaction(book, accountOrGroup, account.name, contraAccount.name, transaction, taxTag, netAmount, taxIncludedAmount, taxExcludedAmount);
+      let taxTx = this.createTaxTransaction(book, accountOrGroup, account.name, contraAccount.name, transaction, taxTag, netAmount);
       if (taxTx != null) {
         transactions.push(taxTx);
       }
     }
   }
 
-  private createTaxTransaction(book: Book, accountOrGroup: bkper.Account | bkper.Group, accountName: string, contraAccountName: string, transaction: bkper.Transaction, taxProperty: string, netAmount: Amount, taxIncludedAmount: Amount, taxExcludedAmount: Amount): Transaction {
+  private createTaxTransaction(book: Book, accountOrGroup: bkper.Account | bkper.Group, accountName: string, contraAccountName: string, transaction: bkper.Transaction, taxProperty: string, netAmount: Amount): Transaction {
 
     let taxPropertyValue = accountOrGroup.properties[taxProperty];
 
