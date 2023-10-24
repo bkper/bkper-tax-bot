@@ -4,7 +4,7 @@ import EventHandler from "./EventHandler";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
 
-  protected async processTransaction(book: Book, transaction: bkper.Transaction, event: bkper.Event): Promise<string[] | string | boolean> {
+  protected async processTransaction(book: Book, transaction: bkper.Transaction): Promise<string[] | string | boolean> {
 
     if (transaction.agentId == 'sales-tax-bot') {
       console.log("Same payload agent. Preventing bot loop.");
