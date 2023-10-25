@@ -90,6 +90,7 @@ tax_description: ${account.name} Input Tax #vatin ${transaction.description}
 
 - ```tax_round```: The number of decimal digits to round the taxes. This should be lower than the books decimal digits settings.
 - ```tax_included_amount```: The fixed tax amount to override the included taxes calculated based on Group or Account ```tax_included_rate`` definition
+- ```tax_excluded_amount```: The fixed tax amount to override the excluded taxes calculated based on Group or Account ```tax_excluded_rate`` definition
 
 Example:
 ```yaml
