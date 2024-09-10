@@ -5,3 +5,4 @@ yarn-error.log
 dist/
 tsconfig.tsbuildinfo
 .env
+yarn.lock
