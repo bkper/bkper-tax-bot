@@ -1,30 +1,34 @@
-import 'source-map-support/register'
+import 'source-map-support/register.js';
 import { HttpFunction } from '@google-cloud/functions-framework/build/src/functions';
-import { Bkper } from 'bkper';
-import EventHandlerTransactionDeleted from './EventHandlerTransactionDeleted';
-import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted";
+import { Bkper } from 'bkper-js';
+import EventHandlerTransactionDeleted from './EventHandlerTransactionDeleted.js';
+import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted.js";
 import { Request, Response } from 'express';
-import express = require('express');
-import httpContext = require('express-http-context');
-import EventHandlerTransactionUpdated from './EventHandlerTransactionUpdated';
+import express from 'express';
+import httpContext from 'express-http-context';
+import EventHandlerTransactionUpdated from './EventHandlerTransactionUpdated.js';
+import dotenv from 'dotenv';
+dotenv.config();
 
-require('dotenv').config()
 
 const app = express();
 app.use(httpContext.middleware);
 app.use('/', handleEvent);
 export const doPost: HttpFunction = app;
 
+
 function init(req: Request, res: Response) {
+
   res.setHeader('Content-Type', 'application/json');
 
-  //Sets API key from env for development or from headers
-  Bkper.setApiKey(process.env.BKPER_API_KEY ? process.env.BKPER_API_KEY : req.headers['bkper-api-key'] as string);
-
-  //Put OAuth token from header in the http context for later use when calling the API. https://julio.li/b/2016/10/29/request-persistence-express/
+  // Put OAuth token from header in the http context for later use when calling the API. https://julio.li/b/2016/10/29/request-persistence-express/
   const oauthTokenHeader = 'bkper-oauth-token';
   httpContext.set(oauthTokenHeader, req.headers[oauthTokenHeader]);
-  Bkper.setOAuthTokenProvider(async () => httpContext.get(oauthTokenHeader));
+
+  Bkper.setConfig({
+    oauthTokenProvider: async () => httpContext.get(oauthTokenHeader) || import('bkper').then(bkper => bkper.getOAuthToken()),
+    apiKeyProvider: async () => process.env.BKPER_API_KEY || req.headers['bkper-api-key'] as string
+  })
 
 }
 
@@ -34,10 +38,10 @@ async function handleEvent(req: Request, res: Response) {
 
   try {
 
-    let event: bkper.Event = req.body
+    let event: bkper.Event = req.body;
     let result: { result: string[] | string | boolean } = { result: false };
 
-    console.log(`Received ${event.type} event from ${event.user.username}...`)
+    console.log(`Received ${event.type} event from ${event.user.username}...`);
 
     switch (event.type) {
       case 'TRANSACTION_POSTED':
@@ -57,12 +61,12 @@ async function handleEvent(req: Request, res: Response) {
         break;
     }
 
-    console.log(`Result: ${JSON.stringify(result)}`)
-    res.send(response(result))
+    console.log(`Result: ${JSON.stringify(result)}`);
+    res.send(response(result));
 
   } catch (err: any) {
     console.error(err);
-    res.send(response({error: err.stack ? err.stack.split("\n") : err}))
+    res.send(response({ error: err.stack ? err.stack.split("\n") : err }));
   }
 
 }
@@ -71,5 +75,3 @@ function response(result: any): string {
   const body = JSON.stringify(result, null, 4);
   return body;
 }
-
-

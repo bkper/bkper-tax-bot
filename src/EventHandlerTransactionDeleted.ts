@@ -1,6 +1,6 @@
-import { Account, Book, Group } from "bkper";
-import {TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP } from "./constants";
-import EventHandler from "./EventHandler";
+import { Account, Book, Group } from "bkper-js";
+import {TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP } from "./constants.js";
+import EventHandler from "./EventHandler.js";
 
 export default class EventHandlerTransactionDeleted extends EventHandler {
 

@@ -1,6 +1,6 @@
-import { Account, Book, Bkper, Group } from "bkper";
-import EventHandlerTransactionDeleted from "./EventHandlerTransactionDeleted";
-import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted";
+import { Account, Book, Bkper, Group } from "bkper-js";
+import EventHandlerTransactionDeleted from "./EventHandlerTransactionDeleted.js";
+import EventHandlerTransactionPosted from "./EventHandlerTransactionPosted.js";
 
 export default class EventHandlerTransactionUpdated {
 

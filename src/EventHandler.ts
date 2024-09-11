@@ -1,4 +1,4 @@
-import { Account, Book, Bkper, Group } from "bkper";
+import { Account, Book, Bkper, Group } from "bkper-js";
 
 export default abstract class EventHandler {
 
