@@ -1,0 +1,53 @@
+id: sales-tax-bot
+name: Tax Bot
+description: Calculate VAT, GST and other sales taxes based on the transaction amount
+logoUrl: https://static.thenounproject.com/png/2318500-200.png
+website: https://bkper.com/apps/sales-tax-bot
+ownerName: Bkper
+ownerLogoUrl: https://avatars.githubusercontent.com/u/11943086?v=4
+ownerWebsite: https://bkper.com
+repoUrl: https://github.com/bkper/tax-bot
+repoPrivate: false
+deprecated: false
+webhookUrl: https://us-central1-bkper-tax-trigger.cloudfunctions.net/prod
+apiVersion: v5
+events:
+  - TRANSACTION_POSTED
+  - TRANSACTION_DELETED
+  - TRANSACTION_RESTORED
+  - TRANSACTION_UPDATED
+propertiesSchema:
+  book:
+    keys:
+      - tax_copy_properties
+  group:
+    keys:
+      - tax_included_rate
+      - tax_excluded_rate
+      - tax_description
+    values:
+      - ${transaction.description}
+      - ${account.name}
+      - ${account.name.origin}
+      - ${account.name.destination}
+      - ${account.contra.name}
+      - ${account.contra.name.origin}
+      - ${account.contra.name.destination}
+  account:
+    keys:
+      - tax_included_rate
+      - tax_excluded_rate
+      - tax_description
+    values:
+      - ${transaction.description}
+      - ${account.name}
+      - ${account.name.origin}
+      - ${account.name.destination}
+      - ${account.contra.name}
+      - ${account.contra.name.origin}
+      - ${account.contra.name.destination}
+  transaction:
+    keys:
+      - tax_round
+      - tax_included_amount
+      - tax_excluded_amount
