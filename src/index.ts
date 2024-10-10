@@ -26,7 +26,7 @@ function init(req: Request, res: Response) {
   httpContext.set(oauthTokenHeader, req.headers[oauthTokenHeader]);
 
   Bkper.setConfig({
-    oauthTokenProvider: async () => httpContext.get(oauthTokenHeader) || import('bkper').then(bkper => bkper.getOAuthToken()),
+    oauthTokenProvider: process.env.NODE_ENV === 'development' ? async () => import('bkper').then(bkper => bkper.getOAuthToken()) : async () => httpContext.get(oauthTokenHeader),
     apiKeyProvider: async () => process.env.BKPER_API_KEY || req.headers['bkper-api-key'] as string
   })
 
