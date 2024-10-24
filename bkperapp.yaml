@@ -9,7 +9,7 @@ ownerWebsite: https://bkper.com
 repoUrl: https://github.com/bkper/tax-bot
 repoPrivate: false
 deprecated: false
-webhookUrl: https://us-central1-bkper-tax-trigger.cloudfunctions.net/prod
+webhookUrl: https://us-central1-bkper-tax-trigger.cloudfunctions.net/prodGen2
 apiVersion: v5
 events:
   - TRANSACTION_POSTED
