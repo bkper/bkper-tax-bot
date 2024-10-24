@@ -4,7 +4,7 @@
   "license": "MIT",
   "main": "index.js",
   "projectId": "bkper-tax-trigger",
-  "functionName": "prod",
+  "functionName": "prodGen2",
   "type": "module",
   "scripts": {
     "clean": "gts clean",
@@ -19,7 +19,7 @@
     "dev:webhook": "node webhook",
     "dev:nodemon": "NODE_ENV=development nodemon --watch ./dist/ --exec bun run functions:dev",
     "functions:dev": "functions-framework --source=dist/ --target=doPost --port=3001",
-    "functions:enable": "gcloud services enable cloudfunctions.googleapis.com --project $npm_package_projectId && gcloud services enable cloudbuild.googleapis.com --project $npm_package_projectId",
+    "functions:enable": "gcloud services enable cloudfunctions.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com run.googleapis.com logging.googleapis.com --project $npm_package_projectId",
     "functions:authorize": "gcloud alpha functions add-iam-policy-binding $npm_package_functionName --member=serviceAccount:bkper-hrd@appspot.gserviceaccount.com --role=roles/cloudfunctions.invoker --project $npm_package_projectId",
     "functions:open": "open \"https://console.cloud.google.com/functions/details/us-central1/$npm_package_functionName?organizationId=305881217394&project=$npm_package_projectId&tab=logs\"",
     "open": "yarn functions:open",
