@@ -6,3 +6,4 @@ dist/
 tsconfig.tsbuildinfo
 .env
 yarn.lock
+.gcloudignore
