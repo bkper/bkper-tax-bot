@@ -253,14 +253,14 @@ export default class EventHandlerTransactionPosted extends EventHandler {
 
     let id = `${super.getId(taxTag, transaction, accountOrGroup)}`
 
-    let taxTransaction = book.newTransaction()
-                          .addRemoteId(id)
-                          .setDate(transaction.date)
-                          .setAmount(amount)
-                          .setDescription(tax_description)
-                          .setProperty(EXC_CODE_PROP, transaction.properties[EXC_CODE_PROP])
-                          .setProperty(EXC_DATE_PROP, transaction.properties[EXC_DATE_PROP])
-                          
+    let taxTransaction = new Transaction(book)
+      .addRemoteId(id)
+      .setDate(transaction.date)
+      .setAmount(amount)
+      .setDescription(tax_description)
+      .setProperty(EXC_CODE_PROP, transaction.properties[EXC_CODE_PROP])
+      .setProperty(EXC_DATE_PROP, transaction.properties[EXC_DATE_PROP])
+    ;           
 
     let txExcRate = transaction.properties[EXC_RATE_PROP];   
     let txExcAmount = transaction.properties[EXC_AMOUNT_PROP];
