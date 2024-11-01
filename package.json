@@ -8,8 +8,8 @@
   "type": "module",
   "scripts": {
     "clean": "gts clean",
-    "upgrade:app": "bun update bkper --latest",
-    "upgrade:api": "bun update @bkper/bkper-api-types --latest",
+    "update:app": "bun update bkper --latest",
+    "update:api": "bun update @bkper/bkper-api-types --latest",
     "bkper:sync": "bkper app -u",
     "prebuild": "bun install --yarn",
     "build": "bun clean && tsc && cp package.json dist/ && cp yarn.lock dist/",
@@ -27,7 +27,7 @@
     "deploy:dist": "gcloud functions deploy $npm_package_functionName --gen2 --region=us-central1 --no-allow-unauthenticated --runtime=nodejs18 --entry-point=doPost --trigger-http --max-instances=5 --memory=128Mi --timeout=360s --project=$npm_package_projectId"
   },
   "devDependencies": {
-    "@bkper/bkper-api-types": "^5.1.1",
+    "@bkper/bkper-api-types": "^5.10.0",
     "@types/express": "^4.17.10",
     "@types/node": "^14.11.2",
     "bkper": "^3.3.2",
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^2.0.0",
-    "bkper-js": "^1.2.5",
+    "bkper-js": "^1.13.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-http-context": "^1.2.4",
