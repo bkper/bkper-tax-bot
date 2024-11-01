@@ -7,3 +7,4 @@ tsconfig.tsbuildinfo
 .env
 yarn.lock
 .gcloudignore
+bun.lockb
