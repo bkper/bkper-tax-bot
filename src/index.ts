@@ -41,7 +41,7 @@ async function handleEvent(req: Request, res: Response) {
     let event: bkper.Event = req.body;
     let result: { result: string[] | string | boolean } = { result: false };
 
-    console.log(`Received ${event.type} event from ${event.user.username}...`);
+    console.log(`Received ${event.type} event from ${event?.user?.username}...`);
 
     switch (event.type) {
       case 'TRANSACTION_POSTED':
