@@ -24,7 +24,7 @@
     "functions:open": "open \"https://console.cloud.google.com/functions/details/us-central1/$npm_package_functionName?organizationId=305881217394&project=$npm_package_projectId&tab=logs\"",
     "open": "yarn functions:open",
     "deploy": "bun run build && yarn --cwd dist/ deploy:dist",
-    "deploy:dist": "gcloud functions deploy $npm_package_functionName --gen2 --region=us-central1 --no-allow-unauthenticated --runtime=nodejs18 --entry-point=doPost --trigger-http --max-instances=10 --memory=128Mi --timeout=360s --project=$npm_package_projectId"
+    "deploy:dist": "gcloud functions deploy $npm_package_functionName --gen2 --region=us-central1 --no-allow-unauthenticated --runtime=nodejs20 --entry-point=doPost --trigger-http --max-instances=15 --memory=128Mi --timeout=360s --project=$npm_package_projectId"
   },
   "devDependencies": {
     "@bkper/bkper-api-types": "^5.10.0",
