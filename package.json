@@ -7,7 +7,7 @@
   "functionName": "prodGen2",
   "type": "module",
   "scripts": {
-    "clean": "gts clean",
+    "clean": " rm -rf ./dist & rm -rf ./node_modules & wait",
     "update:app": "bun update bkper --latest",
     "update:api": "bun update @bkper/bkper-api-types --latest",
     "bkper:sync": "bkper app -u",
@@ -27,11 +27,11 @@
     "deploy:dist": "gcloud functions deploy $npm_package_functionName --gen2 --region=us-central1 --no-allow-unauthenticated --runtime=nodejs20 --entry-point=doPost --trigger-http --max-instances=15 --memory=128Mi --timeout=360s --project=$npm_package_projectId"
   },
   "devDependencies": {
-    "@bkper/bkper-api-types": "^5.10.0",
+    "@bkper/bkper-api-types": "^5.17.0",
     "@ngrok/ngrok": "^1.4.1",
     "@types/express": "^4.17.10",
     "@types/node": "^14.11.2",
-    "bkper": "^3.3.2",
+    "bkper": "^3.3.3",
     "gts": "^3.0.3",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
