@@ -1,6 +1,6 @@
 id: sales-tax-bot
 name: Tax Agent
-description: Automatically calculate and record VAT, GST, and other sales taxes based on transaction amounts, supporting both tax-inclusive and tax-exclusive scenarios.
+description: Automatically calculate and record VAT, GST, and other taxes based on transaction amounts, providing real-time visibility into tax receivables and payables. Supports both tax-included and tax-excluded calculations with customizable tax rates configured at account or group level.
 logoUrl: https://storage.googleapis.com/bkper-public/logos/agents/tax-agent-light.svg
 logoUrlDark: https://storage.googleapis.com/bkper-public/logos/agents/tax-agent-dark.svg
 website: https://bkper.com/apps/sales-tax-bot

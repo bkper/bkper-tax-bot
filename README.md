@@ -1,12 +1,12 @@
 
-**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply. Here is a quick intro video:
+**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply.
 
 
 They can be **included** in overall transaction amount, such as VAT, or **excluded** such as income taxes. Here is [an article that better explain it](https://octobat.zendesk.com/hc/en-150/articles/360009913159-What-is-the-difference-between-tax-included-vs-tax-excluded-).
 
 Once the taxes calculated, the Tax Agent will record one or more transactions with the entry for the taxes.
 
-<p align="center">
+<div style="text-align: center;">
   <img src='https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot.gif' alt='Bkper Tax Agent in action'/>
 </p>
 
