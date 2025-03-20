@@ -4,10 +4,10 @@
 
 They can be **included** in overall transaction amount, such as VAT, or **excluded** such as income taxes. Here is [an article that better explain it](https://octobat.zendesk.com/hc/en-150/articles/360009913159-What-is-the-difference-between-tax-included-vs-tax-excluded-).
 
-Once the taxes calculated, the Tax Agent will record one or more transactions with the entry for the taxes.
+Once the taxes calculated, the Tax Bot will record one or more transactions with the entry for the taxes.
 
 <div style="text-align: center;">
-  <img src='https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot.gif' alt='Bkper Tax Agent in action'/>
+  <img src='https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot.gif' alt='Bkper Tax Bot in action'/>
 </p>
 
 
@@ -24,23 +24,23 @@ The examples use simplified cash basis for easy understanding. You can also set 
 
 #### Learn more about sales taxes and bots on Bkper:
 
-[Tax Agent quick intro video](https://www.youtube-nocookie.com/embed/HLtw8ODVPwU)
+[Tax Bot quick intro video](https://www.youtube-nocookie.com/embed/HLtw8ODVPwU)
 
-[Bkper Agents Installation](https://help.bkper.com/en/articles/3873607-bkper-bots-installation)    
+[Bkper bots Installation](https://help.bkper.com/en/articles/3873607-bkper-bots-installation)    
 
 [Sales taxes on Bkper](https://help.bkper.com/en/articles/2569187-sales-taxes-vat)  
 
 
 ## Configuration
 
-The Tax Agent is triggered on the ```TRANSACTION_POSTED``` event. Once triggered it will check [group and account properties](https://help.bkper.com/en/articles/3666485-custom-properties-on-books-and-accounts) if it has the ```tax_included_rate``` or ```tax_excluded_rate``` properties. When it finds these properties it will read the corresponding values from your book and apply the Tax Agent's logic. In this case it will calculate the tax and record another transaction with the available data.      
+The Tax Bot is triggered on the ```TRANSACTION_POSTED``` event. Once triggered it will check [group and account properties](https://help.bkper.com/en/articles/3666485-custom-properties-on-books-and-accounts) if it has the ```tax_included_rate``` or ```tax_excluded_rate``` properties. When it finds these properties it will read the corresponding values from your book and apply the Tax Bot's logic. In this case it will calculate the tax and record another transaction with the available data.      
 
 [Learn more...](https://help.bkper.com/en/articles/4127778-bkper-tax-bot).
 
 
 ### Accounts and/or Group properties
 
-Set the following account properties on accounts (or group) that should trigger the Tax Agent.    
+Set the following account properties on accounts (or group) that should trigger the Tax Bot.    
 
 - ```tax_excluded_rate```: The tax rate to apply, calculating the tax based on the transaction amount.
 - ```tax_included_rate```: The tax rate to apply, extracting the tax already included in the transaction amount.
@@ -61,17 +61,17 @@ tax_description: #vatin
 
 #### Expressions
 
-Expressions are like variables that allow you to dynamically use values from the posting event that triggered the Tax Agent, consisting of the **account name** and the **transaction description**. This allows you to complete accounts on the newly recorded transaction by the bot and to have a significant description that links to the original transaction. 
+Expressions are like variables that allow you to dynamically use values from the posting event that triggered the Tax Bot, consisting of the **account name** and the **transaction description**. This allows you to complete accounts on the newly recorded transaction by the bot and to have a significant description that links to the original transaction. 
 
 You can add these expressions to the **tax_description** property of the account that has to trigger the tax bot to dynamically generate the new transaction.
 
-- ```${account.name}```: The account name of the account that triggered the Tax Agent.
+- ```${account.name}```: The account name of the account that triggered the Tax Bot.
 - ```${account.name.origin}```: The account name when participates as origin in the transaction. Empty otherwise.
 - ```${account.name.destinaton}```: The account name when participates as destination in the transaction. Empty otherwise.
-- ```${account.contra.name}```: The contra account name of the account that triggered the Tax Agent.
+- ```${account.contra.name}```: The contra account name of the account that triggered the Tax Bot.
 - ```${account.contra.name.origin}```: The contra account name when participates as origin in the transaction. Empty otherwise.
 - ```${account.contra.name.destinaton}```: The contra account name when participates as destination in the transaction. Empty otherwise.
-- ```${transaction.description}```: The same description that comes from the posted transaction that triggered the Tax Agent. 
+- ```${transaction.description}```: The same description that comes from the posted transaction that triggered the Tax Bot. 
 
 Example of the account property using these expressions:
 ``` yaml
@@ -92,7 +92,7 @@ tax_round: 1
 
 ### Book property
 
-- ```tax_copy_properties```: The properties the Tax Agent should copy from the source to the generated tax transaction, splitted by space.
+- ```tax_copy_properties```: The properties the Tax Bot should copy from the source to the generated tax transaction, splitted by space.
 
 
 
