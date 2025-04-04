@@ -8,7 +8,7 @@ Once the taxes calculated, the Tax Bot will record one or more transactions with
 
 <div style="text-align: center;">
   <img src='https://bkper.com/images/bots/bkper-tax-bot/bkper-tax-bot.gif' alt='Bkper Tax Bot in action'/>
-</p>
+</div>
 
 
 ### Included tax on sale example
