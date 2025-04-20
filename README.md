@@ -1,6 +1,7 @@
 
-**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply.
+The Tax Bot automatically calculates and records VAT, GST, and other taxes based on transaction amounts, providing real-time visibility into tax receivables and payables. Supports both tax-included and tax-excluded calculations with customizable tax rates configured at account or group level.
 
+**Taxes** are calculated based on the transaction amount and some properties set in the account or group, specifying the rates to apply.
 
 They can be **included** in overall transaction amount, such as VAT, or **excluded** such as income taxes. Here is [an article that better explain it](https://octobat.zendesk.com/hc/en-150/articles/360009913159-What-is-the-difference-between-tax-included-vs-tax-excluded-).
 
