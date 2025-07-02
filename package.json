@@ -7,12 +7,12 @@
   "functionName": "prodGen2",
   "type": "module",
   "scripts": {
-    "clean": " rm -rf ./dist & rm -rf ./node_modules & wait",
+    "clean": "rm -rf ./dist && rm -rf ./node_modules",
     "update:app": "bun update bkper --latest",
     "update:api": "bun update @bkper/bkper-api-types --latest",
     "bkper:sync": "bkper app -u",
-    "prebuild": "bun install --yarn",
-    "build": "bun clean && tsc && cp package.json dist/ && cp yarn.lock dist/",
+    "prebuild": "bun clean",
+    "build": "bun install --yarn && tsc && cp package.json dist/ && cp yarn.lock dist/",
     "gcp-build": "yarn install --frozen-lockfile",
     "dev": "run-p dev:*",
     "dev:compile": "tsc -w --incremental",
@@ -35,7 +35,8 @@
     "gts": "^3.0.3",
     "nodemon": "^2.0.7",
     "npm-run-all": "^4.1.5",
-    "typescript": "^4.0.3"
+    "typescript": "^4.0.3",
+    "yarn": "^1.22.22"
   },
   "dependencies": {
     "@google-cloud/functions-framework": "^2.0.0",
