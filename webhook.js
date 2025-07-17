@@ -1,4 +1,4 @@
-import ngrok from '@ngrok/ngrok';
+import { connect } from 'ngrok';
 import { Bkper } from 'bkper-js';
 import { getOAuthToken } from 'bkper'
 import { App } from 'bkper-js';
@@ -23,8 +23,7 @@ let listener;
 (async function() {
   try {
     console.log("Starting ngrok...");
-    listener = await ngrok.forward({ port: 3041, authtoken_from_env: true });
-    const url = listener.url();
+    const url = await connect({ port: 3041, authtoken_from_env: true });
     console.log(`Started ngrok at ${url}`);
     await app.setWebhookUrlDev(url).patch();
   } catch (err) {
