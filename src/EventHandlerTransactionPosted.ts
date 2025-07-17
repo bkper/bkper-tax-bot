@@ -1,5 +1,5 @@
 import { Amount, Book, Transaction } from "bkper-js";
-import { ACCOUNT_CONTRA_NAME_DESTINATION_EXP, ACCOUNT_CONTRA_NAME_EXP, ACCOUNT_CONTRA_NAME_ORIGIN_EXP, ACCOUNT_NAME_DESTINATION_EXP, ACCOUNT_NAME_EXP, ACCOUNT_NAME_ORIGIN_EXP, EXC_AMOUNT_PROP, EXC_CODE_PROP, EXC_DATE_PROP, EXC_RATE_PROP, TAX_COPY_PROPERTIES_PROP, TAX_DESCRIPTION_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_INCLUDED_AMOUNT_PROP, TAX_EXCLUDED_AMOUNT_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP, TAX_ROUND_PROP, TRANSACTION_DESCRIPTION_EXP } from "./constants.js";
+import { ACCOUNT_CONTRA_NAME_DESTINATION_EXP, ACCOUNT_CONTRA_NAME_EXP, ACCOUNT_CONTRA_NAME_ORIGIN_EXP, ACCOUNT_NAME_DESTINATION_EXP, ACCOUNT_NAME_EXP, ACCOUNT_NAME_ORIGIN_EXP, EXC_AMOUNT_PROP, EXC_CODE_PROP, EXC_DATE_PROP, EXC_RATE_PROP, TAX_DESCRIPTION_PROP, TAX_EXCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_INCLUDED_AMOUNT_PROP, TAX_EXCLUDED_AMOUNT_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_RATE_LEGACY_PROP, TAX_ROUND_PROP, TRANSACTION_DESCRIPTION_EXP } from "./constants.js";
 import EventHandler from "./EventHandler.js";
 
 export default class EventHandlerTransactionPosted extends EventHandler {
@@ -15,7 +15,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     var debitAccount = transaction.debitAccount;
 
     let fullNonIncludedTax = await this.getFullTaxRate_(book, creditAccount, debitAccount, false);
-    
+
     let netAmount = new Amount(transaction.amount);
 
     let fullIncludedAmount = await this.getFullTaxAmount_(book, creditAccount, debitAccount, true, transaction);
@@ -92,7 +92,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
         tax = new Amount('0');
       }
       return tax;
-      
+
     } else {
       const tax = book.parseValue(taxTag);
 
@@ -103,11 +103,11 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       if (included && tax.lt(0)) {
         return new Amount('0');
       }
-  
+
       if (!included && tax.gt(0)) {
         return new Amount('0');
       }
-  
+
       return tax;
     }
   }
@@ -135,10 +135,10 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     let excludedAmount = transaction.properties[TAX_EXCLUDED_AMOUNT_PROP];
     let amount: Amount = null;
 
-    if (accountOrGroup.properties[TAX_RATE_LEGACY_PROP] || accountOrGroup.properties[TAX_INCLUDED_RATE_PROP] || accountOrGroup.properties[TAX_INCLUDED_LEGACY_PROP]) {     
+    if (accountOrGroup.properties[TAX_RATE_LEGACY_PROP] || accountOrGroup.properties[TAX_INCLUDED_RATE_PROP] || accountOrGroup.properties[TAX_INCLUDED_LEGACY_PROP]) {
       if (included && includedAmount) {
         amount = book.parseValue(includedAmount);
-      } 
+      }
     }
 
     if (accountOrGroup.properties[TAX_EXCLUDED_RATE_PROP] || accountOrGroup.properties[TAX_EXCLUDED_LEGACY_PROP]) {
@@ -171,7 +171,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     return transactions;
   }
 
-  private addTaxTransactions(book: Book, accountOrGroup: bkper.Account|bkper.Group, account: bkper.Account, contraAccount: bkper.Account, transaction: bkper.Transaction, netAmount: Amount, transactions: Transaction[]) {
+  private addTaxTransactions(book: Book, accountOrGroup: bkper.Account | bkper.Group, account: bkper.Account, contraAccount: bkper.Account, transaction: bkper.Transaction, netAmount: Amount, transactions: Transaction[]) {
     let taxTags = [TAX_RATE_LEGACY_PROP, TAX_INCLUDED_RATE_PROP, TAX_INCLUDED_LEGACY_PROP, TAX_EXCLUDED_RATE_PROP, TAX_EXCLUDED_LEGACY_PROP];
     for (const taxTag of taxTags) {
       let taxTx = this.createTaxTransaction(book, accountOrGroup, account.name, contraAccount.name, transaction, taxTag, netAmount);
@@ -188,7 +188,7 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     if (taxPropertyValue == null || taxPropertyValue.trim() == '') {
       return null;
     }
-    
+
     let tax = book.parseValue(taxPropertyValue);
 
     let includedAmount = book.parseValue(transaction.properties[TAX_INCLUDED_AMOUNT_PROP]);
@@ -230,23 +230,23 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     tax_description = tax_description.replace(TRANSACTION_DESCRIPTION_EXP, transaction.description);
     tax_description = tax_description.replace(ACCOUNT_NAME_EXP, accountName);
     tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_EXP, contraAccountName);
-    
+
     if (accountName == transaction.creditAccount.name) {
-        tax_description = tax_description.replace(ACCOUNT_NAME_ORIGIN_EXP, accountName);
-        tax_description = tax_description.replace(ACCOUNT_NAME_DESTINATION_EXP, "");
+      tax_description = tax_description.replace(ACCOUNT_NAME_ORIGIN_EXP, accountName);
+      tax_description = tax_description.replace(ACCOUNT_NAME_DESTINATION_EXP, "");
     }
     if (accountName == transaction.debitAccount.name) {
-        tax_description = tax_description.replace(ACCOUNT_NAME_ORIGIN_EXP, "");
-        tax_description = tax_description.replace(ACCOUNT_NAME_DESTINATION_EXP, accountName);
+      tax_description = tax_description.replace(ACCOUNT_NAME_ORIGIN_EXP, "");
+      tax_description = tax_description.replace(ACCOUNT_NAME_DESTINATION_EXP, accountName);
     }
 
     if (contraAccountName == transaction.creditAccount.name) {
-        tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_ORIGIN_EXP, contraAccountName);
-        tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_DESTINATION_EXP, "");
+      tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_ORIGIN_EXP, contraAccountName);
+      tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_DESTINATION_EXP, "");
     }
     if (contraAccountName == transaction.debitAccount.name) {
-        tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_ORIGIN_EXP, "");
-        tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_DESTINATION_EXP, contraAccountName);
+      tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_ORIGIN_EXP, "");
+      tax_description = tax_description.replace(ACCOUNT_CONTRA_NAME_DESTINATION_EXP, contraAccountName);
     }
 
     let taxTag = taxProperty == TAX_RATE_LEGACY_PROP ? 'tax' : taxProperty;
@@ -260,34 +260,32 @@ export default class EventHandlerTransactionPosted extends EventHandler {
       .setDescription(tax_description)
       .setProperty(EXC_CODE_PROP, transaction.properties[EXC_CODE_PROP])
       .setProperty(EXC_DATE_PROP, transaction.properties[EXC_DATE_PROP])
-    ;           
+      ;
 
-    let txExcRate = transaction.properties[EXC_RATE_PROP];   
+    let txExcRate = transaction.properties[EXC_RATE_PROP];
     let txExcAmount = transaction.properties[EXC_AMOUNT_PROP];
-  
+
     if (txExcRate) {
       taxTransaction.setProperty(EXC_RATE_PROP, txExcRate)
     } if (txExcAmount) {
-        const amount = book.parseValue(txExcAmount);
-        const rate = amount.div(transaction.amount)
-        taxTransaction.setProperty(EXC_RATE_PROP, rate.toString())
+      const amount = book.parseValue(txExcAmount);
+      const rate = amount.div(transaction.amount)
+      taxTransaction.setProperty(EXC_RATE_PROP, rate.toString())
     }
 
     //Fallback
     if (txExcAmount) {
-        const amount = book.parseValue(txExcAmount);
-        if (amount.round(8).eq(0)) {
-            // Avoid mirror exchange transaction
-            taxTransaction.setProperty(EXC_AMOUNT_PROP,'0')
-            taxTransaction.deleteProperty(EXC_RATE_PROP)
-        }
+      const amount = book.parseValue(txExcAmount);
+      if (amount.round(8).eq(0)) {
+        // Avoid mirror exchange transaction
+        taxTransaction.setProperty(EXC_AMOUNT_PROP, '0')
+        taxTransaction.deleteProperty(EXC_RATE_PROP)
+      }
     }
 
-    const propertiesToCopyStr = book.getProperty(TAX_COPY_PROPERTIES_PROP)
-    if (propertiesToCopyStr) {
-      const propertiesToCopy = propertiesToCopyStr.split(' ');
-      for (const propertyKey of propertiesToCopy) {
-        taxTransaction.setProperty(propertyKey, transaction?.properties[propertyKey])
+    for (const [key, value] of Object.entries(transaction.properties)) {
+      if (key != EXC_RATE_PROP && key != EXC_AMOUNT_PROP && key != EXC_CODE_PROP && key != EXC_DATE_PROP && key != TAX_ROUND_PROP && key != TAX_INCLUDED_AMOUNT_PROP && key != TAX_EXCLUDED_AMOUNT_PROP) {
+        taxTransaction.setProperty(key, value)
       }
     }
 

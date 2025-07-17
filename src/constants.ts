@@ -1,6 +1,5 @@
 
 
-export const TAX_COPY_PROPERTIES_PROP = 'tax_copy_properties';
 export const TAX_INCLUDED_RATE_PROP = 'tax_included_rate';
 export const TAX_EXCLUDED_RATE_PROP = 'tax_excluded_rate';
 export const TAX_DESCRIPTION_PROP = 'tax_description';
