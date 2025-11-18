@@ -284,6 +284,10 @@ export default class EventHandlerTransactionPosted extends EventHandler {
     }
 
     for (const [key, value] of Object.entries(transaction.properties)) {
+      if (key.endsWith('_')) {
+        // do not replicate hidden properties
+        continue;
+      }
       if (key != EXC_RATE_PROP && key != EXC_AMOUNT_PROP && key != EXC_CODE_PROP && key != EXC_DATE_PROP && key != TAX_ROUND_PROP && key != TAX_INCLUDED_AMOUNT_PROP && key != TAX_EXCLUDED_AMOUNT_PROP) {
         taxTransaction.setProperty(key, value)
       }
