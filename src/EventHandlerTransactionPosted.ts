@@ -289,6 +289,8 @@ export default class EventHandlerTransactionPosted extends EventHandler {
             }
         }
 
+        console.log('taxTransaction properties', taxTransaction.getProperties());
+
         return taxTransaction;
     }
 

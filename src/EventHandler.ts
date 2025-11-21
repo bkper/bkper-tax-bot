@@ -1,13 +1,20 @@
-import { Account, Book, Bkper, Group } from "bkper-js";
+import { Book } from "bkper-js";
+import { AppContext } from "./AppContext.js";
 
 export default abstract class EventHandler {
+
+  protected context: AppContext;
+
+  constructor(context: AppContext) {
+    this.context = context;
+  }
 
   protected abstract processTransaction(book: Book, transaction: bkper.Transaction, event: bkper.Event): Promise<string[] | string | boolean>;
   
   async handleEvent(event: bkper.Event): Promise<string[] | string | boolean> {
     let operation = event.data.object as bkper.TransactionOperation;
     let transaction = operation.transaction;
-    let book = new Book(event.book);
+    let book = new Book(event.book, this.context.bkper.getConfig());
 
     if (!transaction.posted) {
       return false;
