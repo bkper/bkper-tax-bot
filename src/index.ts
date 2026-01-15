@@ -29,13 +29,10 @@ function init(req: Request, res: Response): AppContext {
   res.setHeader('Content-Type', 'application/json');
 
   const apiKey = process.env.BKPER_API_KEY;
-  if (!apiKey) {
-    throw new Error('BKPER_API_KEY environment variable is required');
-  }
 
   const bkper = new Bkper({
       oauthTokenProvider: async () => req.headers['bkper-oauth-token'] as string,
-      apiKeyProvider: async () => apiKey,
+      apiKeyProvider: apiKey ? async () => apiKey : undefined,
       agentIdProvider: async () => req.headers['bkper-agent-id'] as string
   })
 
